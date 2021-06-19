@@ -1,0 +1,36 @@
+@use '../../../assets/styles/partials' as *;
+
+.exercise-small-card {
+    width: 210px;
+    height: 210px;
+    background-color: $color-light;
+    border-radius: 21px;
+    cursor: pointer;
+    margin: $space-base-lg;
+    @include transition(.3s);
+    @include shadow($color-purple, 0, 0, .3rem, .9rem, .1);
+
+    &:hover {
+        transform: scale(1.02);
+        @include shadow($color-purple, 0, 0, .3rem, 1.5rem, .3);
+    }
+
+    &__icon {
+        width: 81px;
+        height: auto;
+
+        & img {
+            width: 100%;
+        }
+    }
+
+    &__name {
+        text-align: center;
+        font-size: $text-size-sm;
+    }
+    &__category {
+        text-align: center;
+        font-size: $text-size-base;
+        font-weight: 300;
+    }
+}

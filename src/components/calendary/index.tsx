@@ -8,14 +8,13 @@ import { DayDetail } from './dayDetail'
 import './styles.scss'
 
 interface Calendary {
-    nextTrainingDay: Date
+    nextTrainingDay?: Date
 }
 
 export const Calendary:React.FC<Calendary> = ({ nextTrainingDay }) => {
     
     const today = new Date()
     const startWeek = Number(format(startOfWeek(today, { weekStartsOn: 1 }), 'd'))
-    const numberDayNextTraining = Number(format(nextTrainingDay, 'd'))
     const numberOfWeek = Number(getWeekOfMonth(today))
     
 
@@ -26,17 +25,21 @@ export const Calendary:React.FC<Calendary> = ({ nextTrainingDay }) => {
     const [dayDetail, setDayDetail] = useState<boolean>(false)
     const [dayDetailNumber, setDayDetailNumber] = useState<number>(0)
 
-    const getNameOfDay = () => {
-        setNameTrainingDay(format(nextTrainingDay, DAY_NAME))
+    let numberDayNextTraining: number
+    if(nextTrainingDay) {
+        numberDayNextTraining = Number(format(nextTrainingDay, 'd'))
     }
-
+    
+    const getNameOfDay = () => {
+        if(nextTrainingDay) setNameTrainingDay(format(nextTrainingDay, DAY_NAME))
+    }
     const isTraningDay = ({numberDay}:{numberDay: number}):boolean => {
         return numberDayNextTraining === numberDay
     }
 
 
     useEffect(() => {
-        getNameOfDay()
+        if (nextTrainingDay) getNameOfDay()
     }, [])
 
 

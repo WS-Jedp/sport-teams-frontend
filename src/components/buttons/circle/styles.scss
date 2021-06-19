@@ -1,0 +1,44 @@
+@use '../../../assets/styles/partials' as *;
+
+.button-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    @include transition(.3s);
+    & svg {
+        fill: $color-light;
+        width: 30px;
+        height: 30px;
+
+        @include desktop-sm {
+            width: 36px;
+            height: 36px;
+        }
+    }
+
+    @include desktop-sm {
+        width: 72px;
+        height: 72px;
+    }
+
+    &:hover {
+        transform: scale(1.02);
+    }
+    
+    &.bg-purple {
+        @include shadow($color-purple, 0, 0, .3rem, .9rem, .3);
+        
+        &:hover {
+            @include shadow($color-purple, 0, 0, .3rem, 1.2rem, .6);
+        }
+    }
+
+    &.bg-main {
+        @include shadow($color-main, 0, 0, .3rem, .9rem, .3);
+        &:hover {
+            @include shadow($color-main, 0, 0, .3rem, 1.2rem, .6);
+        }
+    }
+}
