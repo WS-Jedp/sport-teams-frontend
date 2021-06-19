@@ -5,7 +5,7 @@ import { DAY_NAME, FORMAT, MONTH_NAME } from '../../../tools/dateFormats'
 
 interface DayDetail {
     dayNumber: number,
-    trainingDay: Date
+    trainingDay?: Date
 }
 
 export const DayDetail:React.FC<DayDetail> = ({ dayNumber, trainingDay }) => {
@@ -21,7 +21,14 @@ export const DayDetail:React.FC<DayDetail> = ({ dayNumber, trainingDay }) => {
 
     const day = format(date, FORMAT)
 
-    const isTrainingDay = Number(format(date, 'd')) === Number(format(trainingDay, 'd'))
+    let numberTrainingDay:number
+    if(trainingDay) {
+        numberTrainingDay = Number(format(trainingDay, 'd')) 
+    } else {
+        numberTrainingDay = 0
+    }
+
+    const isTrainingDay = Number(format(date, 'd')) === numberTrainingDay
     
     return (
         <article className="day-detail">
