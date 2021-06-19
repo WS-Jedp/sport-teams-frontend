@@ -1,0 +1,32 @@
+@use '../../../assets/styles/partials' as *;
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    height: auto;
+    min-height: 300px;
+    background-color: $color-light;
+    border-radius: 21px;
+    padding: $space-sm-sm;
+    @include shadow($color-purple, 0, 0, .3rem, 1.2rem, .3);
+
+    @include desktop-sm {
+        width: 42%;
+    }
+
+    &__close {
+        position: absolute;
+        right: -12px;
+        top: -12px;
+        width: 39px;
+        height: 39px;
+        background-color: $color-main;
+        border-radius: 100%;
+        cursor: pointer;
+        @include shadow($color-main, 0,0, .3rem, .9rem, .3);
+
+        & svg {
+            fill: $color-light;
+        }
+    }
+}

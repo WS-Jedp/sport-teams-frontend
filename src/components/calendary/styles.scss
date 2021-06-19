@@ -1,0 +1,27 @@
+@use '../../assets/styles/partials' as *;
+
+.calendary {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: $space-base-md;
+    overflow-x: scroll;
+
+    &__month, &__week {
+        position: sticky;
+        display: inline-flex;
+        padding-left: $space-base-md;
+        left: 0;
+        top: 0;
+        font-size: $text-size-xl;
+    }
+
+    &__week {
+        font-size: $text-size-sm;
+    }
+
+    &__days {
+        width: 100%;
+        height: auto;
+    }
+}
