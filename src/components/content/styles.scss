@@ -1,0 +1,42 @@
+@use '../../../assets/styles/partials' as *;
+
+.content {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+
+    &-position--start {
+        text-align: start;
+        align-items: flex-start;
+    }
+    &-position--center {
+        text-align: center;
+        align-items: center;
+    }
+    &-position--end {
+        text-align: end;
+        align-items: flex-end;
+    }
+
+
+    &-size--mid {
+        & p, div, article, section {
+            width: auto;
+            max-width: 90%;
+
+            @include desktop-sm {
+                max-width: 60%;
+            }
+        }
+    }
+    &-size--full {
+
+        & p, div, article, section {
+            width: auto;
+            max-width: 100%;
+        }
+    }
+
+    
+}

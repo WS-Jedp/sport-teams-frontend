@@ -1,0 +1,29 @@
+@use '../../../assets/styles/partials' as *;
+
+.person-header {
+    position: relative;
+    width: 100%;
+    padding: $space-sm-sm;
+
+    &__figure {
+        width: 81px;
+        height: 81px;
+        border-radius: 100%;
+        overflow: hidden;
+        margin-right: $space-base-xl;
+        @include shadow($color-purple, 0, 0, .1rem, .6rem, .3);
+
+        & img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__name {
+        font-size: $text-size-lg;
+    }
+
+    &__last-name {
+        font-size: $text-size-base;
+    }
+}
