@@ -1,0 +1,18 @@
+{
+  "name": "sport-teams-mvp-frontend",
+  "version": "0.0.0",
+  "description": "Frontend part for the project sport teams for Pure Vibes",
+  "main": "src/index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "React",
+    "Frontend",
+    "Framer-Motion",
+    "Sass",
+    "Mvp"
+  ],
+  "author": "Juno <WS-Jedp>",
+  "license": "MIT"
+}
