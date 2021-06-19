@@ -1,0 +1,79 @@
+$font-sans: 'Noto Sans JP', sans-serif; 
+$font-serif: 'Times New Roman', Times, serif;
+
+$text-size-base-sm: 1.2rem;
+$text-size-base-md: 1.5rem;
+$text-size-base: 1.8rem;
+$text-size-sm: 2.1rem;
+$text-size-md: 2.4rem;
+$text-size-lg: 3rem;
+$text-size-xl: 3.6rem;
+
+$title-size-sm: 9rem;
+$title-size-md: 12rem;
+$title-size-lg: 15rem;
+$title-size-xl: 18rem;
+
+
+.font- {
+    &serif {
+        font-family: 'Times New Roman', Times, serif;
+    }
+    &sans {
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    &thin {
+        font-weight: 100;
+    }
+    &ligth {
+        font-weight: 200;
+    }
+    &regular {
+        font-weight: 400;
+    }
+    &bold {
+        font-weight: 700;
+    }
+}
+
+
+.text-size- {
+    &base {
+        font-size: $text-size-base;
+
+        &-sm {
+            font-size: $text-size-base-sm;
+        }
+        &-md {
+            font-size: $text-size-base-md;
+        }
+    }
+    &sm {
+        font-size: $text-size-sm;
+    }
+    &md {
+        font-size: $text-size-md;
+    }
+    &lg {
+        font-size: $text-size-lg;
+    }
+    &xl {
+        font-size: $text-size-xl;
+    }
+}
+
+.title-size- {
+    &sm {
+        font-size: $title-size-sm;
+    }
+    &md {
+        font-size: $title-size-md;
+    }
+    &lg {
+        font-size: $title-size-lg;
+    }
+    &xl {
+        font-size: $title-size-xl;
+    }
+}

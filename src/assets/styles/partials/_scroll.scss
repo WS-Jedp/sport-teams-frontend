@@ -1,0 +1,28 @@
+@use './spaces' as *;
+@use './colors' as *;
+
+/* width */
+::-webkit-scrollbar {
+    width: 3.3px;
+    height: 3.3px;
+    margin: 0 $space-base-md;
+    opacity: .3;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgba(var(--color-secondary-rgb), .1);
+    &:hover {
+        box-shadow: 0 0 1.2rem .9rem rgba($color-light, .1);
+    }
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $color-gray-70;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $color-light;
+  }
