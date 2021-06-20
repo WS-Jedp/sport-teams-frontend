@@ -3,7 +3,7 @@ import Weight from '../../assets/images/weight.svg'
 import Stopwatch from '../../assets/images/stopwatch.svg'
 import Basketball from '../../assets/images/basketball.svg'
 
-export type EXERCISES_TYPE = 'percentage' | 'time'
+export type EXERCISES_TYPE = 'percentage' | 'time' | 'repetitions'
 
 export type EXERCISE_CATEGORY = 'cardio' | 'velocity' | 'technical' | 'strength'
 
