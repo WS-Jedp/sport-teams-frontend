@@ -1,0 +1,40 @@
+@use '../../../assets/styles/partials' as *;
+
+.menu {
+    position: relative;
+    width: 300px;
+    max-width: 300px;
+    min-height: 300px;
+    height: auto;
+    background-color: $color-light-70;
+    padding: $space-base-xl;
+    @include shadow($color-purple, 0, 0, .3rem, .6rem, .1);
+
+    &__header {
+        width: 100%;
+        & h2 {
+            font-size: $text-size-base;
+        }
+
+        & svg {
+            cursor: pointer;
+        }
+    }
+
+    &__item {
+        margin: $space-base-md;
+        & a {   
+            color: $color-dark;
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: $text-size-sm;
+        }
+    }
+
+    &__copyright {
+        color: $color-gray-70;
+        font-weight: 300;
+        margin: $space-base-lg;
+        font-size: $text-size-base-sm;
+    }
+}
