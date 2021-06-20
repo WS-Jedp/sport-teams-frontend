@@ -1,15 +1,23 @@
 import React from 'react'
+import { ExerciseCategoryCard } from '../../components/exercises/category'
 import './styles.scss'
-import { MdEdit } from 'react-icons/md'
-import { Calendary } from '../../components/calendary'
-import { addDays } from 'date-fns'
 
 
 export const Home:React.FC = () => {
 
     return (
         <section className="flex flex-row align-center justify-center home">
-            <Calendary 
+            <ExerciseCategoryCard 
+                category="strength"
+            />
+            <ExerciseCategoryCard 
+                category="cardio"
+            />
+            <ExerciseCategoryCard 
+                category="technical"
+            />
+            <ExerciseCategoryCard 
+                category="velocity"
             />
         </section>
     )
