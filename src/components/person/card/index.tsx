@@ -3,15 +3,17 @@ import { Content } from '../../content'
 import './styles.scss'
 
 interface PersonCard {
+    id: number,
     name: string,
     role: string,
-    img?: string
+    img?: string,
+    action: () => void
 }
 
-export const PersonCard:React.FC<PersonCard> = ({ name, role, img }) => {
+export const PersonCard:React.FC<PersonCard> = ({ name, role, img, id, action }) => {
  
     return (
-        <article className="flex flex-col align-center justify-center person-card" data-testid="person-card-container">
+        <article className="flex flex-col align-center justify-center person-card" data-testid="person-card-container" onClick={action}>
             <figure className="person-card__figure">
                 <img title={name} alt={name} src={img} />
             </figure>

@@ -10,6 +10,7 @@
     text-align: center;
     padding: $space-base-lg;
     cursor: pointer;
+    margin: $space-base-lg;
     @include transition(.6s);
     @include shadow($color-purple, 0, 0, .3rem, .9rem, .12);
 

@@ -25,7 +25,7 @@ const initialState:InitialState = {
 export const UserContext = createContext(initialState)
 
 
-export const UserContextProvicder:React.FC = ({ children }) => {
+export const UserContextProvider:React.FC = ({ children }) => {
 
     const [name, setName] = useState<string>('Mariana')
     const [role, setRole] = useState<string>('player')

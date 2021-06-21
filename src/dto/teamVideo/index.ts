@@ -3,4 +3,5 @@ export type TeamVideo = {
     title: string,
     description: string,
     videoUrl: string,
+    date: Date
 }

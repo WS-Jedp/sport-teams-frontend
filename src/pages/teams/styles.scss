@@ -1,0 +1,24 @@
+@use '../../assets/styles/partials' as *;
+
+.teams {
+    position: relative;
+    padding: 0 $space-sm-xl;
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-md;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-flow: column nowrap;
+
+        @include desktop-sm {
+            flex-flow: row wrap;
+        }
+    }
+}

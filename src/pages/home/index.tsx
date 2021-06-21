@@ -31,7 +31,7 @@ export const Home:React.FC = () => {
             </article>
 
             <article className="home__exercises">
-                <h2 className="home__title">
+                <h2 className="content__title">
                     {
                         role === 'coach' ? ('Next Training 🔥') : ('My Exercises 🏆')
                     }
