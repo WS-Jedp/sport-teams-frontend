@@ -1,9 +1,7 @@
 import React from 'react'
 import LogoPureVibes from '../../assets/images/pure-vibes-logo.jpg'
 import { CardTeam } from '../../dto/team'
-import { Button } from '../../components/buttons/simple'
 import { TeamSmallCard } from '../../components/teams/smallCard'
-import { MdAdd } from 'react-icons/md'
 
 export const renderTeams = (teams:CardTeam[]) => {
 
@@ -11,10 +9,6 @@ export const renderTeams = (teams:CardTeam[]) => {
         return (
             <>
                 <p className="content__paragraph">There is no team registerd yet</p>
-                <Button 
-                    text="Add New"
-                    action={() => {}}
-                />
             </>
         )
     }
@@ -35,12 +29,6 @@ export const renderTeams = (teams:CardTeam[]) => {
                     ))
                 }
             </ul>
-            <div className="teams__list-add">
-                <Button
-                    text="Add New"
-                    action={() => {}}
-                />
-            </div>
         </>
     )
 }

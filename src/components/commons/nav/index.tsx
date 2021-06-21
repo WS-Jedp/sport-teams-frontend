@@ -16,6 +16,11 @@ export const Nav = () => {
                 <h2>Exercises</h2>
             </NavLink>
 
+            <NavLink to="/trainings" className="flex flex-col align-center justify-center nav__link" activeClassName="nav__link--selected">
+                <p>🏋🏾‍♀️</p>
+                <h2>Trainings</h2>
+            </NavLink>
+
             <NavLink to="/home" className="flex flex-col align-center justify-center nav__link" activeClassName="nav__link--selected">
                 <p>🏠</p>
                 <h2>Home</h2>

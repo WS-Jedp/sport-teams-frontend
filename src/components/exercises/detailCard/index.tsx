@@ -11,7 +11,7 @@ interface ExerciseDetailCard {
     exerciseName: string,
     category?: EXERCISE_CATEGORY,
     result: string,
-    date: Date,
+    date?: Date,
     action: () => void
 }
 
@@ -35,7 +35,7 @@ export const ExerciseDetailCard:React.FC<ExerciseDetailCard> = ({ date, exercise
 
             <Content position="center" size="full">
                 <h1 className="exercise-detail-card__titles">Date:</h1>
-                <h2 className="exercise-detail-card__contents">{format(date, FORMAT)}</h2>
+                <h2 className="exercise-detail-card__contents">{date ? format(date, FORMAT) : 'There is no date registered'}</h2>
             </Content>
         </article>
     )

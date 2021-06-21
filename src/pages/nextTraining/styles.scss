@@ -1,0 +1,36 @@
+@use '../../assets/styles/partials' as *;
+
+.next-training {
+    position: relative;
+    padding: 0 $space-sm-xl;
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-md;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__exercises {
+
+        &-list {
+            overflow-x: scroll;
+
+            &-button {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 66;
+            }
+        }
+    }
+
+    &__players {
+
+        &-list {
+            overflow-x: scroll;
+        }
+    }
+}

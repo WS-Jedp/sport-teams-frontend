@@ -1,6 +1,8 @@
 import React, { createContext, useState } from 'react'
 
 type InitialState = {
+    id: number,
+    handleId: (id:number) => void,
     name: string,
     setName: (name:string) => void,
     role: string,
@@ -11,6 +13,8 @@ type InitialState = {
     setToken: (token:string) => void,
 }
 const initialState:InitialState = {
+    id: 0,
+    handleId: () => {},
     name: '',
     setName: () => {},
     role: '',
@@ -27,10 +31,13 @@ export const UserContext = createContext(initialState)
 
 export const UserContextProvider:React.FC = ({ children }) => {
 
+    const [id, setId] = useState<number>(1)
     const [name, setName] = useState<string>('Mariana')
     const [role, setRole] = useState<string>('player')
     const [isAuth, setIsAuth] = useState<boolean>(true)
     const [token, setToken] = useState<string>('')
+
+    const handleId = (id:number) =>  setId(id)
 
     const handleName = (name:string) =>  setName(name)
 
@@ -41,6 +48,8 @@ export const UserContextProvider:React.FC = ({ children }) => {
     const handleToken = (token:string) => setToken(token)
 
     const initialState:InitialState = {
+        id,
+        handleId,
         name,
         setName: handleName,
         role,
