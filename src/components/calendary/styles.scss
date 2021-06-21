@@ -10,14 +10,13 @@
     &__month, &__week {
         position: sticky;
         display: inline-flex;
-        padding-left: $space-base-md;
         left: 0;
         top: 0;
-        font-size: $text-size-xl;
+        font-size: $text-size-sm;
     }
 
     &__week {
-        font-size: $text-size-sm;
+        font-size: $text-size-base;
     }
 
     &__days {

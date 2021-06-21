@@ -1,9 +1,10 @@
 @use '../../../assets/styles/partials' as *;
 
 .button-circle {
-    width: 60px;
-    height: 60px;
+    width: 51px;
+    height: 51px;
     border-radius: 100%;
+    margin: $space-base-sm;
     border: none;
     cursor: pointer;
     @include transition(.3s);
@@ -19,8 +20,8 @@
     }
 
     @include desktop-sm {
-        width: 72px;
-        height: 72px;
+        width: 51px;
+        height: 51px;
     }
 
     &:hover {

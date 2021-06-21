@@ -3,15 +3,23 @@
 .dashboard {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    max-width: 100%;
+    overflow-x: hidden;
+    height: 100vh;
 
     &__content {
-        padding: $space-sm-xl;
+
+        @include desktop-sm {
+            margin: auto;
+            position: relative;
+            width: 60%
+        }
     }
 
     &__nav {
-        position: absolute;
+        position: sticky;
         width: 100%;
+        height: auto;
         bottom: 0;
         left: 0;
         z-index: 99;

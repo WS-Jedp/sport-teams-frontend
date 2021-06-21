@@ -9,11 +9,12 @@
     border: none;
     color: $color-light;
     font-size: $text-size-base-md;
+    margin: $space-base-sm;
     @include transition(.3s);
 
     @include desktop-sm {
-        width: 180px;
-        height: 60px;
+        width: 150px;
+        height: 51px;
         font-size: $text-size-base;
     }
 

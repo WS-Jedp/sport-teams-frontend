@@ -1,6 +1,75 @@
 @use '../../assets/styles/partials' as *;
 
 .home {
-    width: 100%;
-    height: 100vh;
+
+    &__welcome {
+        margin-bottom: $space-sm-sm;
+        padding: $space-sm-xl;
+        &-greeting {
+            font-size: $text-size-lg;
+            margin-bottom: $space-base-xl;
+        }
+
+       
+        & .calendary {
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    &__exercises {
+        position: relative;
+        width: 100%;
+        min-height: 330px;
+        padding: $space-base-xl;
+        border-radius: 21px 21px 0 0;
+        @include shadow($color-purple, 0, 0, .3rem, .9rem, .1);
+
+        &-cards {
+            width: auto;
+            height: auto;
+            overflow-x: scroll;
+        }
+
+        &-buttons {
+            margin: $space-base-xl 0;
+        }
+
+    }
+
+    &__next-training-exercises-item {
+        position: relative;
+        width: auto;
+        height: auto;
+
+        &:hover {
+            button {
+                display: flex;
+                z-index: 12;
+            }
+        }
+        & button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 42px;
+            height: 42px;
+
+            @include desktop-sm {
+                display: none;
+            }
+        }
+        
+    }
+
+    &__title {
+        font-size: $text-size-sm;
+        font-weight: 700;
+    }
+
+    &__paragraph {
+        margin: $space-base-md 0;
+        font-size: $text-size-base-md;
+    }
+
 }

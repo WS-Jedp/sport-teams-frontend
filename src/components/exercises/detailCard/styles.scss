@@ -1,6 +1,7 @@
 @use '../../../assets/styles/partials' as *;
 
 .exercise-detail-card {
+    min-width: 210px;
     width: 81%;
     max-width: 240px;
     height: 330px;
@@ -8,6 +9,7 @@
     background-color: $color-light;
     text-align: center;
     padding: $space-base-lg;
+    margin: $space-base-xl;
     cursor: pointer;
     @include shadow($color-purple, 0, 0, .3rem, .6rem, .1);
     @include transition(.3s);
