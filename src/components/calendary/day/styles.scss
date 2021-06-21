@@ -10,12 +10,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 48px;
-        height: 66px;
+        width: 39px;
+        height: 56px;
         background-color: transparent;
         border: 1px solid rgba(var(--color-primary-rgb), 0.3);
         text-align: center;
-        border-radius: 15px;
+        border-radius: 12px;
         font-size: $text-size-base;
         @include transition(.6s);
         font-weight: 400;
