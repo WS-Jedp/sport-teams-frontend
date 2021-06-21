@@ -8,7 +8,7 @@ export const TrainingSchedule:React.FC = () => {
 
     return (
         <>
-            <h3 className="home__title">Training Schedule 📅</h3>
+            <h3 className="content__title">Training Schedule 📅</h3>
             <Calendary 
                 nextTrainingDay={nextTraining.datetime ? nextTraining.datetime : undefined}
             />

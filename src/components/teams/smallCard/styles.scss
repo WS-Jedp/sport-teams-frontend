@@ -1,13 +1,14 @@
 @use '../../../assets/styles/partials' as *;
 
 .team-small-card {
-    width: 72%;
+    width: 100%;
     max-width: 300px;
-    height: 150px;
+    height: 120px;
     border-radius: 21px;
     cursor: pointer;
     text-align: center;
     padding: $space-base-md;
+    margin: $space-base-lg;
     @include transition(.3s);
     @include shadow($color-purple, 0, 0, .3rem, .6rem, .1);
 
@@ -16,12 +17,12 @@
     }
 
     &__logo {
-        position: absolute;
         width: 81px;
         height: 81px;
         border-radius: 100%;
         top: -42px;
         overflow: hidden;
+        margin-right: $space-base-lg;
         @include shadow($color-purple, 0, 0, .1rem, .3rem, .1);
 
         & img {

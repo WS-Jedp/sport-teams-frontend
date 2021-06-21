@@ -10,7 +10,7 @@ export function renderLastExercises(exercises:LastExercises[]) {
 
     if(exercises.length === 0) {
         return (
-            <p className="home__paragraph">
+            <p className="content__paragraph">
                 You don't have exercises done yet!
             </p>
         )
@@ -18,7 +18,7 @@ export function renderLastExercises(exercises:LastExercises[]) {
 
     return (
         <>
-            <p className="home__paragraph">
+            <p className="content__paragraph">
                 Take a look at your last exercises done!
             </p>
             <section className="relative flex flex-row align-start justify-start home__exercises-cards">
@@ -56,7 +56,7 @@ export function renderNextTraining(exercises:ExerciseSmall[]) {
 
     if(exercises.length === 0) {
         return (
-            <p className="home__paragraph">
+            <p className="content__paragraph">
                 There is no exercises for the next training!
             </p>
         )
@@ -64,7 +64,7 @@ export function renderNextTraining(exercises:ExerciseSmall[]) {
 
     return (
         <>
-            <p className="home__paragraph">
+            <p className="content__paragraph">
                 Take a look at your last exercises done!
             </p>
             <ul className="relative flex flex-row align-start justify-start home__exercises-cards">
