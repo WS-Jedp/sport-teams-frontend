@@ -1,0 +1,43 @@
+@use '../../assets/styles/partials' as *;
+
+.training {
+    padding: 0 $space-sm-xl;
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-lg;
+        width: 100%;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__exercises {
+        position: relative;
+        height: auto;
+        margin-bottom: $space-base-xl;
+
+        &-list {
+            width: 100%;
+            height: auto;
+            overflow-x: scroll;
+        }
+    }
+
+    &__players {
+        margin-bottom: $space-base-xl;
+
+        &-list {
+            overflow-x: scroll;
+        }
+    }
+
+    &__videos {
+        margin-bottom: $space-base-xl;
+
+        &-list {
+            overflow-x: scroll;
+        }
+    }
+}
