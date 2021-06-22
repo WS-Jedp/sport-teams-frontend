@@ -33,13 +33,13 @@ export const Exercise:React.FC = () => {
             <article className="flex flex-col exercise exercise__header">
                 <h1 className="exercise__header-title">Exercise 🔥</h1>
                 <h2 className="content__title">{exercise.title}</h2>
+                {
+                    exercise.videoUrl && (
+                        <iframe className="exercise__video" src={`https://www.youtube.com/embed/${exercise.videoUrl}`} title={exercise.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen  />
+                    )
+                }
             </article>
 
-            {
-                exercise.videoUrl && (
-                     <iframe className="exercise__video" src={`https://www.youtube.com/embed/${exercise.videoUrl}`} title={exercise.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen  />
-                )
-            }
 
             <article className="exercise exercise__about">
                 <h2 className="content__title">Description</h2>
