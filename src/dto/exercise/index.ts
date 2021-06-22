@@ -7,8 +7,17 @@ export type Exercise = {
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
     videoUrl?: string,
-    result?: string,
+    result?: number,
     date?: Date
+}
+
+export type ExerciseHistory = {
+    id: number,
+    title: string,
+    type: EXERCISES_TYPE,
+    category: EXERCISE_CATEGORY,
+    result: number,
+    date: Date
 }
 
 export type LastExercises = {

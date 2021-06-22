@@ -10,7 +10,7 @@ interface ExerciseDetailCard {
     exerciseType: EXERCISES_TYPE,
     exerciseName: string,
     category?: EXERCISE_CATEGORY,
-    result: string,
+    result: string | number,
     date?: Date,
     action: () => void
 }

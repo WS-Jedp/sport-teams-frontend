@@ -33,7 +33,7 @@ export const UserContextProvider:React.FC = ({ children }) => {
 
     const [id, setId] = useState<number>(1)
     const [name, setName] = useState<string>('Mariana')
-    const [role, setRole] = useState<string>('player')
+    const [role, setRole] = useState<string>('coach')
     const [isAuth, setIsAuth] = useState<boolean>(true)
     const [token, setToken] = useState<string>('')
 
