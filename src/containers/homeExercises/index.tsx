@@ -1,12 +1,11 @@
 import React from 'react'
 import { ExerciseSmall, LastExercises } from '../../dto/exercise'
 import { ExerciseDetailCard } from '../../components/exercises/detailCard'
-import { Button } from '../../components/buttons/simple'
 import { ButtonCircle } from '../../components/buttons/circle'
-import { MdAdd, MdClose } from 'react-icons/md'
+import { MdClose } from 'react-icons/md'
 import { ExerciseSmallCard } from '../../components/exercises/smallCard'
 
-export function renderLastExercises(exercises:LastExercises[]) {
+export function renderLastExercises(exercises:LastExercises[], action: (id:number) => void) {
 
     if(exercises.length === 0) {
         return (
@@ -31,23 +30,11 @@ export function renderLastExercises(exercises:LastExercises[]) {
                             date={exercise.date}
                             exerciseType={exercise.type}
                             result={exercise.result}
-                            action={() => {}}
+                            action={() => action(exercise.id)}
                         />
                     ))
                 }
             </section>
-            <div className="flex flex-row align-start justify-start home__exercises-buttons">
-                <Button 
-                    action={() => {}}
-                    text="See All"
-                    color="purple"
-                />
-                <ButtonCircle 
-                    action={() => {}}
-                    Icon={MdAdd}
-                    color="purple"
-                />
-            </div>
         </>
     )
 }
@@ -82,18 +69,6 @@ export function renderNextTraining(exercises:ExerciseSmall[]) {
                     ))
                 }
             </ul>
-            <div className="flex flex-row align-start justify-start home__exercises-buttons">
-                <Button 
-                    action={() => {}}
-                    text="See All"
-                    color="purple"
-                />
-                <ButtonCircle 
-                    action={() => {}}
-                    Icon={MdAdd}
-                    color="purple"
-                />
-            </div>
         </>
     )
 }

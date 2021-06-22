@@ -1,0 +1,39 @@
+@use '../../../assets/styles/partials' as *;
+
+.button {
+    width: 150px;
+    height: 48px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    color: $color-light;
+    font-size: $text-size-base-md;
+    margin: $space-base-sm;
+    @include transition(.3s);
+
+    @include desktop-sm {
+        width: 150px;
+        height: 51px;
+        font-size: $text-size-base;
+    }
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    &.bg-purple {
+        @include shadow($color-purple, 0, 0, .3rem, .6rem, .3);
+        &:hover {
+            @include shadow($color-purple, 0, 0, .3rem, .9rem, .6);
+        }
+    
+    }
+
+    &.bg-main {
+        @include shadow($color-main, 0, 0, .3rem, .6rem, .3);
+        &:hover {
+            @include shadow($color-main, 0, 0, .3rem, .9rem, .6);
+        }
+    }
+}

@@ -81,6 +81,18 @@
 }
 
 
+.text-{
+    &center {
+        text-align: center;
+    }
+    &left {
+        text-align: left;
+    }
+    &right {
+        text-align: right;
+    }
+}
+
 .content__title {
     font-size: $text-size-sm;
     font-weight: 700;

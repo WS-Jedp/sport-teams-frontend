@@ -25,7 +25,7 @@ export type LastExercises = {
     title: string,
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
-    result: string,
+    result: number,
     date: Date
 }
 

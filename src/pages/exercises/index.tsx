@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { Exercise } from '../../dto/exercise'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { UserContext } from '../../contexts/user'
@@ -7,13 +8,22 @@ import { Button } from '../../components/buttons/simple'
 import { MdAdd } from 'react-icons/md'
 
 import { renderExercises } from '../../containers/exercisesContainers'
+import { Loading } from '../../components/loading/basic'
+
+import { getMoreExercises } from '../../services/exercises/get'
 
 import './styles.scss'
 
 export const Exercises:React.FC = () => {
 
-    const { exercises } = useContext(ExercisesContext)
+    const { exercises, addExercise } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
+
+    const getData = async () => {
+        const data = await getMoreExercises({from: 0, to: 10})
+        addExercise(...data)
+    }
+
 
     return (
         <DashboardLayout>
@@ -27,7 +37,7 @@ export const Exercises:React.FC = () => {
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                 <Button 
-                    action={() => {}}
+                    action={getData}
                     text="Load More"
                     color="purple"
                 />

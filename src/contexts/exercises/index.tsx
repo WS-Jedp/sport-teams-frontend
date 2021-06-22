@@ -1,6 +1,8 @@
 import React, { useState, createContext } from 'react'
 import { Exercise, LastExercises } from '../../dto/exercise'
 
+import { ExercisesMock, UserExercisesMock, LastExercisesMock } from '../../mocks/exercises'
+
 type ExercisesInitialState = {
     userLastExercises: LastExercises[],
     teamLastExercises: LastExercises[],
@@ -8,7 +10,7 @@ type ExercisesInitialState = {
     selectExercise: (exercise:Exercise) => void,
     updateExercise: (exercise:Exercise) => void,
     exercises: Exercise[],
-    addExercise: (exercise:Exercise) => void,
+    addExercise: (...exercises:Exercise[]) => void,
     removeExercise: (id:number) => void,
     userExercises: Exercise[],
     addUserExercise: (exercise:Exercise) => void,
@@ -39,17 +41,17 @@ export const ExercisesContext = createContext<ExercisesInitialState>(exercisesIn
 
 export const ExercisesContextProvider:React.FC = ({ children }) => {
 
-    const [userExercises, setUserExercises] = useState<Exercise[]>([])
-    const [userLastExercises, setUserLastExercises] = useState<LastExercises[]>([])
+    const [userExercises, setUserExercises] = useState<Exercise[]>(UserExercisesMock)
+    const [userLastExercises, setUserLastExercises] = useState<LastExercises[]>(LastExercisesMock)
     const [exercise, setExercise] = useState<Exercise | undefined>(undefined)
-    const [exercises, setExercises] = useState<Exercise[]>([])
-    const [teamLastExercises, setTeamLastExercises] = useState<LastExercises[]>([])
-    const [teamExercises, setTeamExercises] = useState<Exercise[]>([])
+    const [exercises, setExercises] = useState<Exercise[]>(ExercisesMock)
+    const [teamLastExercises, setTeamLastExercises] = useState<LastExercises[]>(LastExercisesMock)
+    const [teamExercises, setTeamExercises] = useState<Exercise[]>(ExercisesMock)
 
     const addUserExercise = (exercise:Exercise) => setUserExercises([...userExercises, exercise])
     const removeUserExercise = (id:number) => setUserExercises(userExercises.filter(exercise => exercise.id !== id))
 
-    const addExercise = (exercise:Exercise) => setExercises([...exercises, exercise])
+    const addExercise = (...exercises:Exercise[]) => setExercises([...exercises, ...exercises])
     const removeExercise = (id:number) => setExercises(exercises.filter(exercise => exercise.id !== id))
 
     const selectExercise = (exercise:Exercise) => setExercise(exercise)

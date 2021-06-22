@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { UserContext } from '../contexts/user'
+
+import { Login } from '../pages/login'
 
 import { Home } from '../pages/home'
 
@@ -17,20 +20,37 @@ import { User } from '../pages/user'
 
 export const App = () => {
 
+    const { isAuth } = useContext(UserContext)
+
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/home" component={Home}  />
 
-                <Route exact path="/teams"  component={Teams}  />
-                <Route exact path="/team"  component={Team}  />
+                {
+                    isAuth && (
+                        <>
+                            <Route exact path="/" component={Home}  />
+                            <Route exact path="/home" component={Home}  />
+            
+                            <Route exact path="/teams"  component={Teams}  />
+                            <Route exact path="/team"  component={Team}  />
+            
+                            <Route exact path="/exercises"  component={Exercises}  />
+                            <Route exact path="/exercise/:id"  component={Exercise}  />
+                            <Route exact path="/exercise/:id/history"  component={ExerciseDetail}  />
 
-                <Route exact path="/exercises"  component={Exercises}  />
-                <Route exact path="/trainings"  component={NextTraining}  />
+                            <Route exact path="/trainings"  component={NextTraining}  />
+                            <Route exact path="/trainings/:id"  component={Training}  />
+            
+                            <Route exact path="/user"  component={User}  />
+                            <Redirect to="/" />
+                        </>
+                    ) 
+                }
 
-                <Route exact path="/user"  component={User}  />
+                <Route exact path="/login"  component={Login}  />
 
-                <Redirect to="/home" />
+                <Redirect to="/login" />
             </Switch>
         </BrowserRouter>
     )

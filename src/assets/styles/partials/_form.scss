@@ -1,0 +1,44 @@
+@use './fonts' as *;
+@use './spaces' as *;
+@use './shadows' as *;
+@use './colors' as *;
+
+.form-input {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: $space-base-lg 0;
+
+    &__label {
+        font-weight: 700;
+        font-size: $text-size-base;
+        margin: $space-base-md 0;
+    }
+
+    &__error {
+        font-size: $text-size-base-md;
+        color: $color-main;
+    }
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, option,input[type="date"],textarea {
+    background-color: $color-light;
+    min-width: 90%;
+    height: 39px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    margin-bottom: $space-base-md;
+    padding: $space-base-md;
+    @include shadow($color-purple, 0, 0, .1rem, .3rem, .3);
+
+    &:hover {
+        border: 1px solid $color-purple;
+    }
+
+    &:focus {
+        outline: 2px solid $color-purple;
+        @include shadow($color-purple, 0, 0, .1rem, .6rem, .3);
+    }
+    
+}

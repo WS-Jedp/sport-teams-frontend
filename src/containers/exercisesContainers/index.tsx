@@ -3,6 +3,8 @@ import { Exercise } from '../../dto/exercise'
 
 import { ExerciseMediumCard } from '../../components/exercises/mediumCard'
 
+
+
 export const renderExercises = (exercises:Exercise[]) => {
 
     if(exercises.length === 0) {
@@ -19,6 +21,7 @@ export const renderExercises = (exercises:Exercise[]) => {
                     exercises.map(exercise => (
                         <ExerciseMediumCard
                             key={exercise.id}
+                            id={exercise.id}
                             exerciseName={exercise.title}
                             category={exercise.category}
                             exerciseType={exercise.type}
