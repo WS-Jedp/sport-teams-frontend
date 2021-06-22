@@ -41,7 +41,7 @@ export const ExercisesContextProvider:React.FC = ({ children }) => {
 
     const [userExercises, setUserExercises] = useState<Exercise[]>([])
     const [userLastExercises, setUserLastExercises] = useState<LastExercises[]>([])
-    const [exercise, setExercise] = useState<Exercise | undefined>({ category: 'cardio', description: 'Just a exercise to see what is going on', id:1, purposes: ['Strength', 'Velocity', 'Something else'], title: 'Fastest on the court', type: 'time', videoUrl:'Zy4KtD98S2c' })
+    const [exercise, setExercise] = useState<Exercise | undefined>(undefined)
     const [exercises, setExercises] = useState<Exercise[]>([])
     const [teamLastExercises, setTeamLastExercises] = useState<LastExercises[]>([])
     const [teamExercises, setTeamExercises] = useState<Exercise[]>([])

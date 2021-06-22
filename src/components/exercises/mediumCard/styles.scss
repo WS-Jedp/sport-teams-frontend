@@ -1,6 +1,12 @@
 @use '../../../assets/styles/partials' as *;
 
 .exercise-medium-card {
+
+    &__container {
+        width: 100%;
+        margin: $space-base-lg;
+    }
+
     position: relative;
     width: 90%;
     max-width: 330px;

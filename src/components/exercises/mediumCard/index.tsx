@@ -14,7 +14,7 @@ interface ExerciseMediumCard {
 export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, exerciseType, category = "technical" }) => {
 
     return (
-        <Link to="/exercises">
+        <Link to="/exercises" className="exercise-medium-card__container">
             <article className="flex flex-row  align-center justify-start exercise-medium-card">
                 <figure className="flex align-center justify-center exercise-medium-card__icon">
                     <img src={defineCategoryIcon({ category })}/>
