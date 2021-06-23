@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
+import { Exercise } from '../../dto/exercise'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { UserContext } from '../../contexts/user'
@@ -7,13 +8,26 @@ import { Button } from '../../components/buttons/simple'
 import { MdAdd } from 'react-icons/md'
 
 import { renderExercises } from '../../containers/exercisesContainers'
+import { Modal } from '../../components/modals/basic'
+import { ModalContent } from '../../components/modals/content'
+import { CreateExerciseContainer } from '../../containers/exercisesContainers/forms/createExercise'
+
+import { getMoreExercises } from '../../services/exercises/get'
 
 import './styles.scss'
 
 export const Exercises:React.FC = () => {
 
-    const { exercises } = useContext(ExercisesContext)
+    const { exercises, addExercise } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
+
+    const getData = async () => {
+        const data = await getMoreExercises({from: 0, to: 10})
+        addExercise(...data)
+    }
+
+    const [showCreateExercise, setShowCreateExercise] = useState<boolean>(false)
+
 
     return (
         <DashboardLayout>
@@ -27,7 +41,7 @@ export const Exercises:React.FC = () => {
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                 <Button 
-                    action={() => {}}
+                    action={getData}
                     text="Load More"
                     color="purple"
                 />
@@ -35,7 +49,7 @@ export const Exercises:React.FC = () => {
                 {
                     role === 'coach' && (
                         <ButtonCircle 
-                            action={() => {}}
+                            action={() => setShowCreateExercise(true)}
                             Icon={MdAdd}
                             color="purple"
                         />
@@ -43,6 +57,18 @@ export const Exercises:React.FC = () => {
                 }
             </div>
             </article>
+
+            {
+                showCreateExercise && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowCreateExercise(false)}>
+                            <CreateExerciseContainer 
+                                onSubmit={(data) => console.log(data)}
+                            />
+                        </ModalContent>
+                    </Modal>
+                )
+            }
 
         </DashboardLayout>
     )

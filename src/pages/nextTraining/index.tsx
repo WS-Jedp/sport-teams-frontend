@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { DashboardLayout } from '../../layouts/dashboard'
 import { TrainingSchedule } from '../../containers/trainingSchedule'
@@ -10,6 +10,9 @@ import { TrainingContext } from '../../contexts/training'
 import { UserContext } from '../../contexts/user'
 
 import { Button } from '../../components/buttons/simple'
+import { Modal } from '../../components/modals/basic'
+import { ModalContent } from '../../components/modals/content'
+import { AddNextTrainingExercise } from '../../containers/nextTrainingContainers/exercises/add'
 
 import './styles.scss'
 
@@ -17,6 +20,9 @@ export const NextTraining:React.FC = () => {
 
     const { nextTraining } = useContext(TrainingContext)
     const { role, id } = useContext(UserContext)
+
+    const [showAddExercise, setShowAddExercise] = useState<boolean>(false)
+
 
     return (
         <DashboardLayout>
@@ -29,6 +35,14 @@ export const NextTraining:React.FC = () => {
                 <h2 className="content__title">Exercises</h2>
                 {
                     role === 'coach' ? renderExercisesToCoach(nextTraining.exercises) : renderExercisesToPlayers(nextTraining.exercises)
+                }
+                {
+                    role === 'coach' && (
+                        <Button 
+                            text="Add New"
+                            action={() => setShowAddExercise(true)}
+                        />
+                    )
                 }
             </article>
 
@@ -46,6 +60,18 @@ export const NextTraining:React.FC = () => {
                     )
                 }
             </article>
+
+            {
+                showAddExercise && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowAddExercise(false)}>
+                            <AddNextTrainingExercise 
+                                onSubmit={data => console.log(data)}
+                            />
+                        </ModalContent>
+                    </Modal>
+                )
+            }
         </DashboardLayout>
     )
 }

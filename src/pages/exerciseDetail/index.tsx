@@ -1,30 +1,53 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { Exercise } from '../../dto/exercise'
+import { getExerciseHistory } from '../../services/exercises/get'
 
 import { Button } from '../../components/buttons/simple'
 import { renderExerciseHistory } from '../../containers/exerciseContainers/exerciseHistory'
 import { LineGraph } from '../../components/graphs/lineGraph'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
+import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
+import { ExerciseResultCard } from '../../components/exercises/resultCard'
+
+import { Loading } from '../../components/loading/basic'
 
 import './styles.scss'
 
 export const ExerciseDetail:React.FC = () => {
 
+    const { id } = useParams<{id?:string}>()
     const { exercise } = useContext(ExercisesContext)
+
+    const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
     
+    const [exerciseResult, setExerciseResult] = useState<Exercise | undefined>(undefined)
     const [exerciseHistory, setExerciseHistory] = useState<Exercise[]>([])
     const [showExerciseDetail, setShowExerciseDetail] = useState<boolean>(false)
-    const [exerciseResult, setExerciseResult] = useState<Exercise | undefined>(undefined)
 
     const selectExercise = (exercise:Exercise) => {
         setShowExerciseDetail(true)
         setExerciseResult(exercise)
     }
     const closeExerciseDetail = () => setShowExerciseDetail(false)
+
     
+    // Fetch history exercises
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    useEffect(() => {
+        const getData = async () => {
+            const history = await getExerciseHistory(Number(id))
+            setExerciseHistory(history)
+            setIsLoading(false)
+        } 
+        getData()
+    }, [exerciseHistory])
+
+    if(isLoading) (<Loading />)
+
 
     if(!exercise) {
         return (
@@ -62,7 +85,7 @@ export const ExerciseDetail:React.FC = () => {
                 }
                 <Button 
                     text="Add New"
-                    action={() => {}}
+                    action={() => setShowRegisterExercise(true)}
                 />
             </article>
 
@@ -79,11 +102,28 @@ export const ExerciseDetail:React.FC = () => {
                 showExerciseDetail && (
                     <Modal>
                         <ModalContent onClose={closeExerciseDetail}>
-                            <h2 className="content__title">Create a component for this</h2>
+                            <ExerciseResultCard 
+                                date={exerciseResult?.date}
+                                result={exerciseResult?.result}
+                                videoId={exerciseResult?.videoUrl}
+                            />
 
                         </ModalContent>
                     </Modal>
 
+                )
+            }
+
+            {
+                showRegisterExercise && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowRegisterExercise(false)}>
+                            <RegisterExerciseContainer 
+                                onSubmit={() => {}}
+                                selectedExercise={exerciseResult?.id}
+                            />
+                        </ModalContent>
+                    </Modal>
                 )
             }
 

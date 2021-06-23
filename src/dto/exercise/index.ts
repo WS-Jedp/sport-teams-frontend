@@ -1,9 +1,10 @@
 import { EXERCISES_TYPE, EXERCISE_CATEGORY } from '../../tools/defineExercise'
+import { Purpose } from '../purposes'
 export type Exercise = {
     id: number,
     title: string,
     description: string,
-    purposes: string[],
+    purposes: Purpose[],
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
     videoUrl?: string,
@@ -25,7 +26,7 @@ export type LastExercises = {
     title: string,
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
-    result: string,
+    result: number,
     date: Date
 }
 

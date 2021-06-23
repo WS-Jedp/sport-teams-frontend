@@ -8,13 +8,14 @@ import './styles.scss'
 interface ExerciseMediumCard {
     exerciseType: EXERCISES_TYPE,
     exerciseName: string,
-    category?: EXERCISE_CATEGORY
+    category?: EXERCISE_CATEGORY,
+    id: number,
 }
 
-export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, exerciseType, category = "technical" }) => {
+export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, exerciseType, category = "technical", id }) => {
 
     return (
-        <Link to="/exercises" className="exercise-medium-card__container">
+        <Link to={`/exercise/${id}`} className="exercise-medium-card__container">
             <article className="flex flex-row  align-center justify-start exercise-medium-card">
                 <figure className="flex align-center justify-center exercise-medium-card__icon">
                     <img src={defineCategoryIcon({ category })}/>

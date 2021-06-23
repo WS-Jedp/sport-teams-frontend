@@ -1,4 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { MdAdd, MdEdit } from 'react-icons/md'
+import { useParams, useHistory } from 'react-router-dom'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { UserContext } from '../../contexts/user'
@@ -6,15 +8,46 @@ import { UserContext } from '../../contexts/user'
 import { ExerciseCategoryCard } from '../../components/exercises/category'
 import { ButtonCircle } from '../../components/buttons/circle'
 import { Button } from '../../components/buttons/simple'
+import { Loading } from '../../components/loading/basic'
 import { renderPurposes } from '../../containers/exerciseContainers/purposes'
+import { Modal } from '../../components/modals/basic'
+import { ModalContent } from '../../components/modals/content'
+import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
+import { UpdateExerciseContainer } from '../../containers/exercisesContainers/forms/updateExercise'
+
+import { getExercise } from '../../services/exercises/get'
 
 import './styles.scss'
-import { MdAdd, MdEdit } from 'react-icons/md'
+
+
 
 export const Exercise:React.FC = () => {
 
-    const { exercise } = useContext(ExercisesContext)
+    const { id } = useParams<{id?:string}>()
+    const { push } = useHistory()
+    const { exercise, selectExercise } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
+
+    const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
+    const [showUpdateExercise, setShowUpdateExercise] = useState<boolean>(false)
+
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    const toHistory = () => {
+        push(`/exercise/${id}/history`)
+    }
+
+    // Fetch Data
+    useEffect(() => {
+        const getData = async () => {
+            const data = await getExercise(Number(id))
+            selectExercise(data)
+            setIsLoading(false)
+        }
+        getData()
+    }, [exercise])
+
+    if(isLoading) (<Loading />)
     
 
     if(!exercise) {
@@ -51,17 +84,17 @@ export const Exercise:React.FC = () => {
             <article className="flex flex-row align-center justify-start exercise exercise__buttons">
                 <Button 
                     text="History"
-                    action={() => {}}
+                    action={toHistory}
                 />
                 <ButtonCircle 
                     Icon={MdAdd}
-                    action={() => {}}
+                    action={() => setShowRegisterExercise(true)}
                 />
                 {
                     role === 'coach' && (
                         <ButtonCircle 
                             Icon={MdEdit}
-                            action={() => {}}
+                            action={() => setShowUpdateExercise(true)}
                         />
                     )
                 }
@@ -74,6 +107,31 @@ export const Exercise:React.FC = () => {
                 }
 
             </article>
+
+            {
+                showRegisterExercise && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowRegisterExercise(false)}>
+                            <RegisterExerciseContainer 
+                                onSubmit={(data) => console.log(data)}
+                                selectedExercise={exercise.id}
+                            />
+                        </ModalContent>
+                    </Modal>
+                )
+            }
+
+            {
+                showUpdateExercise && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowUpdateExercise(false)}>
+                            <UpdateExerciseContainer 
+                                onSubmit={(data) => console.log(data)}
+                            />
+                        </ModalContent>
+                    </Modal>
+                )
+            }
 
         </DashboardLayout>
     )

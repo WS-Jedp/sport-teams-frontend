@@ -7,6 +7,11 @@
 
     &__content {
         padding: $space-sm-xl;
+
+        @include desktop-sm {
+            margin: auto;
+            width: 60%;
+        }
     }
 
     &__header {

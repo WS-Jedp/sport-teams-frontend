@@ -38,13 +38,7 @@ export const renderExercisesToCoach = (exercises:Exercise[]) => {
 
     if(exercises.length === 0) {
         return (
-            <>
-                <p className="content__paragraph">There is no exercises registered yet!</p>
-                <Button 
-                    text="Add new"
-                    action={() => {}}
-                />
-            </>
+            <p className="content__paragraph">There is no exercises registered yet!</p>
         )
     }
 
@@ -72,10 +66,6 @@ export const renderExercisesToCoach = (exercises:Exercise[]) => {
                     ))
                 }
             </ul>
-            <Button 
-                text="Add New"
-                action={() => {}}
-            />
         </>
     )
 }

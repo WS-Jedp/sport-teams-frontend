@@ -5,7 +5,20 @@ import Basketball from '../../assets/images/basketball.svg'
 
 export type EXERCISES_TYPE = 'percentage' | 'time' | 'repetitions'
 
+export const exercisesTypes:EXERCISES_TYPE[] = [
+    'percentage',
+    'repetitions',
+    'time'
+]
+
 export type EXERCISE_CATEGORY = 'cardio' | 'velocity' | 'technical' | 'strength'
+
+export const exercisesCategories:EXERCISE_CATEGORY[] = [
+    'cardio',
+    'strength',
+    'technical',
+    'velocity'
+]
 
 const EXERCISE_ICON_BY_CATEGORY:{[key:string]: string} = {
     'cardio': CardioIMG,

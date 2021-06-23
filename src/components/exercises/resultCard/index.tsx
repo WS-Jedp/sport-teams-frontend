@@ -6,8 +6,8 @@ import './styles.scss'
 
 interface ExerciseResultCard {
     videoId?: string
-    result: string,
-    date: Date
+    result?: string | number,
+    date?: Date
 }
 
 export const ExerciseResultCard:React.FC<ExerciseResultCard> = ({ date, result, videoId = '' }) => {
@@ -30,12 +30,12 @@ export const ExerciseResultCard:React.FC<ExerciseResultCard> = ({ date, result, 
             <div className="flex flex-row align-start justify-start exercise-result-card__text">
                 <Content position="start" size="full">
                     <h2 className="exercise-result-card__small-title">Result</h2>
-                    <p className="exercise-result-card__content">{result}</p>
+                    <p className="exercise-result-card__content">{result ? result : 'There is no result registered'}</p>
                 </Content>
 
                 <Content position="start" size="full">
                     <h2 className="exercise-result-card__small-title">Date</h2>
-                    <p className="exercise-result-card__content">{format(date, FORMAT)}</p>
+                    <p className="exercise-result-card__content">{date ? format(date, FORMAT) : 'There is no date registered'}</p>
                 </Content>
             </div>
         </article>
