@@ -3,6 +3,8 @@ import { CardTeam, Team } from '../../dto/team'
 import { Directive } from '../../dto/directive'
 import { Player } from '../../dto/player'
 
+import { TeamMock } from '../../mocks/teams'
+
 interface TeamInitialContext {
     userTeam?: Team,
     addPlayerUserTeam: (player:Player) => void,
@@ -13,6 +15,7 @@ interface TeamInitialContext {
     addTeam: (team:Team) => void,
     removeTeam: (id:number) => void,
     team?: Team 
+    selectTeam: (team:Team) => void
 }
 
 const teamInitialContext:TeamInitialContext = {
@@ -24,7 +27,8 @@ const teamInitialContext:TeamInitialContext = {
     teams: [],
     addTeam: () => {},
     removeTeam: () => {},
-    team: undefined
+    team: undefined,
+    selectTeam: () => {}
 }
 
 export const TeamContext = createContext(teamInitialContext)
@@ -33,7 +37,7 @@ export const TeamContextProvider:React.FC = ({ children }) => {
 
     const [userTeam, setUserTeam] = useState<Team | undefined>(undefined)
     const [team, setTeam] = useState<Team | undefined>(undefined)
-    const [teams, setTeams] = useState<CardTeam[]>([])
+    const [teams, setTeams] = useState<CardTeam[]>(TeamMock)
 
     const addPlayerUserTeam = (player:Player) => userTeam && setUserTeam({...userTeam, players: [...userTeam.players, player]})
     const removePlayerUserTeam = (id:number) => userTeam && setUserTeam({...userTeam, players: userTeam.players.filter(player => player.id !== id)})
@@ -44,6 +48,8 @@ export const TeamContextProvider:React.FC = ({ children }) => {
     const addTeam = (team:Team) => setTeams([...teams, team])
     const removeTeam = (id:number) => setTeams(teams.filter(team => team.id !== id))
 
+    const selectTeam = (team:Team) => setTeam(team)
+
     const initialState:TeamInitialContext = {
         userTeam,
         addPlayerUserTeam,
@@ -53,7 +59,8 @@ export const TeamContextProvider:React.FC = ({ children }) => {
         teams,
         addTeam,
         removeTeam,
-        team
+        team,
+        selectTeam
     }
 
     return (

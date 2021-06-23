@@ -21,6 +21,7 @@ export const renderTeams = (teams:CardTeam[]) => {
                     teams.map(team => (
                         <li key={team.id} className="flex align-center justify-center">
                             <TeamSmallCard 
+                                teamId={team.id}
                                 teamName={team.name}
                                 teamLocation={team.location}
                                 teamLogo={team.photoUrl ? team.photoUrl : LogoPureVibes}

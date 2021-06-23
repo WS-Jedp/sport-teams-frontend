@@ -6,5 +6,6 @@ export type Person = {
     role: string,
     biography: string,
     phoneNumber: string,
-    birthdate: Date
+    birthdate: Date,
+    photoUrl?: string
 }

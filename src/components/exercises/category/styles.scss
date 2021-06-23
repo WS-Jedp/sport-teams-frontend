@@ -3,10 +3,7 @@
 .exercise-category-card {
     width: 96px;
     height: 140px;
-    background-color: $color-light;
     border-radius: 21px;
-    margin: $space-base-lg;
-    @include shadow($color-purple, 0, 0, .3rem, .6rem, .1);
 
     &__icon {
         position: relative;

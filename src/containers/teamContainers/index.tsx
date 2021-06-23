@@ -16,10 +16,6 @@ export const renderTeamVideos = (videos:TeamVideoDTO[]) => {
         return (
             <>
                 <p className="content__paragraph">The team hasn't uploaded videos</p>
-                <Button 
-                    text="Add New"
-                    action={() => {}}
-                />
             </>
         )
     }
@@ -39,17 +35,6 @@ export const renderTeamVideos = (videos:TeamVideoDTO[]) => {
                     ))
                 }
             </div>
-            <div className="flex flex-row align-start justify-start team__buttons">
-                <Button 
-                    action={() => {}}
-                    text="See All"
-                    color="purple"
-                />
-                <ButtonCircle 
-                    Icon={MdAdd}
-                    action={() => {}}
-                />
-            </div>
         </>
 
     )
@@ -57,16 +42,12 @@ export const renderTeamVideos = (videos:TeamVideoDTO[]) => {
 }
 
 
-export const renderPlayers = (players:Player[]) => {
+export const renderPlayers = (players:Player[], action: (id:number) => void ) => {
 
     if(players.length === 0) {
         return (
             <>
                 <p className="content__paragraph">This team doesn't have players yet</p>
-                <Button 
-                    text="Add New"
-                    action={() => {}}
-                />
             </>
         )
     }
@@ -83,21 +64,10 @@ export const renderPlayers = (players:Player[]) => {
                             name={player.name}
                             role={player.position}
                             img={player.photoUrl}
-                            action={() => {}}
+                            action={() => action(player.id)}
                         />
                     ))
                 }
-            </div>
-            <div className="flex flex-row align-start justify-start team__buttons">
-                <Button 
-                    action={() => {}}
-                    text="See All"
-                    color="purple"
-                />
-                <ButtonCircle 
-                    Icon={MdAdd}
-                    action={() => {}}
-                />
             </div>
         </>
 
@@ -105,16 +75,12 @@ export const renderPlayers = (players:Player[]) => {
 }
 
 
-export const renderDirectives = (directives:Directive[]) => {
+export const renderDirectives = (directives:Directive[], action: (id:number) => void) => {
 
     if(directives.length === 0) {
         return (
             <>
                 <p className="content__paragraph">This team doesn't have directives yet</p>
-                <Button 
-                    text="Add New"
-                    action={() => {}}
-                />
             </>
         )
     }
@@ -131,21 +97,10 @@ export const renderDirectives = (directives:Directive[]) => {
                             role={directive.role}
                             id={directive.id}
                             img={directive.photoUrl}
-                            action={() => {}}
+                            action={() => action(directive.id)}
                         />
                     ))
                 }
-            </div>
-            <div className="flex flex-row align-start justify-start team__buttons">
-                <Button 
-                    action={() => {}}
-                    text="See All"
-                    color="purple"
-                />
-                <ButtonCircle 
-                    Icon={MdAdd}
-                    action={() => {}}
-                />
             </div>
         </>
 
