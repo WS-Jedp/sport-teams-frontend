@@ -29,7 +29,7 @@ export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ 
     return (
         <form className="flex flex-col align-start justify-start register-exercise" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="content__title">Register Exercise</h2>
-            <p className="content__paragraph">Register a new exercise done!</p>
+            <p className="content__paragraph">Register a new exercise!</p>
 
             <input type="number" value={id} hidden {...register('user_id', { required: true })} />
 
