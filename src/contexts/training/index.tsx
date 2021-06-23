@@ -7,7 +7,7 @@ type TrainingInitialState = {
     createNextTraining: (training:Training) => void,
     lastTrainings: Training[],
     nextTrainingExercises: ExerciseSmall[],
-    addNextTrainingExercise: (exercise:ExerciseSmall) => void,
+    addNextTrainingExercise: (...exercises:ExerciseSmall[]) => void,
     removeNextTrainingExercise: (id:number) => void,
     training?: Training,
     selectTraining: (training:Training) => void
@@ -35,7 +35,7 @@ export const TrainingContextProvider:React.FC = ({children}) => {
 
 
     const createNextTraining = (training:Training) => setNextTraining(training)
-    const addNextTrainingExercise = (exercise:ExerciseSmall) => setNextTrainingExercises([...nextTrainingExercises, exercise])
+    const addNextTrainingExercise = (...exercises:ExerciseSmall[]) => setNextTrainingExercises([...nextTrainingExercises, ...exercises])
     const removeNextTrainingExercise = (id:number) => setNextTrainingExercises(nextTrainingExercises.filter(exercise => exercise.id !== id))
 
     const selectTraining = (training:Training) => setTraining(training)

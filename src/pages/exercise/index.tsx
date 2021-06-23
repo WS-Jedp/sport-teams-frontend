@@ -13,6 +13,7 @@ import { renderPurposes } from '../../containers/exerciseContainers/purposes'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
 import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
+import { UpdateExerciseContainer } from '../../containers/exercisesContainers/forms/updateExercise'
 
 import { getExercise } from '../../services/exercises/get'
 
@@ -28,6 +29,7 @@ export const Exercise:React.FC = () => {
     const { role } = useContext(UserContext)
 
     const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
+    const [showUpdateExercise, setShowUpdateExercise] = useState<boolean>(false)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -92,7 +94,7 @@ export const Exercise:React.FC = () => {
                     role === 'coach' && (
                         <ButtonCircle 
                             Icon={MdEdit}
-                            action={() => {}}
+                            action={() => setShowUpdateExercise(true)}
                         />
                     )
                 }
@@ -113,6 +115,18 @@ export const Exercise:React.FC = () => {
                             <RegisterExerciseContainer 
                                 onSubmit={(data) => console.log(data)}
                                 selectedExercise={exercise.id}
+                            />
+                        </ModalContent>
+                    </Modal>
+                )
+            }
+
+            {
+                showUpdateExercise && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowUpdateExercise(false)}>
+                            <UpdateExerciseContainer 
+                                onSubmit={(data) => console.log(data)}
                             />
                         </ModalContent>
                     </Modal>

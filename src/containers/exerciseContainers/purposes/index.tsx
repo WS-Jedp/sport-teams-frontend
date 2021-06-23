@@ -1,6 +1,7 @@
 import React from 'react'
+import { Purpose } from '../../../dto/purposes'
 
-export const renderPurposes = (purposes:string[]) => {
+export const renderPurposes = (purposes:Purpose[]) => {
 
     if(purposes.length === 0) {
         return (
@@ -12,9 +13,9 @@ export const renderPurposes = (purposes:string[]) => {
         <>
             <ul className="flex flex-col align-start justify-start exercise__purposes-list">
                 {
-                    purposes.map((purpose, i) => (
-                        <li key={i} className="content__paragraph">
-                            - {purpose}
+                    purposes.map(purpose => (
+                        <li key={purpose.id} className="content__paragraph">
+                            - {purpose.title}
                         </li>
                     ))
                 }

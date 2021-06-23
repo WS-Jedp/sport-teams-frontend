@@ -17,6 +17,7 @@ import { renderLastExercises, renderNextTraining } from '../../containers/homeEx
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
 import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
+import { AddNextTrainingExercise } from '../../containers/nextTrainingContainers/exercises/add'
 
 
 
@@ -70,7 +71,9 @@ export const Home:React.FC = () => {
                 showRegisterExercise && (
                     <Modal>
                         <ModalContent onClose={() => setShowRegisterExercise(false)}>
-                            <RegisterExerciseContainer />
+                            <AddNextTrainingExercise 
+                                onSubmit={data => console.log(data)}
+                            />
                         </ModalContent>
                     </Modal>
                 )

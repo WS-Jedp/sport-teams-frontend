@@ -6,7 +6,7 @@ import { ButtonForm } from '../../../../components/buttons/form'
 
 import { ExercisesContext } from '../../../../contexts/exercises'
 
-export interface CreateExerciseForm {
+export interface UpdateExerciseForm {
     title: string,
     description: string,
     type: EXERCISES_TYPE,
@@ -14,16 +14,16 @@ export interface CreateExerciseForm {
     purposes: string
 }
 
-interface CreateExerciseContainer {
-    onSubmit: (data:CreateExerciseForm) => void,
+interface UpdateExerciseContainer {
+    onSubmit: (data:UpdateExerciseForm) => void,
 }
 
-export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSubmit }) => {
+export const UpdateExerciseContainer:React.FC<UpdateExerciseContainer> = ({ onSubmit }) => {
 
-    const { purposes } = useContext(ExercisesContext)
+    const { exercise, purposes } = useContext(ExercisesContext)
 
     const purposesRef = useRef<HTMLInputElement>(null)
-    const [selectedPurposes, setSelectedPurposes] = useState<{title:string, id: number}[]>([])
+    const [selectedPurposes, setSelectedPurposes] = useState<{title:string, id: number}[]>(purposes.filter(purpose => purposes.includes(purpose)))
     const addPurpose = (purpose:{id:number, title: string}) => {
         setSelectedPurposes(old => [...old, purpose])
         purposesRef.current?.focus()
@@ -31,7 +31,7 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
     const removePurpose = (id:number) => setSelectedPurposes(selectedPurposes.filter(purpose => purpose.id !== id))
     const purposesToString = () => selectedPurposes.map(purpose => purpose.id).join('-')
 
-    const { register, handleSubmit ,formState: { errors } } = useForm<CreateExerciseForm>() 
+    const { register, handleSubmit ,formState: { errors } } = useForm<UpdateExerciseForm>() 
 
     return (
         <form className="flex flex-col align-start justify-start register-exercise" onSubmit={handleSubmit(onSubmit)}>
@@ -45,8 +45,9 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                 <input 
                     type="text" 
                     id="title" 
+                    defaultValue={exercise?.title}
                     placeholder="Write the name of the exercise" 
-                    {...register('title', { required: true, minLength: 3, maxLength: 60 })}
+                    {...register('title', { required: false, minLength: 3, maxLength: 60 })}
                 />
                 {
                     errors.title && <small className="form-input__error">{errors.title.message}</small>
@@ -61,7 +62,8 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                     id="description" 
                     placeholder="Wrtie the description of the exercise" 
                     rows={12}
-                    {...register('description', { required: true, minLength: 3, maxLength: 210 })}
+                    defaultValue={exercise?.description}
+                    {...register('description', { required: false, minLength: 3, maxLength: 210 })}
                 />
                 {
                     errors.description && <small className="form-input__error">{errors.description.message}</small>
@@ -72,10 +74,10 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                 <label className="form-input__label" htmlFor="type">
                     Type
                 </label>
-                <select id="type" {...register('type', { required: true })}>
+                <select id="type" {...register('type', { required: false })}>
                     {
                         exercisesTypes.map(type => (
-                            <option key={type} title={type} value={type}>{type}</option>
+                            <option key={type} title={type} value={type} defaultValue={exercise?.type}>{type}</option>
                         ))
                     }
                 </select>
@@ -88,10 +90,10 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                 <label className="form-input__label" htmlFor="category">
                     Category
                 </label>
-                <select id="category" {...register('category', { required: true })}>
+                <select id="category" {...register('category', { required: false })}>
                     {
                         exercisesCategories.map(category => (
-                            <option key={category} title={category} value={category}>{category}</option>
+                            <option key={category} title={category} value={category} defaultValue={exercise?.category} >{category}</option>
                         ))
                     }
                 </select>

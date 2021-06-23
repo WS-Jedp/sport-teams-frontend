@@ -2,6 +2,8 @@ import React, { useState, createContext } from 'react'
 import { Exercise, LastExercises } from '../../dto/exercise'
 
 import { ExercisesMock, UserExercisesMock, LastExercisesMock } from '../../mocks/exercises'
+import { PurposesMock } from '../../mocks/purposes'
+import { Purpose } from '../../dto/purposes'
 
 type ExercisesInitialState = {
     userLastExercises: LastExercises[],
@@ -17,7 +19,8 @@ type ExercisesInitialState = {
     removeUserExercise: (id:number) => void,
     teamExercises: Exercise[],
     addTeamExercise: (exercise:Exercise) => void,
-    removeTeamExercise: (id:number) => void
+    removeTeamExercise: (id:number) => void,
+    purposes: Purpose[]
 }
 
 const exercisesInitialState:ExercisesInitialState = {
@@ -35,6 +38,7 @@ const exercisesInitialState:ExercisesInitialState = {
     teamExercises: [],
     addTeamExercise: () => {},
     removeTeamExercise: () => {},
+    purposes: []
 } 
 
 export const ExercisesContext = createContext<ExercisesInitialState>(exercisesInitialState)
@@ -47,6 +51,7 @@ export const ExercisesContextProvider:React.FC = ({ children }) => {
     const [exercises, setExercises] = useState<Exercise[]>(ExercisesMock)
     const [teamLastExercises, setTeamLastExercises] = useState<LastExercises[]>(LastExercisesMock)
     const [teamExercises, setTeamExercises] = useState<Exercise[]>(ExercisesMock)
+    const [purposes, setPurposes] = useState<Purpose[]>(PurposesMock)
 
     const addUserExercise = (exercise:Exercise) => setUserExercises([...userExercises, exercise])
     const removeUserExercise = (id:number) => setUserExercises(userExercises.filter(exercise => exercise.id !== id))
@@ -74,7 +79,8 @@ export const ExercisesContextProvider:React.FC = ({ children }) => {
         teamLastExercises,
         teamExercises,
         addTeamExercise,
-        removeTeamExercise
+        removeTeamExercise,
+        purposes
     }
 
     return (
