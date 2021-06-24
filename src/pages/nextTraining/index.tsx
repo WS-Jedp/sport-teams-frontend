@@ -4,6 +4,7 @@ import { DashboardLayout } from '../../layouts/dashboard'
 import { TrainingSchedule } from '../../containers/trainingSchedule'
 
 import { renderPlayers } from '../../containers/nextTrainingContainers/players'
+import { renderLastTrainings } from '../../containers/nextTrainingContainers/lastTrainings'
 import { renderExercisesToCoach, renderExercisesToPlayers } from '../../containers/nextTrainingContainers/exercises'
 
 import { TrainingContext } from '../../contexts/training'
@@ -18,7 +19,7 @@ import './styles.scss'
 
 export const NextTraining:React.FC = () => {
 
-    const { nextTraining } = useContext(TrainingContext)
+    const { nextTraining, lastTrainings } = useContext(TrainingContext)
     const { role, id } = useContext(UserContext)
 
     const [showAddExercise, setShowAddExercise] = useState<boolean>(false)
@@ -59,6 +60,14 @@ export const NextTraining:React.FC = () => {
                         />
                     )
                 }
+            </article>
+
+            <article className="next-training next-training__last-training">
+                <h2 className="content__title">Last Trainings</h2>
+                {
+                    renderLastTrainings(lastTrainings)
+                }
+
             </article>
 
             {

@@ -11,6 +11,7 @@ import { Team } from '../pages/team'
 
 import { Training } from '../pages/training'
 import { NextTraining } from '../pages/nextTraining'
+import { Trainings } from '../pages/trainings'
 
 import { Exercises } from '../pages/exercises'
 import { Exercise } from '../pages/exercise'
@@ -40,8 +41,9 @@ export const App = () => {
                             <Route exact path="/exercise/:id"  component={Exercise}  />
                             <Route exact path="/exercise/:id/history"  component={ExerciseDetail}  />
 
-                            <Route exact path="/trainings"  component={NextTraining}  />
-                            <Route exact path="/trainings/:id"  component={Training}  />
+                            <Route exact path="/trainings"  component={NextTraining} />
+                            <Route exact path="/trainings/:id"  component={Training} />
+                            <Route exact path="/all/trainings"  component={Trainings} />
             
                             <Route exact path="/user"  component={User}  />
                             <Route exact path="/user/:id"  component={Person}  />

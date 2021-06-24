@@ -1,0 +1,26 @@
+@use '../../../assets/styles/partials' as *;
+
+.training-small-card {
+    width: 100%;
+    background-color: $color-light;
+    border-radius: 12px;
+    padding: $space-base-xl;
+    margin: $space-base-lg 0;
+    cursor: pointer;
+    @include transition(.3s);
+    @include shadow($color-purple, 0, 0, .1rem, .3rem, .1);
+
+    & h2 {
+        font-size: $text-size-base-md;
+        font-weight: 600;
+    }
+
+    & h3 {
+        font-size: $text-size-base-md;
+        font-weight: 300;
+    }
+
+    &:hover {
+        @include shadow($color-purple, 0, 0, .1rem, .6rem, .3);
+    }
+}

@@ -1,4 +1,5 @@
 export const FORMAT = 'dd/MM/yyyy'
 export const MYSQL_FORMAT = 'yyyy-MM-dd'
+export const MYSQL_FORMAT_TIME = 'yyyy-MM-dd p'
 export const MONTH_NAME = 'MMMM'
 export const DAY_NAME = 'EEEEEE'

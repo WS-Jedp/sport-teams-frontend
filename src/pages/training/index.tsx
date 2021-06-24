@@ -1,19 +1,37 @@
-import React, { useContext, useState } from 'react'
-
+import React, { useContext, useState, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import { TrainingContext } from '../../contexts/training'
 
 import { DashboardLayout } from '../../layouts/dashboard'
 import { renderExercises } from '../../containers/trainingContainers/exercises' 
 import { renderPlayers } from '../../containers/trainingContainers/players' 
 import { renderVideos } from '../../containers/trainingContainers/videos' 
+import { Loading } from '../../components/loading/basic'
 
-import './styles.scss'
 import { format } from 'date-fns'
 import { FORMAT } from '../../tools/dateFormats'
 
+import { getTraining } from '../../services/trainings/get'
+
+import './styles.scss'
+
 export const Training:React.FC = () => {
 
-    const { training } = useContext(TrainingContext)
+    const { id } = useParams<{id?:string}>()
+    const { push } = useHistory()
+    const { training, selectTraining } = useContext(TrainingContext)
+
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    useEffect(() => {
+        const getData = async () => {
+            const data = await getTraining(Number(id))
+            selectTraining(data)
+            setIsLoading(false)
+        }
+        getData()
+    },[])
+
+    if(isLoading) (<Loading />)
 
     if(!training) {
         return (
@@ -36,14 +54,14 @@ export const Training:React.FC = () => {
             <article className="training training__exercises">
                 <h2 className="content__title">Exercises</h2>
                 {
-                    renderExercises(training.exercises)
+                    renderExercises(training.exercises, (id) => {})
                 }
             </article>
 
             <article className="training training__players">
                 <h2 className="content__title">Players</h2>
                 {
-                    renderPlayers(training.players)
+                    renderPlayers(training.players, (id) => push(`/user/${id}`))
                 }
             </article>
 

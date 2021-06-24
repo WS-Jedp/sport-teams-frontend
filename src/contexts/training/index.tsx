@@ -1,6 +1,7 @@
-import { ExerciseSmall } from "dto/exercise";
 import React, { createContext, useState } from "react";
+import { ExerciseSmall } from "../../dto/exercise";
 import { Training } from '../../dto/training'
+import { TrainingsMock } from '../../mocks/training'
 
 type TrainingInitialState = {
     nextTraining: Training,
@@ -10,7 +11,9 @@ type TrainingInitialState = {
     addNextTrainingExercise: (...exercises:ExerciseSmall[]) => void,
     removeNextTrainingExercise: (id:number) => void,
     training?: Training,
-    selectTraining: (training:Training) => void
+    selectTraining: (training:Training) => void,
+    trainings: Training[],
+    addTrainings: (...training:Training[]) => void
 }
 
 const trainingInitialState:TrainingInitialState = {
@@ -21,17 +24,20 @@ const trainingInitialState:TrainingInitialState = {
     createNextTraining: () => {},
     lastTrainings: [],
     training: undefined,
-    selectTraining: () => {}
+    selectTraining: () => {},
+    trainings: [],
+    addTrainings: () => {}
 }
 
 export const TrainingContext = createContext(trainingInitialState)
 
 export const TrainingContextProvider:React.FC = ({children}) => {
 
-    const [nextTraining, setNextTraining] = useState<Training>({id: 0, datetime: null, exercises: [], players: [], state: true})
-    const [lastTrainings, setLastTrainings] = useState<Training[]>([])
+    const [nextTraining, setNextTraining] = useState<Training>({id: 0, datetime: new Date(), exercises: [], players: [], state: true})
+    const [lastTrainings, setLastTrainings] = useState<Training[]>(TrainingsMock)
     const [nextTrainingExercises, setNextTrainingExercises] = useState<ExerciseSmall[]>(nextTraining.exercises)
     const [training, setTraining] = useState<Training | undefined>()
+    const [trainings, setTrainings] = useState<Training[]>([])
 
 
     const createNextTraining = (training:Training) => setNextTraining(training)
@@ -39,6 +45,8 @@ export const TrainingContextProvider:React.FC = ({children}) => {
     const removeNextTrainingExercise = (id:number) => setNextTrainingExercises(nextTrainingExercises.filter(exercise => exercise.id !== id))
 
     const selectTraining = (training:Training) => setTraining(training)
+
+    const addTrainings = (...data:Training[]) => setTrainings([...trainings, ...data])
 
     const initialState:TrainingInitialState = {
         nextTraining,
@@ -48,7 +56,9 @@ export const TrainingContextProvider:React.FC = ({children}) => {
         addNextTrainingExercise,
         removeNextTrainingExercise,
         training,
-        selectTraining
+        selectTraining,
+        trainings,
+        addTrainings
     }
     
     return (
