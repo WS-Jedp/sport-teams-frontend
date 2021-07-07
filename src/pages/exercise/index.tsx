@@ -40,7 +40,7 @@ export const Exercise:React.FC = () => {
     // Fetch Data
     useEffect(() => {
         const getData = async () => {
-            const data = await getExercise(Number(id))
+            const data = await getExercise(id || '')
             selectExercise(data)
             setIsLoading(false)
         }
@@ -109,13 +109,13 @@ export const Exercise:React.FC = () => {
                 />
             </article>
 
-            <article className="exercise exercise__purposes">
+            {/* <article className="exercise exercise__purposes">
                 <h2 className="content__title">Purposes</h2>
                 {
                     renderPurposes(exercise.purposes)
                 }
 
-            </article>
+            </article> */}
 
             {
                 showRegisterExercise && (

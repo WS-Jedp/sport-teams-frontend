@@ -6,8 +6,9 @@ import { PurposesMock } from '../../mocks/purposes'
 import { Purpose } from '../../dto/purposes'
 
 type ExercisesInitialState = {
-    userLastExercises: LastExercises[],
-    teamLastExercises: LastExercises[],
+    userLastExercises: Exercise[],
+    handleUserLastExercises: (...data:Exercise[]) => void,
+    teamLastExercises: Exercise[],
     exercise?: Exercise,
     selectExercise: (exercise:Exercise) => void,
     updateExercise: (exercise:Exercise) => void,
@@ -32,6 +33,7 @@ const exercisesInitialState:ExercisesInitialState = {
     addUserExercise: () => {},
     removeUserExercise: () => {},
     userLastExercises: [],
+    handleUserLastExercises: () => {},
     exercises: [],
     addExercise: () => {},
     setExercises: () => {},
@@ -48,10 +50,10 @@ export const ExercisesContext = createContext<ExercisesInitialState>(exercisesIn
 export const ExercisesContextProvider:React.FC = ({ children }) => {
 
     const [userExercises, setUserExercises] = useState<Exercise[]>([])
-    const [userLastExercises, setUserLastExercises] = useState<LastExercises[]>([])
+    const [userLastExercises, setUserLastExercises] = useState<Exercise[]>([])
     const [exercise, setExercise] = useState<Exercise | undefined>(undefined)
     const [exercises, setExercises] = useState<Exercise[]>([])
-    const [teamLastExercises, setTeamLastExercises] = useState<LastExercises[]>([])
+    const [teamLastExercises, setTeamLastExercises] = useState<Exercise[]>([])
     const [teamExercises, setTeamExercises] = useState<Exercise[]>([])
     const [purposes, setPurposes] = useState<Purpose[]>([])
 
@@ -68,11 +70,14 @@ export const ExercisesContextProvider:React.FC = ({ children }) => {
     const addTeamExercise = (exercise:Exercise) => setTeamExercises([...teamExercises, exercise])
     const removeTeamExercise = (id:string) => setTeamExercises(teamExercises.filter(exercise => exercise.id !== id))
 
+    const handleUserLastExercises = (...data:Exercise[]) => setUserLastExercises([...data])
+
     const initialState:ExercisesInitialState = {
         userExercises,
         addUserExercise,
         removeUserExercise,
         userLastExercises,
+        handleUserLastExercises,
         exercise,
         selectExercise,
         updateExercise,

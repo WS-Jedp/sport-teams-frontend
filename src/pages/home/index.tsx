@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { MdAdd } from 'react-icons/md'
 
@@ -19,19 +19,29 @@ import { ModalContent } from '../../components/modals/content'
 import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
 import { AddNextTrainingExercise } from '../../containers/nextTrainingContainers/exercises/add'
 
+import { getUserLastExercise } from '../../services/exercises/get'
+
 
 
 export const Home:React.FC = () => {
 
     const { push } = useHistory()
 
-    const { name, role } = useContext(UserContext)
-    const { userLastExercises } = useContext(ExercisesContext)
+    const { name, role, id: userId } = useContext(UserContext)
+    const { userLastExercises, handleUserLastExercises } = useContext(ExercisesContext)
     const { nextTrainingExercises, removeNextTrainingExercise } = useContext(TrainingContext)
 
     const [ showRegisterExercise, setShowRegisterExercise ] = useState<boolean>(false)
 
-    const onLastExercise = (id:number) => push(`/exercise/${id}`)
+    const onLastExercise = (id:string) => push(`/exercise/${id}`)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const lastExercises = await getUserLastExercise(userId)
+            handleUserLastExercises(...lastExercises)
+        }
+        fetchData()
+    }, [])
 
 
     return (
