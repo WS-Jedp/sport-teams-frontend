@@ -10,8 +10,8 @@ type UserInformation = {
 }
 
 type InitialState = {
-    id: number,
-    handleId: (id:number) => void,
+    id: string,
+    handleId: (id:string) => void,
     name: string,
     setName: (name:string) => void,
     role: string,
@@ -24,7 +24,7 @@ type InitialState = {
     handleUserInformation: (userData:UserInformation) => void
 }
 const initialState:InitialState = {
-    id: 0,
+    id: '',
     handleId: () => {},
     name: '',
     setName: () => {},
@@ -44,14 +44,14 @@ export const UserContext = createContext(initialState)
 
 export const UserContextProvider:React.FC = ({ children }) => {
 
-    const [id, setId] = useState<number>(1)
-    const [name, setName] = useState<string>('Mariana')
-    const [role, setRole] = useState<string>('coach')
-    const [isAuth, setIsAuth] = useState<boolean>(true)
+    const [id, setId] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [role, setRole] = useState<string>('')
+    const [isAuth, setIsAuth] = useState<boolean>(false)
     const [token, setToken] = useState<string>('')
-    const [userInformation, setUserInformation] = useState<UserInformation | undefined>({ biography: 'Bio of the user', birthdate: new Date(), email: 'juanes@gmail.com', lastName: 'Deossa Pertuz', phoneNumber: '+57 310 645 2609' })
+    const [userInformation, setUserInformation] = useState<UserInformation | undefined>(undefined)
 
-    const handleId = (id:number) =>  setId(id)
+    const handleId = (id:string) =>  setId(id)
 
     const handleName = (name:string) =>  setName(name)
 

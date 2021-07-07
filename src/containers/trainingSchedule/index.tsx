@@ -10,7 +10,7 @@ export const TrainingSchedule:React.FC = () => {
         <>
             <h3 className="content__title">Training Schedule 📅</h3>
             <Calendary 
-                nextTrainingDay={nextTraining.datetime ? nextTraining.datetime : undefined}
+                nextTrainingDay={nextTraining && nextTraining.datetime ? nextTraining.datetime : undefined}
             />
         </>
     )

@@ -1,9 +1,9 @@
-import { UserCoachMock } from '../../../mocks/people'
-import { useGet } from '../../../hooks/requests'
+import firebase from 'firebase'
+import { UserInformation } from '../../../dto/user'
 
 const URL = ''
 
-export const getUser = (id:number, token?: string) => {
-    // const resp = useGet({url: `${URL}/${id}`, token})
-    return UserCoachMock
+export const getUser = async (id:string) => {
+    const user = await (await firebase.firestore().collection('users').doc(id).get()).data()  as UserInformation     
+    return user
 }

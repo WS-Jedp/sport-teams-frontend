@@ -28,7 +28,7 @@ export const DayDetail:React.FC<DayDetail> = ({ dayNumber, trainingDay, action }
 
     const day = format(date, FORMAT)
 
-    const playersNextTraining = nextTraining.players.map(player => player.id)
+    const playersNextTraining:string[] = nextTraining ? nextTraining.players.map(player => player.id) : []
 
     let numberTrainingDay:number
     if(trainingDay) {
@@ -41,6 +41,25 @@ export const DayDetail:React.FC<DayDetail> = ({ dayNumber, trainingDay, action }
 
     
     
+    if(!nextTraining) {
+        return (
+            <article className="day-detail">
+                <h3>{day}</h3>
+                <p className="content__paragraph">
+                    There is no traning schedule for this day
+                </p>
+                {
+                    role === 'coach' && (
+                        <DefineNextTraining 
+                            onSubmit={action}
+                            date={format(date, MYSQL_FORMAT)}
+                        />
+                    )
+                }
+        </article>
+        )
+    }
+
     return (
         <article className="day-detail">
                 <h3>{day}</h3>

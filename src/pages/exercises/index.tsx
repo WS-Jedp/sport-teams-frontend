@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { Exercise } from '../../dto/exercise'
+import React, { useContext, useState, useEffect } from 'react'
+
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { UserContext } from '../../contexts/user'
@@ -13,17 +13,27 @@ import { ModalContent } from '../../components/modals/content'
 import { CreateExerciseContainer } from '../../containers/exercisesContainers/forms/createExercise'
 
 import { getMoreExercises } from '../../services/exercises/get'
+import { getExercises } from '../../services/exercises/get'
 
 import './styles.scss'
 
 export const Exercises:React.FC = () => {
-
-    const { exercises, addExercise } = useContext(ExercisesContext)
+    
+    const { exercises, addExercise, setExercises } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
 
+    useEffect(() => {
+        const fetchingData = async () => {
+            const exercisesData = await getExercises()
+            setExercises(...exercisesData)
+        }
+        fetchingData()
+    }, [])
+
+
     const getData = async () => {
-        const data = await getMoreExercises({from: 0, to: 10})
-        addExercise(...data)
+        const exercisesData = await getExercises()
+        setExercises(...exercisesData)
     }
 
     const [showCreateExercise, setShowCreateExercise] = useState<boolean>(false)
@@ -42,7 +52,7 @@ export const Exercises:React.FC = () => {
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                 <Button 
                     action={getData}
-                    text="Load More"
+                    text="Reload"
                     color="purple"
                 />
 

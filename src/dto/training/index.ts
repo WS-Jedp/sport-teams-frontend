@@ -3,7 +3,7 @@ import { Exercise } from '../exercise'
 import { Player } from '../player'
 
 export type Training = {
-    id: number,
+    id: string,
     datetime: Date | null,
     state: boolean,
     exercises: Exercise[],

@@ -4,6 +4,7 @@ import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { Exercise } from '../../dto/exercise'
 import { getExerciseHistory } from '../../services/exercises/get'
+import { UserContext } from '../../contexts/user'
 
 import { Button } from '../../components/buttons/simple'
 import { renderExerciseHistory } from '../../containers/exerciseContainers/exerciseHistory'
@@ -19,7 +20,8 @@ import './styles.scss'
 
 export const ExerciseDetail:React.FC = () => {
 
-    const { id } = useParams<{id?:string}>()
+    const { id: exerciseId } = useParams<{id?:string}>()
+    const { id } = useContext(UserContext)
     const { exercise } = useContext(ExercisesContext)
 
     const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
@@ -39,8 +41,9 @@ export const ExerciseDetail:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     useEffect(() => {
         const getData = async () => {
-            const history = await getExerciseHistory(Number(id))
-            setExerciseHistory(history)
+            const history = await getExerciseHistory({ userId: id, exerciseId: exerciseId || '' })
+            console.log(history)
+            // setExerciseHistory(history)
             setIsLoading(false)
         } 
         getData()

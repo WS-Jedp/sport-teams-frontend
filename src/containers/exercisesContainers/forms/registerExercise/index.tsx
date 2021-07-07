@@ -8,15 +8,15 @@ import { format } from 'date-fns'
 import { MYSQL_FORMAT } from '../../../../tools/dateFormats'
 
 export interface RegisterExerciseForm {
-    user_id: number,
-    exercise_id: number,
+    user_id: string,
+    exercise_id: string,
     result: number,
     date: Date
 }
 
 interface RegisterExerciseContainer {
     onSubmit: (data:RegisterExerciseForm) => void,
-    selectedExercise?: number
+    selectedExercise?: string
 }
 
 export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ onSubmit, selectedExercise }) => {

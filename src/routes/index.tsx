@@ -1,6 +1,10 @@
-import React, { useContext } from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import { UserContext } from '../contexts/user'
+import { isLogged } from '../services/auth'
+import { getUser } from '../services/user/get'
+
+import { Loading } from '../components/loading/basic'
 
 import { Login } from '../pages/login'
 
@@ -22,12 +26,45 @@ import { Person } from '../pages/person'
 
 export const App = () => {
 
-    const { isAuth } = useContext(UserContext)
+    const { isAuth, setIsAuth, handleId, handleUserInformation, setName, setRole  } = useContext(UserContext)
+
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const auth = await isLogged()
+            const id = localStorage.getItem('userId')
+            const token = localStorage.getItem('token')
+            const email = localStorage.getItem('userEmail')
+            if(!id || !token || !email) {
+                setIsAuth(false)
+                return null
+            }
+
+
+            if(id) {
+                const {name, role, ...rest} = await getUser(id)
+                
+                handleId(id)
+                setRole(role)
+                setName(name)
+                handleUserInformation({...rest, email})
+                setIsAuth(true)
+            }
+        } 
+        fetchData()
+        setIsLoading(false)
+    }, [])
+
+    
+    if(isLoading) (
+        <Loading />
+    )
 
     return (
         <BrowserRouter>
             <Switch>
-
+            <>
                 {
                     isAuth && (
                         <>
@@ -40,6 +77,7 @@ export const App = () => {
                             <Route exact path="/exercises"  component={Exercises}  />
                             <Route exact path="/exercise/:id"  component={Exercise}  />
                             <Route exact path="/exercise/:id/history"  component={ExerciseDetail}  />
+                            <Route exact path="/exercise/:id/team/history" component={ExerciseDetail}  />
 
                             <Route exact path="/trainings"  component={NextTraining} />
                             <Route exact path="/trainings/:id"  component={Training} />
@@ -52,9 +90,10 @@ export const App = () => {
                     ) 
                 }
 
-                <Route exact path="/login"  component={Login}  />
+                    <Route exact path="/login"  component={Login}  />
 
-                <Redirect to="/login" />
+                    <Redirect to="/login" />
+                </>
             </Switch>
         </BrowserRouter>
     )

@@ -18,7 +18,7 @@ export const renderExercises = (exercises:Exercise[]) => {
             <p className="content__name">Take a look at all the exercises available!</p>
             <ul className="relative flex flex-col align-center justify-center exercises__list-cards">
                 {
-                    exercises.map(exercise => (
+                    exercises.map((exercise, i) => (
                         <ExerciseMediumCard
                             key={exercise.id}
                             id={exercise.id}

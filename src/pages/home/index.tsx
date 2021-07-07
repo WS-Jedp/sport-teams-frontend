@@ -27,7 +27,7 @@ export const Home:React.FC = () => {
 
     const { name, role } = useContext(UserContext)
     const { userLastExercises } = useContext(ExercisesContext)
-    const { nextTrainingExercises } = useContext(TrainingContext)
+    const { nextTrainingExercises, removeNextTrainingExercise } = useContext(TrainingContext)
 
     const [ showRegisterExercise, setShowRegisterExercise ] = useState<boolean>(false)
 
@@ -51,7 +51,7 @@ export const Home:React.FC = () => {
                     }
                 </h2>
                 {
-                    role === 'coach' ? renderNextTraining(nextTrainingExercises) : renderLastExercises(userLastExercises, onLastExercise)
+                    role === 'coach' ? renderNextTraining(nextTrainingExercises, (id) => push(`/exercise/${id}`), (id) => removeNextTrainingExercise(id)) : renderLastExercises(userLastExercises, onLastExercise)
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                     <Button 

@@ -1,15 +1,14 @@
 import React, { createContext, useState } from "react";
 import { ExerciseSmall } from "../../dto/exercise";
 import { Training } from '../../dto/training'
-import { TrainingsMock } from '../../mocks/training'
 
 type TrainingInitialState = {
-    nextTraining: Training,
+    nextTraining: Training | undefined,
     createNextTraining: (training:Training) => void,
     lastTrainings: Training[],
     nextTrainingExercises: ExerciseSmall[],
     addNextTrainingExercise: (...exercises:ExerciseSmall[]) => void,
-    removeNextTrainingExercise: (id:number) => void,
+    removeNextTrainingExercise: (id:string) => void,
     training?: Training,
     selectTraining: (training:Training) => void,
     trainings: Training[],
@@ -17,7 +16,7 @@ type TrainingInitialState = {
 }
 
 const trainingInitialState:TrainingInitialState = {
-    nextTraining: {id: 0, datetime: null, exercises: [], players: [], state: true},
+    nextTraining: undefined,
     addNextTrainingExercise: () => {},
     nextTrainingExercises: [],
     removeNextTrainingExercise: () => {},
@@ -33,16 +32,16 @@ export const TrainingContext = createContext(trainingInitialState)
 
 export const TrainingContextProvider:React.FC = ({children}) => {
 
-    const [nextTraining, setNextTraining] = useState<Training>({id: 0, datetime: new Date(), exercises: [], players: [], state: true})
-    const [lastTrainings, setLastTrainings] = useState<Training[]>(TrainingsMock)
-    const [nextTrainingExercises, setNextTrainingExercises] = useState<ExerciseSmall[]>(nextTraining.exercises)
+    const [nextTraining, setNextTraining] = useState<Training | undefined>(undefined)
+    const [lastTrainings, setLastTrainings] = useState<Training[]>([])
+    const [nextTrainingExercises, setNextTrainingExercises] = useState<ExerciseSmall[]>([])
     const [training, setTraining] = useState<Training | undefined>()
     const [trainings, setTrainings] = useState<Training[]>([])
 
 
     const createNextTraining = (training:Training) => setNextTraining(training)
     const addNextTrainingExercise = (...exercises:ExerciseSmall[]) => setNextTrainingExercises([...nextTrainingExercises, ...exercises])
-    const removeNextTrainingExercise = (id:number) => setNextTrainingExercises(nextTrainingExercises.filter(exercise => exercise.id !== id))
+    const removeNextTrainingExercise = (id:string) => setNextTrainingExercises(nextTrainingExercises.filter(exercise => exercise.id !== id))
 
     const selectTraining = (training:Training) => setTraining(training)
 

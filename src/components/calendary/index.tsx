@@ -56,7 +56,7 @@ export const Calendary:React.FC<Calendary> = ({ nextTrainingDay }) => {
         const training:Training = {
             datetime: new Date(`${data.date} ${data.time}`),
             state: Boolean(data.state),
-            id: 2,
+            id: '',
             players: [],
             exercises: [],
             videos: []

@@ -39,7 +39,7 @@ export function renderLastExercises(exercises:LastExercises[], action: (id:numbe
     )
 }
 
-export function renderNextTraining(exercises:ExerciseSmall[]) {
+export function renderNextTraining(exercises:ExerciseSmall[], action: (id:number) => void, onDelete: (id:number) => void) {
 
     if(exercises.length === 0) {
         return (
@@ -58,12 +58,13 @@ export function renderNextTraining(exercises:ExerciseSmall[]) {
                 {
                     exercises.map(exercise => (
                         <li key={exercise.id} className="home__next-training-exercises-item">
-                            <ButtonCircle Icon={MdClose} action={() => {}} color="main"  />
+                            <ButtonCircle Icon={MdClose} action={() => onDelete(exercise.id)} color="main"  />
                             <ExerciseSmallCard
                                 key={exercise.id}
                                 exerciseName={exercise.title}
                                 category={exercise.category}
                                 exerciseType={exercise.type}
+                                action={() => action(exercise.id)}
                             />
                         </li>
                     ))

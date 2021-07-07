@@ -9,7 +9,7 @@
     &__circle {
         width: 60px;
         height: 60px;
-        background-color: transparent;
+        background-color: none;
         border: 3px solid $color-purple;
         border-left: 3px solid $color-gray-70;
         border-radius: 100%;
@@ -17,6 +17,7 @@
         animation: loading linear .9s infinite normal;
     }
 }
+
 
 @keyframes loading {
 

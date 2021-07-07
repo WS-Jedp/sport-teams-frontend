@@ -37,7 +37,7 @@ export const TeamContextProvider:React.FC = ({ children }) => {
 
     const [userTeam, setUserTeam] = useState<Team | undefined>(undefined)
     const [team, setTeam] = useState<Team | undefined>(undefined)
-    const [teams, setTeams] = useState<CardTeam[]>(TeamMock)
+    const [teams, setTeams] = useState<CardTeam[]>([])
 
     const addPlayerUserTeam = (player:Player) => userTeam && setUserTeam({...userTeam, players: [...userTeam.players, player]})
     const removePlayerUserTeam = (id:number) => userTeam && setUserTeam({...userTeam, players: userTeam.players.filter(player => player.id !== id)})

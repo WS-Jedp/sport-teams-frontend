@@ -1,7 +1,7 @@
 import { EXERCISES_TYPE, EXERCISE_CATEGORY } from '../../tools/defineExercise'
 import { Purpose } from '../purposes'
 export type Exercise = {
-    id: number,
+    id: string,
     title: string,
     description: string,
     purposes: Purpose[],
@@ -13,7 +13,7 @@ export type Exercise = {
 }
 
 export type ExerciseHistory = {
-    id: number,
+    id: string,
     title: string,
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
@@ -22,7 +22,7 @@ export type ExerciseHistory = {
 }
 
 export type LastExercises = {
-    id: number,
+    id: string,
     title: string,
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
@@ -31,7 +31,7 @@ export type LastExercises = {
 }
 
 export type ExerciseSmall = {
-    id: number,
+    id: string,
     title: string,
     category: EXERCISE_CATEGORY
     type: EXERCISES_TYPE

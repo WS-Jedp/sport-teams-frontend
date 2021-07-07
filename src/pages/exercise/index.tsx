@@ -76,7 +76,7 @@ export const Exercise:React.FC = () => {
 
             <article className="exercise exercise__about">
                 <h2 className="content__title">Description</h2>
-                <p className="content__pargraph">{exercise.description}</p>
+                <p className="content__paragraph">{exercise.description}</p>
                 <h3 className="m-t-xl content__sub-title">Category</h3>
                 <ExerciseCategoryCard category={exercise.category} />
             </article>
@@ -98,6 +98,15 @@ export const Exercise:React.FC = () => {
                         />
                     )
                 }
+            </article>
+
+            <article className="exercise m-t-md exercise__buttons">
+                <h2 className="content__title">Team</h2>
+                <p className="content__paragraph">See the results from the team</p>
+                <Button 
+                    text="Team History"
+                    action={toHistory}
+                />
             </article>
 
             <article className="exercise exercise__purposes">

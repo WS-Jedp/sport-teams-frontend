@@ -1,5 +1,5 @@
 import React from 'react'
-import { Exercise } from '../../../dto/exercise'
+import { Exercise, ExerciseSmall } from '../../../dto/exercise'
 import { ExerciseSmallCard } from '../../../components/exercises/smallCard'
 import { Button } from '../../../components/buttons/simple'
 import { ButtonCircle } from '../../../components/buttons/circle'
@@ -34,7 +34,7 @@ export const renderExercisesToPlayers = (exercises:Exercise[]) => {
     )
 }
 
-export const renderExercisesToCoach = (exercises:Exercise[]) => {
+export const renderExercisesToCoach = (exercises:ExerciseSmall[], action: (exercise: ExerciseSmall) => void, onDelete: (id:number) => void) => {
 
     if(exercises.length === 0) {
         return (
@@ -53,7 +53,7 @@ export const renderExercisesToCoach = (exercises:Exercise[]) => {
                                 <ButtonCircle 
                                     Icon={MdClose}
                                     color="main"
-                                    action={() => {}}
+                                    action={() => onDelete(exercise.id)}
                                 />
                             </div>
                             <ExerciseSmallCard 
@@ -61,6 +61,7 @@ export const renderExercisesToCoach = (exercises:Exercise[]) => {
                                 exerciseName={exercise.title}
                                 exerciseType={exercise.type}
                                 category={exercise.category}
+                                action={() => action(exercise)}
                             />
                         </li>
                     ))

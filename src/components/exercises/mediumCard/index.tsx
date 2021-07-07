@@ -9,7 +9,7 @@ interface ExerciseMediumCard {
     exerciseType: EXERCISES_TYPE,
     exerciseName: string,
     category?: EXERCISE_CATEGORY,
-    id: number,
+    id: string,
 }
 
 export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, exerciseType, category = "technical", id }) => {
