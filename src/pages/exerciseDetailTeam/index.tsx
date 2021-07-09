@@ -16,16 +16,12 @@ import { ExerciseResultCard } from '../../components/exercises/resultCard'
 import { Loading } from '../../components/loading/basic'
 import { GraphLoading } from '../../components/loading/graph'
 
-import { registerExercise } from '../../services/exercises/post'
-import { getExerciseHistory } from '../../services/exercises/get'
+import { registerTeamExercise } from '../../services/teams/post'
+import { getTeamsHistoryExercise } from '../../services/teams/get'
 
+export const ExerciseDetailTeam:React.FC = () => {
 
-import './styles.scss'
-
-export const ExerciseDetail:React.FC = () => {
-
-    const { id: exerciseId } = useParams<{id?:string}>()
-    const { id } = useContext(UserContext)
+    const { id: exerciseId, teamId } = useParams<{id?:string, teamId?:string}>()
     const { exercise } = useContext(ExercisesContext)
 
     const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
@@ -45,7 +41,7 @@ export const ExerciseDetail:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     useEffect(() => {
         const getData = async () => {
-            const history = await getExerciseHistory({ userId: id, exerciseId: exerciseId || '' })
+            const history = await getTeamsHistoryExercise({ teamId: teamId || '', exerciseId: exerciseId || '' })
             setExerciseHistory(history)
             setIsLoading(false)
         } 
@@ -57,7 +53,7 @@ export const ExerciseDetail:React.FC = () => {
 
     const handleRegisterExercise = async (data:RegisterExerciseForm) => {
         setIsRegistering(true)
-        const resp = await registerExercise(data)
+        const resp = await registerTeamExercise(data)
         setIsRegistering(false)
 
         if(resp) setExerciseHistory(old => ([...old, {...exercise, result: resp.result, date: resp.date} as Exercise]))
@@ -143,6 +139,7 @@ export const ExerciseDetail:React.FC = () => {
                                     <RegisterExerciseContainer 
                                         onSubmit={handleRegisterExercise}
                                         selectedExercise={exerciseResult?.id}
+                                        teamId={teamId}
                                     />
                                 )
                             }

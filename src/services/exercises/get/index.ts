@@ -54,8 +54,9 @@ export const getUserLastExercise = async (id:string) => {
         const exercise = await (await firebase.firestore().collection(EXERCISES).doc(exerciseId).get()).data()
         lastExercises.push({
             id: exerciseId,
+            ...exercise,
             result: doc.data().result,
-            ...exercise
+            date: doc.data().date
         } as Exercise)
     }))
     return lastExercises
@@ -69,16 +70,18 @@ export const getTeamLastExercises = async (id:number, token?:string) => {
 export const getExerciseHistory = async ({exerciseId, userId}: {userId:string, exerciseId: string}) => {
     // const resp = await useGet({ url: `${URL}/user/${id}/exercises/history`, token}) 
     const userExercises:Exercise[] = []
+    let currExerciseId:string = ''
     await firebase.firestore().collection(USER).doc(userId).collection(EXERCISES).get().then(querySnapshot => {
         querySnapshot.forEach(async doc => {
             const data = {
-                id: doc.id,
+                id: doc.data().exercise.id,
                 ...doc.data(),
             } as Exercise
-            userExercises.push(data)
+
+            if(data.id === exerciseId) userExercises.push(data)
         })
     })
-    return userExercises
+    return userExercises.filter(exercise => exercise.id === exerciseId)
 }
 
 export const getMoreExercises = async (information:{from: number, to: number}, token?: string) => {

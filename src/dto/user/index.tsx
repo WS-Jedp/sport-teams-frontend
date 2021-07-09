@@ -6,5 +6,6 @@ export type UserInformation = {
     photoUrl?: string,
     phoneNumber: string,
     birthdate: Date,
-    role: ROLES 
+    role: ROLES,
+    teamId?: string
 }

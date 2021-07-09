@@ -22,10 +22,10 @@ export function renderLastExercises(exercises:Exercise[], action: (id:string) =>
             </p>
             <section className="relative flex flex-row align-start justify-start home__exercises-cards">
                 {
-                    exercises.map(exercise => (
+                    exercises.map((exercise, i) => (
                         
                         <ExerciseDetailCard
-                            key={exercise.id}
+                            key={i}
                             exerciseName={exercise.title}
                             category={exercise.category}
                             date={new Date(exercise.date || '')}

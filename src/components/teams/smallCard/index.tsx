@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './styles.scss'
 
 interface TeamSmallCard {
-    teamId: number,
+    teamId: string,
     teamName: string,
     teamLocation: string,
     teamLogo: string

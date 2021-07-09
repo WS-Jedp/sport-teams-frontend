@@ -2,13 +2,15 @@ import firebase from 'firebase'
 import { ROLES } from '../../dto/roles'
 import { UserInformation } from '../../dto/user'
 
+const USERS = 'users'
+
 export const auth = async ({ email, password }:{email:string, password: string}) => {
     const db = await firebase.firestore()
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     const auth = await firebase.auth().signInWithEmailAndPassword(email, password)
     const user = await (await db.collection('users').doc(auth.user?.uid).get()).data() as UserInformation        
     const token = await auth.user?.getIdToken()
-
+    
     if(!auth.user) {
         throw new Error('Error in authentication')
     }
@@ -17,7 +19,7 @@ export const auth = async ({ email, password }:{email:string, password: string})
         id: auth.user.uid,
         email: auth.user.email,
         token,
-        userInformation: user
+        userInformation: user,
     }
 
     return data
@@ -50,6 +52,7 @@ export const isLogged = async () => {
             localStorage.setItem('token', token)
             localStorage.setItem('userId', user.uid)
             localStorage.setItem('userEmail', user.email || '')
+            return true
         }
 
         return false

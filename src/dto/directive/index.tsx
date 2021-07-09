@@ -1,5 +1,5 @@
 export type Directive = {
-    id: number,
+    id: string,
     name: string,
     role: string,
     photoUrl?: string

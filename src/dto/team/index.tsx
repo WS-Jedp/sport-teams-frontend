@@ -3,7 +3,7 @@ import { Directive } from '../directive'
 import { TeamVideo } from '../teamVideo'
 
 export type Team = {
-    id: number,
+    id: string,
     name: string,
     location: string,
     photoUrl?: string,
@@ -16,7 +16,7 @@ export type Team = {
 }
 
 export type CardTeam = {
-    id: number,
+    id: string,
     name: string,
     photoUrl?: string,
     location: string,

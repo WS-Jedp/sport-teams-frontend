@@ -20,19 +20,20 @@ import { Trainings } from '../pages/trainings'
 import { Exercises } from '../pages/exercises'
 import { Exercise } from '../pages/exercise'
 import { ExerciseDetail } from '../pages/exerciseDetail'
+import { ExerciseDetailTeam } from '../pages/exerciseDetailTeam'
 
 import { User } from '../pages/user'
 import { Person } from '../pages/person'
 
 export const App = () => {
 
-    const { isAuth, setIsAuth, handleId, handleUserInformation, setName, setRole  } = useContext(UserContext)
+    const { isAuth, setIsAuth, handleId, handleUserInformation, setName, setRole, handleTeamId  } = useContext(UserContext)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const fetchData = async () => {
-            const auth = await isLogged()
+            await isLogged()
             const id = localStorage.getItem('userId')
             const token = localStorage.getItem('token')
             const email = localStorage.getItem('userEmail')
@@ -48,6 +49,7 @@ export const App = () => {
                 handleId(id)
                 setRole(role)
                 setName(name)
+                handleTeamId(rest.teamId || '')
                 handleUserInformation({...rest, email})
                 setIsAuth(true)
             }
@@ -76,8 +78,8 @@ export const App = () => {
             
                             <Route exact path="/exercises"  component={Exercises}  />
                             <Route exact path="/exercise/:id"  component={Exercise}  />
-                            <Route exact path="/exercise/:id/history"  component={ExerciseDetail}  />
-                            <Route exact path="/exercise/:id/team/history" component={ExerciseDetail}  />
+                            <Route exact path="/exercise/:id/history" component={ExerciseDetail}  />
+                            <Route exact path="/exercise/:id/team/:teamId/history" component={ExerciseDetailTeam}  />
 
                             <Route exact path="/trainings"  component={NextTraining} />
                             <Route exact path="/trainings/:id"  component={Training} />

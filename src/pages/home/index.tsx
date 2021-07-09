@@ -16,10 +16,10 @@ import { renderLastExercises, renderNextTraining } from '../../containers/homeEx
 
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
-import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
 import { AddNextTrainingExercise } from '../../containers/nextTrainingContainers/exercises/add'
 
 import { getUserLastExercise } from '../../services/exercises/get'
+import { getExercises } from '../../services/exercises/get'
 
 
 
@@ -27,8 +27,8 @@ export const Home:React.FC = () => {
 
     const { push } = useHistory()
 
-    const { name, role, id: userId } = useContext(UserContext)
-    const { userLastExercises, handleUserLastExercises } = useContext(ExercisesContext)
+    const { name, role, id: userId, teamId } = useContext(UserContext)
+    const { userLastExercises, handleUserLastExercises, setExercises} = useContext(ExercisesContext)
     const { nextTrainingExercises, removeNextTrainingExercise } = useContext(TrainingContext)
 
     const [ showRegisterExercise, setShowRegisterExercise ] = useState<boolean>(false)
@@ -37,6 +37,8 @@ export const Home:React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            const allExercises = await getExercises()
+            setExercises(...allExercises)
             const lastExercises = await getUserLastExercise(userId)
             handleUserLastExercises(...lastExercises)
         }
@@ -69,11 +71,15 @@ export const Home:React.FC = () => {
                         text="See All"
                         color="purple"
                     />
-                    <ButtonCircle 
-                        action={() => setShowRegisterExercise(true)}
-                        Icon={MdAdd}
-                        color="purple"
-                    />
+                    {
+                        role === 'Coach' && (
+                            <ButtonCircle 
+                                action={() => setShowRegisterExercise(true)}
+                                Icon={MdAdd}
+                                color="purple"
+                            />
+                        )
+                    }
                 </div>
             </article>
 

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { format } from 'date-fns'
-import { FORMAT } from '../../tools/dateFormats'
+import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { UserContext } from '../../contexts/user'
 
@@ -9,17 +9,29 @@ import Img from '../../assets/images/player-2.jpg'
 import { PersonHeader } from '../../components/person/header'
 import { Button } from '../../components/buttons/simple'
 
-import { EditUserContainer } from '../../containers/user/editUser'
+import { EditUserContainer, EditUserForm } from '../../containers/user/editUser'
+
+import { GraphLoading } from '../../components/loading/graph'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
+
+import { editUser } from '../../services/user/post'
 
 import './styles.scss'
 
 export const User:React.FC = () => {
 
-    const { id, name, role, userInformation } = useContext(UserContext)
+    const { id, name, role, userInformation, handleUserInformation } = useContext(UserContext)
 
     const [showEditUser, setShowEditUser] = useState<boolean>(false)
+    const [isUpdating, setIsUpdating] = useState<boolean>(false)
+
+    const handleEditUser = async (data:EditUserForm) => {
+        setIsUpdating(true)
+        const userData = await editUser(data)
+        handleUserInformation({...userData, birthdate: format(new Date(userData.birthdate), HTML_DATE_FORMAT)})
+        setIsUpdating(false)
+    }
 
     if(!userInformation) {
         return (
@@ -74,9 +86,15 @@ export const User:React.FC = () => {
                 showEditUser && (
                     <Modal>
                         <ModalContent onClose={() => setShowEditUser(false)}>
-                            <EditUserContainer 
-                                onSubmit={data => console.log(data)}
-                            />
+                            {
+                                isUpdating ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <EditUserContainer 
+                                        onSubmit={handleEditUser}
+                                    />
+                                )
+                            }
                         </ModalContent>
                     </Modal>
                 )

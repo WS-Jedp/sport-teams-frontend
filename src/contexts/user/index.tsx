@@ -1,12 +1,12 @@
 import React, { createContext, useState } from 'react'
 
-type UserInformation = {
+export type UserInformation = {
     lastName: string,
     biography: string,
     photoUrl?: string,
     phoneNumber: string,
     email: string,
-    birthdate: Date
+    birthdate: string
 }
 
 type InitialState = {
@@ -21,7 +21,9 @@ type InitialState = {
     token: string,
     setToken: (token:string) => void,
     userInformation?: UserInformation,
-    handleUserInformation: (userData:UserInformation) => void
+    handleUserInformation: (userData:UserInformation) => void,
+    teamId: string,
+    handleTeamId: (id:string) => void
 }
 const initialState:InitialState = {
     id: '',
@@ -35,7 +37,9 @@ const initialState:InitialState = {
     token: '',
     setToken: () => {},
     userInformation: undefined,
-    handleUserInformation: () => {}
+    handleUserInformation: () => {},
+    teamId: '',
+    handleTeamId: () => {}
 }
 
 
@@ -45,6 +49,7 @@ export const UserContext = createContext(initialState)
 export const UserContextProvider:React.FC = ({ children }) => {
 
     const [id, setId] = useState<string>('')
+    const [teamId, setTeamId] = useState<string>('')
     const [name, setName] = useState<string>('')
     const [role, setRole] = useState<string>('')
     const [isAuth, setIsAuth] = useState<boolean>(false)
@@ -52,6 +57,7 @@ export const UserContextProvider:React.FC = ({ children }) => {
     const [userInformation, setUserInformation] = useState<UserInformation | undefined>(undefined)
 
     const handleId = (id:string) =>  setId(id)
+    const handleTeamId = (id:string) => setTeamId(id)
 
     const handleName = (name:string) =>  setName(name)
 
@@ -75,7 +81,9 @@ export const UserContextProvider:React.FC = ({ children }) => {
         token,
         setToken: handleToken,
         userInformation,
-        handleUserInformation
+        handleUserInformation,
+        teamId,
+        handleTeamId
     }
 
     return (

@@ -12,7 +12,7 @@ import './styles.scss'
 
 export const Login:React.FC = () => {
 
-    const { setIsAuth, handleId, setName, setRole, setToken, handleUserInformation } = useContext(UserContext)
+    const { setIsAuth, handleId, setName, setRole, setToken, handleUserInformation, handleTeamId } = useContext(UserContext)
     const { push } = useHistory()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -26,6 +26,7 @@ export const Login:React.FC = () => {
         
         setIsAuth(true)
         handleId(user.id)
+        handleTeamId(user.userInformation.teamId || '')
         setName(user.userInformation.name)
         setRole(user.userInformation.role)
         setToken(user.token ? user.token : '')

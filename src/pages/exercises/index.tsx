@@ -10,9 +10,11 @@ import { MdAdd } from 'react-icons/md'
 import { renderExercises } from '../../containers/exercisesContainers'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
+import { Loading } from '../../components/loading/basic'
+
+
 import { CreateExerciseContainer } from '../../containers/exercisesContainers/forms/createExercise'
 
-import { getMoreExercises } from '../../services/exercises/get'
 import { getExercises } from '../../services/exercises/get'
 
 import './styles.scss'
@@ -22,22 +24,28 @@ export const Exercises:React.FC = () => {
     const { exercises, addExercise, setExercises } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
 
-    useEffect(() => {
-        const fetchingData = async () => {
-            const exercisesData = await getExercises()
-            setExercises(...exercisesData)
-        }
-        fetchingData()
-    }, [])
+    // useEffect(() => {
+    //     const fetchingData = async () => {
+    //         const exercisesData = await getExercises()
+    //         setExercises(...exercisesData)
+    //     }
+    //     fetchingData()
+    // }, [])
 
 
+    const [isReloading, setIsReloading] = useState<boolean>(false)
     const getData = async () => {
+        setIsReloading(true)
         const exercisesData = await getExercises()
         setExercises(...exercisesData)
+        setIsReloading(false)
     }
 
     const [showCreateExercise, setShowCreateExercise] = useState<boolean>(false)
 
+    if(isReloading) (
+        <Loading />
+    )
 
     return (
         <DashboardLayout>
@@ -51,7 +59,7 @@ export const Exercises:React.FC = () => {
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                 <Button 
-                    action={getData}
+                    action={() => getData()}
                     text="Reload"
                     color="purple"
                 />

@@ -39,7 +39,7 @@ export const Team:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     useEffect(() => {
         const getData = async () => {
-            const team = await getTeam(Number(id))
+            const team = await getTeam(id || '')
             selectTeam(team)
             setIsLoading(false)
         }
@@ -89,7 +89,7 @@ export const Team:React.FC = () => {
             <article className="flex flex-col align-start justify-start team team__players">
                 <h2 className="content__title">Players</h2>
                 {
-                    renderPlayers(team.players, onPerson)
+                    renderPlayers(team.players || [], onPerson)
                 }
                  <div className="flex flex-row align-start justify-start team__buttons">
                 {
@@ -106,7 +106,7 @@ export const Team:React.FC = () => {
             <article className="flex flex-col align-start justify-start team team__players">
                 <h2 className="content__title">Directives</h2>
                 {
-                    renderDirectives(team.directives, onPerson)
+                    renderDirectives(team.directives || [], onPerson)
                 }
                 {
                     role === 'coach' && (

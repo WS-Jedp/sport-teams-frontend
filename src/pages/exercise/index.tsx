@@ -26,7 +26,7 @@ export const Exercise:React.FC = () => {
     const { id } = useParams<{id?:string}>()
     const { push } = useHistory()
     const { exercise, selectExercise } = useContext(ExercisesContext)
-    const { role } = useContext(UserContext)
+    const { role, teamId } = useContext(UserContext)
 
     const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
     const [showUpdateExercise, setShowUpdateExercise] = useState<boolean>(false)
@@ -37,6 +37,8 @@ export const Exercise:React.FC = () => {
         push(`/exercise/${id}/history`)
     }
 
+    const toTeamHistory = (teamId:string) => push(`/exercise/${id}/team/${teamId}/history`)
+
     // Fetch Data
     useEffect(() => {
         const getData = async () => {
@@ -45,9 +47,9 @@ export const Exercise:React.FC = () => {
             setIsLoading(false)
         }
         getData()
-    }, [exercise])
+    }, [])
 
-    if(isLoading) (<Loading />)
+    if(isLoading || !exercise) (<Loading />)
     
 
     if(!exercise) {
@@ -105,7 +107,7 @@ export const Exercise:React.FC = () => {
                 <p className="content__paragraph">See the results from the team</p>
                 <Button 
                     text="Team History"
-                    action={toHistory}
+                    action={() => toTeamHistory(teamId)}
                 />
             </article>
 
