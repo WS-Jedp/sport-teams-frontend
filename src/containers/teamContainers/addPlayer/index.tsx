@@ -2,13 +2,15 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { ButtonForm } from '../../../components/buttons/form'
 
-interface AddPlayerForm {
+import { ROLES } from '../../../dto/roles'
+
+export interface AddPlayerForm {
     name: string,
     lastName: string,
     email: string,
     phoneNumber?: number,
     birthdate: Date,
-    role: 'player'
+    role: 'Player'
 }
 
 interface AddPlayerContainer {
@@ -24,7 +26,7 @@ export const AddPlayerContainer:React.FC<AddPlayerContainer> = ({ onSubmit }) =>
             <h2 className="content__title">Add A New Player</h2>
             <p className="content__paragraph">Add a new player to the team!</p>
         
-            <input type="text" hidden value="player" {...register('role', { required: true })} />
+            <input type="text" hidden value={ROLES['PLAYER']} {...register('role', { required: true })} />
             <div className="form-input">
                 <label className="form-input__label" htmlFor="name">
                     Name

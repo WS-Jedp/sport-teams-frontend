@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { format } from 'date-fns'
-import { FORMAT } from '../../tools/dateFormats'
-import { DashboardLayout } from '../../layouts/dashboard'
 import TeamLogo from '../../assets/images/pure-vibes-logo.jpg'
 
+import { FORMAT } from '../../tools/dateFormats'
+import { DashboardLayout } from '../../layouts/dashboard'
 import { TeamContext } from '../../contexts/team'
 import { UserContext } from '../../contexts/user'
 
@@ -15,13 +15,21 @@ import { Button } from '../../components/buttons/simple'
 import { Loading } from '../../components/loading/basic'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
-import { AddPlayerContainer } from '../../containers/teamContainers/addPlayer'
+import { AddPlayerContainer, AddPlayerForm } from '../../containers/teamContainers/addPlayer'
 import { AddDirectiveContainer } from '../../containers/teamContainers/addDirective'
+import { EditUserForm } from '../../containers/user/editUser'
+
+
+import { ROLES } from '../../dto/roles'
 
 import { getTeam } from '../../services/teams/get'
+import { register } from '../../services/auth'
+import { editUser } from '../../services/user/post'
 
 import './styles.scss'
 import { MdAdd } from 'react-icons/md'
+
+const PLAYERS_DEFAULT_PASSWROD = process.env.PLAYERS_DEFAULT_PASSWORD
 
 export const Team:React.FC = () => {
 
@@ -45,6 +53,16 @@ export const Team:React.FC = () => {
         }
         getData()
     }, [])
+
+    
+    const registerPlayer = async (body:AddPlayerForm) => {
+        console.log(PLAYERS_DEFAULT_PASSWROD)
+        const { role, email, ...rest } = body
+        const registered = await register({role})({email, password: PLAYERS_DEFAULT_PASSWROD || 'purevibes-player'})
+        const user = await editUser(rest as EditUserForm)
+        console.log(registered, 'register')
+        console.log(user, 'user')
+    }
 
     
 
@@ -93,7 +111,7 @@ export const Team:React.FC = () => {
                 }
                  <div className="flex flex-row align-start justify-start team__buttons">
                 {
-                    role === 'coach' && (
+                    role === ROLES['COACH'] && (
                         <Button 
                             text="Add Player"
                             action={() => setShowAddPlayer(true)}
@@ -109,7 +127,7 @@ export const Team:React.FC = () => {
                     renderDirectives(team.directives || [], onPerson)
                 }
                 {
-                    role === 'coach' && (
+                    role === ROLES['COACH'] && (
                         <Button 
                             text="Add Directive"
                             action={() => setShowAddDirective(true)}
@@ -123,7 +141,7 @@ export const Team:React.FC = () => {
                     <Modal>
                         <ModalContent onClose={() => setShowAddPlayer(false)}>
                             <AddPlayerContainer 
-                                onSubmit={(data) => console.log(data)}
+                                onSubmit={registerPlayer}
                             />
                         </ModalContent>
                     </Modal>

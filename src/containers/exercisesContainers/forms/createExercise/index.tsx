@@ -11,7 +11,7 @@ export interface CreateExerciseForm {
     description: string,
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
-    purposes: string
+    purposes?: string
 }
 
 interface CreateExerciseContainer {

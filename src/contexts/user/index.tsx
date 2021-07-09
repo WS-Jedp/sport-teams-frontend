@@ -6,7 +6,7 @@ export type UserInformation = {
     photoUrl?: string,
     phoneNumber: string,
     email: string,
-    birthdate: string
+    birthdate: string | Date
 }
 
 type InitialState = {

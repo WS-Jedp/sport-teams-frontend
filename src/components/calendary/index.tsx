@@ -1,13 +1,17 @@
 import React, {useEffect, useState, useContext} from 'react'
+
 import { format, startOfWeek, getWeekOfMonth } from 'date-fns'
 import { DAY_NAME, MONTH_NAME, MYSQL_FORMAT_TIME } from '../../tools/dateFormats'
-import { Training } from '../../dto/training'
+
 import { TrainingContext } from '../../contexts/training'
 import { Day } from './day'
 import { Modal } from '../modals/basic'
 import { ModalContent } from '../modals/content'
 import { DayDetail } from './dayDetail'
 import { NextTrainingForm } from '../../containers/nextTrainingContainers/defineNextTraining'
+
+import { createNextTraining as createNextTrainingService } from '../../services/trainings/post'
+
 import './styles.scss'
 
 interface Calendary {
@@ -52,15 +56,9 @@ export const Calendary:React.FC<Calendary> = ({ nextTrainingDay }) => {
         setDayDetailNumber(numberDay)
     }
 
-    const onScheduleTraining = (data:NextTrainingForm) => {
-        const training:Training = {
-            datetime: new Date(`${data.date} ${data.time}`),
-            state: Boolean(data.state),
-            id: '',
-            players: [],
-            exercises: [],
-            videos: []
-        }
+    const onScheduleTraining = async (data:NextTrainingForm) => {
+        const training = await createNextTrainingService(data)
+        console.log(training)
         createNextTraining(training)
         setDayDetail(false)
     }

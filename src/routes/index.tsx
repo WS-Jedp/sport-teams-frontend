@@ -58,15 +58,15 @@ export const App = () => {
         setIsLoading(false)
     }, [])
 
-    
-    if(isLoading) (
-        <Loading />
-    )
-
     return (
         <BrowserRouter>
             <Switch>
             <>
+                {
+                    isLoading && (
+                        <Loading />
+                    )
+                }
                 {
                     isAuth && (
                         <>

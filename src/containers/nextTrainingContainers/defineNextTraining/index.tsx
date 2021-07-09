@@ -1,6 +1,7 @@
 import React from 'react'
-import { ButtonForm } from '../../../components/buttons/form'
 import { useForm } from 'react-hook-form'
+
+import { ButtonForm } from '../../../components/buttons/form'
 
 export interface NextTrainingForm {
     date: Date,

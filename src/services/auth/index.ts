@@ -8,7 +8,7 @@ export const auth = async ({ email, password }:{email:string, password: string})
     const db = await firebase.firestore()
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     const auth = await firebase.auth().signInWithEmailAndPassword(email, password)
-    const user = await (await db.collection('users').doc(auth.user?.uid).get()).data() as UserInformation        
+    const user = await (await db.collection(USERS).doc(auth.user?.uid).get()).data() as UserInformation        
     const token = await auth.user?.getIdToken()
     
     if(!auth.user) {
@@ -27,9 +27,9 @@ export const auth = async ({ email, password }:{email:string, password: string})
 
 export const register = ({ role }:{ role: ROLES }) => async ({ email, password }:{email:string, password: string}) => {
     let data
-    const register = await firebase.auth().createUserWithEmailAndPassword(email, password).then(cred => {
+    const register = await firebase.auth().createUserWithEmailAndPassword(email, password).then(async cred => {
         const db = firebase.firestore()
-        const lastUser = db.collection('users').doc(cred.user?.uid).set({role})     
+        const lastUser = await db.collection(USERS).doc(cred.user?.uid).set({role})     
 
         if(!cred.user) {
             throw new Error('Error in registration')

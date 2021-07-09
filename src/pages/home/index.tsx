@@ -14,36 +14,49 @@ import { Button } from '../../components/buttons/simple'
 import { TrainingSchedule } from '../../containers/trainingSchedule'
 import { renderLastExercises, renderNextTraining } from '../../containers/homeExercises'
 
+import { Loading } from '../../components/loading/basic'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
 import { AddNextTrainingExercise } from '../../containers/nextTrainingContainers/exercises/add'
 
 import { getUserLastExercise } from '../../services/exercises/get'
 import { getExercises } from '../../services/exercises/get'
+import { getNextTraining } from '../../services/trainings/get'
 
-
+import { ROLES } from '../../dto/roles'
 
 export const Home:React.FC = () => {
 
     const { push } = useHistory()
 
     const { name, role, id: userId, teamId } = useContext(UserContext)
-    const { userLastExercises, handleUserLastExercises, setExercises} = useContext(ExercisesContext)
-    const { nextTrainingExercises, removeNextTrainingExercise } = useContext(TrainingContext)
+    const { userLastExercises, handleUserLastExercises, setExercises } = useContext(ExercisesContext)
+    const { nextTrainingExercises, removeNextTrainingExercise, createNextTraining } = useContext(TrainingContext)
 
     const [ showRegisterExercise, setShowRegisterExercise ] = useState<boolean>(false)
 
     const onLastExercise = (id:string) => push(`/exercise/${id}`)
 
+    const [isFetching, setIsFetching] = useState<boolean>(true)
     useEffect(() => {
         const fetchData = async () => {
             const allExercises = await getExercises()
             setExercises(...allExercises)
             const lastExercises = await getUserLastExercise(userId)
             handleUserLastExercises(...lastExercises)
+            const nextTraining = await getNextTraining()
+
+            if(nextTraining) await createNextTraining(nextTraining)
+            setIsFetching(false)
         }
         fetchData()
     }, [])
+
+    if(isFetching) {
+        return (
+            <Loading />
+        )
+    }
 
 
     return (
@@ -59,11 +72,11 @@ export const Home:React.FC = () => {
             <article className="home__exercises">
                 <h2 className="content__title">
                     {
-                        role === 'coach' ? ('Next Training 🔥') : ('My Exercises 🏆')
+                        role === ROLES['COACH'] ? ('Next Training 🔥') : ('My Exercises 🏆')
                     }
                 </h2>
                 {
-                    role === 'coach' ? renderNextTraining(nextTrainingExercises, (id) => push(`/exercise/${id}`), (id) => removeNextTrainingExercise(id)) : renderLastExercises(userLastExercises, onLastExercise)
+                    role === ROLES['COACH'] ? renderNextTraining(nextTrainingExercises, (id) => push(`/exercise/${id}`), (id) => removeNextTrainingExercise(id)) : renderLastExercises(userLastExercises, onLastExercise)
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                     <Button 
@@ -72,7 +85,7 @@ export const Home:React.FC = () => {
                         color="purple"
                     />
                     {
-                        role === 'Coach' && (
+                        role === ROLES['COACH'] && (
                             <ButtonCircle 
                                 action={() => setShowRegisterExercise(true)}
                                 Icon={MdAdd}
