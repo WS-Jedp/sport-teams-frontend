@@ -6,7 +6,7 @@ import { createAttendance } from '../../attendances/post'
 
 import { MYSQL_FORMAT } from '../../../tools/dateFormats'
 import { Player } from '../../../dto/player'
-import { Exercise } from '../../../dto/exercise'
+import { Exercise, ExerciseSmall } from '../../../dto/exercise'
 
 const TRAININGS = 'trainings'
 const USERS = 'users'
@@ -55,28 +55,37 @@ export const createNextTraining = async (body:NextTrainingForm) => {
 export const addPlayerToTraining = async (playerId:string, trainingId: string) => {
     const db = firebase.firestore()
     const playerRef = await (await db.collection(USERS).doc(playerId).get()).ref
-    const trainingRef = db.collection(TRAININGS).doc(trainingId)
-    trainingRef.update({
+    const trainingRef = (await db.collection(TRAININGS).doc(trainingId).get()).data()
+    if(!trainingRef) {
+        throw new Error("The trainign doesn't exist!")
+    }
+    const attendanceRef = await db.collection(ATTENDANCES).doc(trainingRef.attendance.id)
+    attendanceRef.update({
         players: firebase.firestore.FieldValue.arrayUnion(playerRef)
     })
 
-    return (await trainingRef.get()).data()
+    const userData = await (await playerRef.get()).data()
+    const user = await {...userData ,id: playerRef.id}
+
+    return user as Player
 }
 
 export const addExerciseToTraining = async (exerciseId:string, trainingId: string) => {
     const db = firebase.firestore()
-    const exerciseRef = await (await db.collection(USERS).doc(exerciseId).get()).ref
+    const exerciseRef = await (await db.collection(EXERCISES).doc(exerciseId).get()).ref
+    const exercise = (await exerciseRef.get()).data()
     const trainingRef = db.collection(TRAININGS).doc(trainingId)
     trainingRef.update({
         exercises: firebase.firestore.FieldValue.arrayUnion(exerciseRef)
     })
 
-    return (await trainingRef.get()).data()
+    const resp = await {...exercise, id: exerciseRef.id} as Exercise
+    return resp
 }
 
 export const removeExerciseToTraining = async (exerciseId:string, trainingId: string) => {
     const db = firebase.firestore()
-    const exerciseRef = await (await db.collection(USERS).doc(exerciseId).get()).ref
+    const exerciseRef = await (await db.collection(EXERCISES).doc(exerciseId).get()).ref
     const trainingRef = db.collection(TRAININGS).doc(trainingId)
     trainingRef.update({
         exercises: firebase.firestore.FieldValue.arrayRemove(exerciseRef)

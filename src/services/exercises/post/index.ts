@@ -2,6 +2,7 @@ import firebase from 'firebase'
 import { format, addDays } from 'date-fns'
 import { MYSQL_FORMAT } from '../../../tools/dateFormats'
 import { RegisterExerciseForm } from '../../../containers/exercisesContainers/forms/registerExercise'
+import { AddExerciseRegisterForm } from '../../../containers/nextTrainingContainers/addExerciseRegister'
 import { CreateExerciseForm } from '../../../containers/exercisesContainers/forms/createExercise'
 
 const USER = 'users'
@@ -19,13 +20,23 @@ export const registerExercise = async (body:RegisterExerciseForm) => {
     return lastExercise
 }
 
+export const registerUserExercise = async (body:AddExerciseRegisterForm) => {
+    const data = await firebase.firestore().collection(USER).doc(body.playerId).collection(EXERCISES).add({
+        result: body.result,
+        exercise: (await firebase.firestore().collection(EXERCISES).doc(body.exerciseId).get()).ref,
+        date: format(addDays(new Date(), 1), MYSQL_FORMAT)
+    })
+    const lastExercise = await (await firebase.firestore().collection(USER).doc(body.playerId).collection(EXERCISES).doc(data.id).get()).data()
+    return lastExercise
+}
+
+
 export const createExercise = async (body:CreateExerciseForm) => {
     const exerciseRef = await firebase.firestore().collection(EXERCISES).doc()
     exerciseRef.set({
         ...body
     })
-    const exerciseCreated = await (await firebase.firestore().collection(EXERCISES).doc(exerciseRef.id).get()).data()
-    return exerciseCreated
+    return exerciseRef.id
 }
 
 export const updateExercise = async (exerciseId: string, body:CreateExerciseForm) => {

@@ -1,14 +1,17 @@
 import React, { createContext, useState } from "react";
-import { ExerciseSmall } from "../../dto/exercise";
+import { Exercise, ExerciseSmall } from "../../dto/exercise";
 import { Training } from '../../dto/training'
+import { Player } from "../../dto/player";
 
 type TrainingInitialState = {
     nextTraining: Training | undefined,
     createNextTraining: (training:Training) => void,
     lastTrainings: Training[],
     nextTrainingExercises: ExerciseSmall[],
-    addNextTrainingExercise: (...exercises:ExerciseSmall[]) => void,
+    addNextTrainingExercise: (...exercises:Exercise[]) => void,
     removeNextTrainingExercise: (id:string) => void,
+    addNextTrainingPlayer: (...players:Player[]) => void,
+    removeNextTrainingPlayer: (id:string) => void,
     training?: Training,
     selectTraining: (training:Training) => void,
     trainings: Training[],
@@ -21,6 +24,8 @@ const trainingInitialState:TrainingInitialState = {
     nextTrainingExercises: [],
     removeNextTrainingExercise: () => {},
     createNextTraining: () => {},
+    addNextTrainingPlayer: () => {},
+    removeNextTrainingPlayer: () => {},
     lastTrainings: [],
     training: undefined,
     selectTraining: () => {},
@@ -40,8 +45,13 @@ export const TrainingContextProvider:React.FC = ({children}) => {
 
 
     const createNextTraining = (training:Training) => setNextTraining(training)
-    const addNextTrainingExercise = (...exercises:ExerciseSmall[]) => setNextTrainingExercises([...nextTrainingExercises, ...exercises])
-    const removeNextTrainingExercise = (id:string) => setNextTrainingExercises(nextTrainingExercises.filter(exercise => exercise.id !== id))
+    const addNextTrainingExercise = (...exercises:Exercise[]) => nextTraining && setNextTraining({...nextTraining, exercises: [...nextTraining.exercises, ...exercises]})
+    const removeNextTrainingExercise = (id:string) => nextTraining && setNextTraining({...nextTraining, exercises: nextTraining.exercises.filter(exercise => (exercise.id !== id))})
+
+    const addNextTrainingPlayer = (...player:Player[]) => nextTraining && setNextTraining({...nextTraining, players: [...nextTraining.players, ...player]})
+    const removeNextTrainingPlayer = (id:string) => nextTraining && setNextTraining({...nextTraining, players: nextTraining.players.filter(exercise => (exercise.id !== id))})
+
+
 
     const selectTraining = (training:Training) => setTraining(training)
 
@@ -54,6 +64,8 @@ export const TrainingContextProvider:React.FC = ({children}) => {
         nextTrainingExercises,
         addNextTrainingExercise,
         removeNextTrainingExercise,
+        addNextTrainingPlayer,
+        removeNextTrainingPlayer,
         training,
         selectTraining,
         trainings,

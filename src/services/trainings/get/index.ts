@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import { useGet } from '../../../hooks/requests'
 import { TrainingsMock } from '../../../mocks/training'
-import { Training } from '../../../dto/training'
+import { Training, TrainingFirebase } from '../../../dto/training'
 import { Player } from '../../../dto/player'
 import { Exercise } from '../../../dto/exercise'
 
@@ -24,10 +24,10 @@ export const getTraining = async (trainingId:string) => {
     const attendance = await (await db.collection(ATTENDANCES).doc(training.attendance.id).get()).data()
     const exercises:Exercise[] = []
     const players:Player[] = []
-
-    if(attendance && attendance.players > 0) {
+    
+    if(attendance && attendance.players.length > 0) {
         await Promise.all(   
-            attendance.players.forEach(async (player:firebase.firestore.DocumentReference) => {
+            attendance.players.map(async (player:firebase.firestore.DocumentReference) => {
                 const playerData = await (await db.collection(USERS).doc(player.id).get()).data() as Player
                 if(playerData) players.push({
                     ...playerData,
@@ -37,9 +37,9 @@ export const getTraining = async (trainingId:string) => {
         )
     }
 
-    if(training.exercises > 0) {
+    if(training.exercises.length > 0) {
         await Promise.all(
-            training.exercises.forEach((async (exercise:firebase.firestore.DocumentReference) => {
+            training.exercises.map((async (exercise:firebase.firestore.DocumentReference) => {
                 const exerciseData = await getExercise(exercise.id)
                 if(exerciseData) exercises.push(exerciseData)
             }))
@@ -57,12 +57,41 @@ export const getTraining = async (trainingId:string) => {
 export const getNextTraining = async () => {
     const trainingId = await (await firebase.database().ref().child('nextTraining').get()).toJSON() 
     let nextTraining:Training|undefined|null
-
+    const players:Player[] = []
+    const exercises:Exercise[] = []
     if(trainingId) {
-        nextTraining = await getTraining('VgkFf1Ei2TOe1B1h8DWp')
+        nextTraining = await getTraining(trainingId.toString())
+    }
+    
+    
+    if(nextTraining) {
+        const attendance = await (await firebase.firestore().collection(ATTENDANCES).doc(nextTraining.attendance.id).get()).data()
+        if(attendance && attendance.players.length > 0) {
+            await Promise.all(
+                attendance.players.map(async (player:firebase.firestore.DocumentReference) => {
+                    const user = await getUser(player.id)
+                    players.push({
+                        ...user,
+                        id: player.id
+                    })
+                })
+            )
+        }
     }
 
-    return !nextTraining ? undefined : nextTraining
+    if(nextTraining && nextTraining.exercises.length > 0) {
+        await Promise.all(
+            nextTraining.exercises.map(async exercise => {
+                const exerciseData = await getExercise(exercise.id)
+                exercises.push({
+                    ...exerciseData,
+                    id: exercise.id
+                })
+            })
+        )
+    }
+
+    return !nextTraining ? undefined : {...nextTraining, exercises, players}
     
 }
 

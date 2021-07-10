@@ -7,10 +7,9 @@ import { MYSQL_FORMAT } from '../../../tools/dateFormats'
 
 import { ButtonForm } from '../../../components/buttons/form'
 
-interface AddExerciseRegisterForm {
-    playerId: number,
-    exerciseId: number,
-    date: string,
+export interface AddExerciseRegisterForm {
+    playerId: string,
+    exerciseId: string,
     result: number
 }
 
@@ -29,16 +28,9 @@ export const AddExerciseRegisterContainer:React.FC<AddExerciseRegisterContainer>
             <h2 className="content__title">Add Exercise Register</h2>
             <h2 className="content__sub-title">{exercise.title}</h2>
             <p className="content__paragraph">Select the player that made the result</p>
-
-            <input 
-                {...register('date', { required: true })}
-                type="date" 
-                hidden 
-                value={format(new Date(), MYSQL_FORMAT)}
-            /> 
             <input 
                 {...register('exerciseId', { required: true })}
-                type="number" 
+                type="string" 
                 hidden 
                 value={exercise.id}     
             />

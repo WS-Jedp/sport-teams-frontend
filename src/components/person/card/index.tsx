@@ -3,9 +3,9 @@ import { Content } from '../../content'
 import './styles.scss'
 
 interface PersonCard {
-    id: number,
+    id: string,
     name: string,
-    role: string,
+    role?: string,
     img?: string,
     action: () => void
 }

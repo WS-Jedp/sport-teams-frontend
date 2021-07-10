@@ -1,11 +1,10 @@
 import React from 'react'
 import { Exercise, ExerciseSmall } from '../../../dto/exercise'
 import { ExerciseSmallCard } from '../../../components/exercises/smallCard'
-import { Button } from '../../../components/buttons/simple'
 import { ButtonCircle } from '../../../components/buttons/circle'
 import { MdClose } from 'react-icons/md'
 
-export const renderExercisesToPlayers = (exercises:Exercise[]) => {
+export const renderExercisesToPlayers = (exercises:Exercise[], action = (id:string) => {}) => {
 
     if(exercises.length === 0) {
         return (
@@ -19,7 +18,7 @@ export const renderExercisesToPlayers = (exercises:Exercise[]) => {
             <ul className="flex flex-row align-center justify-start next-training__exercises-list">
                 {
                     exercises.map(exercise => (
-                        <li key={exercise.id} className="flex align-center justify-center">
+                        <li onClick={() => action(exercise.id)} key={exercise.id} className="flex align-center justify-center">
                             <ExerciseSmallCard 
                                 key={exercise.id}
                                 exerciseName={exercise.title}
@@ -34,7 +33,7 @@ export const renderExercisesToPlayers = (exercises:Exercise[]) => {
     )
 }
 
-export const renderExercisesToCoach = (exercises:ExerciseSmall[], action: (exercise: ExerciseSmall) => void, onDelete: (id:number) => void) => {
+export const renderExercisesToCoach = (exercises:ExerciseSmall[], action: (exercise: ExerciseSmall) => void, onDelete: (id:string) => void) => {
 
     if(exercises.length === 0) {
         return (

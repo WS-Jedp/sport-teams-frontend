@@ -24,12 +24,12 @@ export const Person:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        if(id === Number(idPage)) {
+        if(id === idPage) {
             return push('/user')
         }
 
         const getData = async () => {
-            const user = await getUser(Number(idPage))
+            const user = await getUser(idPage || '')
             setPerson(user)
             setIsLoading(false)
         }
@@ -38,7 +38,11 @@ export const Person:React.FC = () => {
 
     },[id])
 
-    if(isLoading) (<Loading />)
+    if(isLoading) {
+        return (
+            <Loading />
+        )
+    }
 
     if(!person) {
         return (
@@ -78,7 +82,7 @@ export const Person:React.FC = () => {
                 <h3 className="content__sub-title">Email</h3>
                 <p className="content__paragraph">{person.email}</p>
                 <h3 className="content__sub-title">Birthdate</h3>
-                <p className="content__paragraph">{format(person.birthdate, FORMAT)}</p>
+                <p className="content__paragraph">{format(new Date(person.birthdate), FORMAT)}</p>
             </article>
         </DashboardLayout>
     )

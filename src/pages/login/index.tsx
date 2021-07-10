@@ -7,6 +7,7 @@ import { GraphLoading } from '../../components/loading/graph'
 import { UserContext } from '../../contexts/user'
 
 import { auth } from '../../services/auth'
+import { getUser } from '../../services/user/get'
 
 import './styles.scss'
 
@@ -23,14 +24,12 @@ export const Login:React.FC = () => {
             password: data.password
         })
         if(!user) push('/login')
-        
         setIsAuth(true)
         handleId(user.id)
         handleTeamId(user.userInformation.teamId || '')
         setName(user.userInformation.name)
         setRole(user.userInformation.role)
         setToken(user.token ? user.token : '')
-        localStorage.setItem('token', user.token ? user.token : '')
         setIsLoading(false)
         push('/')
     }

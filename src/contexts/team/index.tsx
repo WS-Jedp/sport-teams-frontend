@@ -3,10 +3,7 @@ import { CardTeam, Team } from '../../dto/team'
 import { Directive } from '../../dto/directive'
 import { Player } from '../../dto/player'
 
-import { TeamMock } from '../../mocks/teams'
-
 interface TeamInitialContext {
-    userTeam?: Team,
     addPlayerUserTeam: (player:Player) => void,
     removePlayerUserTeam: (id:string) => void,
     addDirectiveUserTeam: (directive:Directive) => void,
@@ -20,7 +17,6 @@ interface TeamInitialContext {
 }
 
 const teamInitialContext:TeamInitialContext = {
-    userTeam: undefined,
     addPlayerUserTeam: () => {},
     removePlayerUserTeam: () => {},
     addDirectiveUserTeam: () => {},
@@ -37,15 +33,14 @@ export const TeamContext = createContext(teamInitialContext)
 
 export const TeamContextProvider:React.FC = ({ children }) => {
 
-    const [userTeam, setUserTeam] = useState<Team | undefined>(undefined)
     const [team, setTeam] = useState<Team | undefined>(undefined)
     const [teams, setTeams] = useState<CardTeam[]>([])
 
-    const addPlayerUserTeam = (player:Player) => userTeam && setUserTeam({...userTeam, players: [...userTeam.players, player]})
-    const removePlayerUserTeam = (id:string) => userTeam && setUserTeam({...userTeam, players: userTeam.players.filter(player => player.id !== id)})
+    const addPlayerUserTeam = (player:Player) => team && setTeam({...team, players: [...team.players, player]})
+    const removePlayerUserTeam = (id:string) => team && setTeam({...team, players: team.players.filter(player => player.id !== id)})
 
-    const addDirectiveUserTeam = (directive:Directive) => userTeam && setUserTeam({...userTeam, directives: [...userTeam.directives, directive]})
-    const removeDirectiveUserTeam = (id:string) => userTeam && setUserTeam({...userTeam, directives: userTeam.directives.filter(directive => directive.id !== id)})
+    const addDirectiveUserTeam = (directive:Directive) => team && setTeam({...team, directives: [...team.directives, directive]})
+    const removeDirectiveUserTeam = (id:string) => team && setTeam({...team, directives: team.directives.filter(directive => directive.id !== id)})
 
     const addTeam = (team:Team) => setTeams([...teams, team])
     const addTeams = (...teams:Team[]) => setTeams(teams)
@@ -54,7 +49,6 @@ export const TeamContextProvider:React.FC = ({ children }) => {
     const selectTeam = (team:Team) => setTeam(team)
 
     const initialState:TeamInitialContext = {
-        userTeam,
         addPlayerUserTeam,
         removePlayerUserTeam,
         addDirectiveUserTeam,

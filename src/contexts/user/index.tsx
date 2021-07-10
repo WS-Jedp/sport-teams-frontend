@@ -1,12 +1,16 @@
 import React, { createContext, useState } from 'react'
+import { ROLES } from '../../dto/roles'
 
 export type UserInformation = {
+    name?: string,
     lastName: string,
-    biography: string,
+    biography?: string,
     photoUrl?: string,
-    phoneNumber: string,
+    phoneNumber?: string,
     email: string,
-    birthdate: string | Date
+    birthdate: string | Date,
+    teamId?: string,
+    role?: ROLES
 }
 
 type InitialState = {

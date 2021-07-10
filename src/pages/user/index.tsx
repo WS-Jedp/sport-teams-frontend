@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { format } from 'date-fns'
 import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
 import { DashboardLayout } from '../../layouts/dashboard'
@@ -16,12 +16,14 @@ import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
 
 import { editUser } from '../../services/user/post'
+import { getUser } from '../../services/user/get'
+import { logout } from '../../services/auth'
 
 import './styles.scss'
 
 export const User:React.FC = () => {
 
-    const { id, name, role, userInformation, handleUserInformation } = useContext(UserContext)
+    const { id, name, role, userInformation, handleUserInformation, setIsAuth } = useContext(UserContext)
 
     const [showEditUser, setShowEditUser] = useState<boolean>(false)
     const [isUpdating, setIsUpdating] = useState<boolean>(false)
@@ -32,6 +34,20 @@ export const User:React.FC = () => {
         handleUserInformation({...userData, birthdate: format(new Date(userData.birthdate), HTML_DATE_FORMAT)})
         setIsUpdating(false)
     }
+
+    useEffect(() => {
+        const fetchingData = async () => {
+            const userData = await getUser(id)
+            if(!userData.id) {
+                setIsAuth(false)
+                await logout()
+            }
+            handleUserInformation({...userData})
+        }
+        if(!userInformation) {
+            fetchingData()
+        }
+    }, [])
 
     if(!userInformation) {
         return (
@@ -56,7 +72,7 @@ export const User:React.FC = () => {
 
             <article className="user user__biography">
                 <h2 className="content__title">Biography</h2>
-                <p className="content__paragraph">{userInformation.biography}</p>
+                <p className="content__paragraph">{userInformation.biography ? userInformation.biography : 'There is no biography'}</p>
             </article>
 
             <article className="user user__about">

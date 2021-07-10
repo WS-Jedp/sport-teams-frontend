@@ -4,7 +4,7 @@ export type Exercise = {
     id: string,
     title: string,
     description: string,
-    purposes: Purpose[],
+    purposes?: Purpose[],
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
     videoUrl?: string,

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import firebase from 'firebase'
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import { UserContext } from '../contexts/user'
 import { isLogged } from '../services/auth'
@@ -27,32 +28,29 @@ import { Person } from '../pages/person'
 
 export const App = () => {
 
-    const { isAuth, setIsAuth, handleId, handleUserInformation, setName, setRole, handleTeamId  } = useContext(UserContext)
+    const { isAuth, setIsAuth, handleId, handleUserInformation, setName, setRole, handleTeamId, id  } = useContext(UserContext)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const fetchData = async () => {
-            await isLogged()
-            const id = localStorage.getItem('userId')
-            const token = localStorage.getItem('token')
-            const email = localStorage.getItem('userEmail')
-            if(!id || !token || !email) {
-                setIsAuth(false)
-                return null
-            }
-
-
-            if(id) {
-                const {name, role, ...rest} = await getUser(id)
-                
-                handleId(id)
-                setRole(role)
-                setName(name)
-                handleTeamId(rest.teamId || '')
-                handleUserInformation({...rest, email})
-                setIsAuth(true)
-            }
+            await firebase.auth().onAuthStateChanged(async user => {
+                if(user) {
+                    const {name, role, ...rest} = await getUser(user.uid)
+                    handleId(user.uid)
+                    setRole(role)
+                    setName(name)
+                    handleTeamId(rest.teamId || '')
+                    handleUserInformation({...rest, email: rest.email})
+                    setIsAuth(true)
+                } else {
+                    if(!id) {
+                        setIsAuth(false)
+                        return null
+                    }
+                }
+        
+            })
         } 
         fetchData()
         setIsLoading(false)
@@ -60,13 +58,14 @@ export const App = () => {
 
     return (
         <BrowserRouter>
-            <Switch>
-            <>
                 {
                     isLoading && (
                         <Loading />
                     )
                 }
+            <Switch>
+            <>
+                
                 {
                     isAuth && (
                         <>

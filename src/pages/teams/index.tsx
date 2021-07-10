@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { DashboardLayout } from '../../layouts/dashboard'
 
 import { Button } from '../../components/buttons/simple'
-import { GraphLoading } from '../../components/loading/graph'
+import { Loading } from '../../components/loading/basic'
 
 import './styles.scss'
 
@@ -17,15 +17,26 @@ export const Teams:React.FC = () => {
     const { teams, addTeams } = useContext(TeamContext)
     const { role } = useContext(UserContext)
 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     useEffect(() => {
         const fetchingData = async () => {
+            setIsLoading(true)
             const teams = await getTeams()
             addTeams(...teams)
             setIsLoading(false)
         }
-        fetchingData()
+        if(teams.length < 1) {
+            fetchingData()
+        } 
     }, [])
+
+    if(isLoading) {
+        return (
+            <DashboardLayout>
+                <Loading />
+            </DashboardLayout>
+        )
+    }
 
     return (
         <DashboardLayout>

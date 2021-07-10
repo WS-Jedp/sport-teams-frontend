@@ -100,7 +100,7 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                 }
             </div>
 
-            <div className="form-input">
+            {/* <div className="form-input">
                 <label className="form-input__label" htmlFor="category">
                     Purposes
                 </label>
@@ -125,7 +125,7 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                 {
                     errors.purposes && <small className="form-input__error">{errors.purposes.message}</small>
                 }
-            </div>
+            </div> */}
 
             <ButtonForm 
                 text="Register!"
