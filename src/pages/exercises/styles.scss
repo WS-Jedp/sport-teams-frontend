@@ -1,5 +1,3 @@
-@use '../../assets/styles/partials' as *;
-
 .exercises {
     padding: 0 $space-sm-xl;    
 
@@ -11,9 +9,5 @@
         &-title {
             font-size: $text-size-lg;
         }
-    }
-
-    &__list {
-    
     }
 }

@@ -7,7 +7,6 @@ import { ExercisesContext } from '../../contexts/exercises'
 import { TrainingContext } from '../../contexts/training'
 
 import { DashboardLayout } from '../../layouts/dashboard'
-import './styles.scss'
 
 import { ButtonCircle } from '../../components/buttons/circle'
 import { Button } from '../../components/buttons/simple'

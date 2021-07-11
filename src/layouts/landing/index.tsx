@@ -1,6 +1,5 @@
 import React from 'react'
 import { Header } from '../../components/commons/header'
-import './styles.scss'
 
 export const LandingLayout:React.FC = ({ children }) => {
 

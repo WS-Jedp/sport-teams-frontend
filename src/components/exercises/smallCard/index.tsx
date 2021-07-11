@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import './styles.scss'
 
 import { EXERCISE_CATEGORY, defineCategoryIcon, EXERCISES_TYPE } from '../../../tools/defineExercise'
 

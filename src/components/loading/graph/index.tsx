@@ -1,5 +1,4 @@
 import React from 'react'
-import '../basic/styles.scss'
 
 export const GraphLoading:React.FC = () => {
 

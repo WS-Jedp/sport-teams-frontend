@@ -3,8 +3,6 @@ import { Exercise } from '../../dto/exercise'
 
 import { ExerciseMediumCard } from '../../components/exercises/mediumCard'
 
-
-
 export const renderExercises = (exercises:Exercise[], action: (id:string) => void = () => {}) => {
 
     if(exercises.length === 0) {

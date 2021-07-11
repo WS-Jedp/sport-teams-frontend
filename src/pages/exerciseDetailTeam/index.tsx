@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { Exercise } from '../../dto/exercise'
-import { UserContext } from '../../contexts/user'
 
 import { Button } from '../../components/buttons/simple'
 import { renderExerciseHistory } from '../../containers/exerciseContainers/exerciseHistory'

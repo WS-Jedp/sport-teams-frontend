@@ -1,7 +1,6 @@
 import React from 'react'
 import { ExerciseSmall } from 'dto/exercise'
 import { ExerciseSmallCard } from '../../exercises/smallCard'
-import './styles.scss'
 
 interface SelectExercises {
     exercises: ExerciseSmall[],

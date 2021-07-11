@@ -4,9 +4,6 @@ import { ButtonForm } from '../../buttons/form'
 
 import { useForm } from 'react-hook-form'
 
-import './styles.scss'
-
-
 export interface LoginForm {
     username: string,
     password: string

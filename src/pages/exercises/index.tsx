@@ -23,8 +23,6 @@ import { ROLES } from '../../dto/roles'
 
 import { defineIdYoutubeVideo } from '../../tools/defineYoutubeVideoId'
 
-import './styles.scss'
-
 export const Exercises:React.FC = () => {
 
     const { push } = useHistory()

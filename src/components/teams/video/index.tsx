@@ -1,7 +1,6 @@
 import { format } from 'date-fns'
 import React from 'react'
 import { FORMAT } from '../../../tools/dateFormats'
-import './styles.scss'
 
 interface TeamVideo {
     videoId: string,

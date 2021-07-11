@@ -26,8 +26,6 @@ import { getLastTrainings } from '../../services/trainings/get'
 import { addExerciseToTraining, addPlayerToTraining, removeExerciseToTraining } from '../../services/trainings/post'
 import { registerUserExercise } from '../../services/exercises/post'
 
-import './styles.scss'
-
 export const NextTraining:React.FC = () => {
 
     const { push } = useHistory()

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { MdClose } from 'react-icons/md'
-import './styles.scss'
 
 interface Menu {
     onClose: () => void

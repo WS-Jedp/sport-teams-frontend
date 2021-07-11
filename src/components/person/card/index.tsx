@@ -2,7 +2,6 @@ import React from 'react'
 import { Content } from '../../content'
 
 import { getRandomPhotoUrl } from '../../../tools/default'
-import './styles.scss'
 
 interface PersonCard {
     id: string,

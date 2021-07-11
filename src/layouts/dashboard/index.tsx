@@ -1,8 +1,6 @@
 import React from 'react'
 import { Nav } from '../../components/commons/nav' 
 
-import './styles.scss'
-
 export const DashboardLayout:React.FC = ({ children }) => {
     
     return (

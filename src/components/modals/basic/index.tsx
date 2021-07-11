@@ -1,6 +1,5 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
-import './styles.scss'
 
 const el = window.document.getElementById('app-modal') as HTMLElement
 

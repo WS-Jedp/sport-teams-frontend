@@ -1,6 +1,5 @@
 import React from 'react'
 import { Content } from '../../content'
-import './styles.scss'
 
 interface PersonHeader {
     name: string,

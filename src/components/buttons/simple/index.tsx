@@ -1,5 +1,4 @@
 import React from 'react'
-import './styles.scss'
 
 interface Button {
     color?: 'purple' | 'main',

@@ -20,8 +20,6 @@ import { editUser, editPhoto } from '../../services/user/post'
 import { getUser } from '../../services/user/get'
 import { logout } from '../../services/auth'
 
-import './styles.scss'
-
 export const User:React.FC = () => {
 
     const { id, name, role, userInformation, handleUserInformation, setIsAuth, handlePhoto } = useContext(UserContext)

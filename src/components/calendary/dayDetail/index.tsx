@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../../contexts/user'
 import { TrainingContext } from '../../../contexts/training'
 import { format } from 'date-fns'
-import { FORMAT, MONTH_NAME, MYSQL_FORMAT, HTML_DATE_FORMAT } from '../../../tools/dateFormats'
+import { FORMAT, HTML_DATE_FORMAT } from '../../../tools/dateFormats'
 import { Button } from '../../buttons/simple'
 
 import { NextTrainingForm } from '../../../containers/nextTrainingContainers/defineNextTraining'

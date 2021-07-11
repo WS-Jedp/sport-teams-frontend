@@ -1,6 +1,5 @@
 import React from 'react'
 import { IconType } from 'react-icons/lib'
-import './styles.scss'
 
 interface ButtonCircle {
     Icon: IconType,
