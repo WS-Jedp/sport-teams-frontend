@@ -22,11 +22,6 @@ import { Exercise as ExerciseDto } from '../../dto/exercise'
 
 import { defineIdYoutubeVideo } from '../../tools/defineYoutubeVideoId'
 
-
-import './styles.scss'
-
-
-
 export const Exercise:React.FC = () => {
 
     const { id } = useParams<{id?:string}>()

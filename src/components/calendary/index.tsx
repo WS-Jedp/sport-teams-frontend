@@ -12,8 +12,6 @@ import { NextTrainingForm } from '../../containers/nextTrainingContainers/define
 
 import { createNextTraining as createNextTrainingService } from '../../services/trainings/post'
 
-import './styles.scss'
-
 interface Calendary {
     nextTrainingDay?: Date
 }

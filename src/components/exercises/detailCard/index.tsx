@@ -4,8 +4,6 @@ import { Content } from '../../content'
 import { EXERCISES_TYPE, EXERCISE_CATEGORY, defineCategoryIcon } from '../../../tools/defineExercise'
 import { FORMAT } from '../../../tools/dateFormats'
 
-import './styles.scss'
-
 interface ExerciseDetailCard {
     exerciseType: EXERCISES_TYPE,
     exerciseName: string,

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import { Content } from '../../content'
 import { EXERCISES_TYPE, EXERCISE_CATEGORY, defineCategoryIcon } from '../../../tools/defineExercise'
 
-import './styles.scss'
-
 interface ExerciseMediumCard {
     exerciseType: EXERCISES_TYPE,
     exerciseName: string,

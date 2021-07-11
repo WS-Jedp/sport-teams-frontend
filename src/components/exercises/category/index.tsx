@@ -1,6 +1,5 @@
 import React from 'react'
 import { EXERCISE_CATEGORY, defineCategoryIcon } from '../../../tools/defineExercise'
-import './styles.scss'
 
 interface ExerciseCategoryCard {
     category: EXERCISE_CATEGORY

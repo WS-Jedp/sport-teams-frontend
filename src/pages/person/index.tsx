@@ -14,8 +14,6 @@ import { getRandomPhotoUrl } from '../../tools/default'
 
 import { getUser } from '../../services/user/get'
 
-import './styles.scss'
-
 export const Person:React.FC = () => {
 
     const { id } = useContext(UserContext)

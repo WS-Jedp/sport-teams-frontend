@@ -4,8 +4,6 @@ import { DashboardLayout } from '../../layouts/dashboard'
 import { Button } from '../../components/buttons/simple'
 import { Loading } from '../../components/loading/basic'
 
-import './styles.scss'
-
 import { TeamContext } from '../../contexts/team'
 import { UserContext } from '../../contexts/user'
 import { renderTeams } from '../../containers/teamsContainers'

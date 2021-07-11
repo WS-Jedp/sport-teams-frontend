@@ -3,7 +3,6 @@ import { format } from 'date-fns'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import { Exercise } from '../../../dto/exercise'
 import { FORMAT } from '../../../tools/dateFormats'
-import './styles.scss'
 
 export type LineGraphType = {
     date: string,

@@ -1,6 +1,5 @@
 import React from 'react'
 import { MdClose } from 'react-icons/md'
-import './styles'
 
 interface ModalContent {
     onClose: () => void

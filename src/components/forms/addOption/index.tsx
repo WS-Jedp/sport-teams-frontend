@@ -2,8 +2,6 @@ import React, { useState, ChangeEventHandler } from 'react'
 import { MdAdd } from 'react-icons/md'
 import { ButtonCircle } from '../../buttons/circle'
 
-import './styles.scss'
-
 interface FormAddOption {
     elements: {title: string, id: number}[],
     onAdd: (element:{title: string, id: number}) => void

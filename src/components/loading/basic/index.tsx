@@ -1,6 +1,5 @@
 import React from 'react'
 import { DashboardLayout } from '../../../layouts/dashboard' 
-import './styles.scss'
 
 export const Loading:React.FC = () => {
 

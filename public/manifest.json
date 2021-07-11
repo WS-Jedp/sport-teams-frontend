@@ -1,0 +1,27 @@
+{
+    "short_name": "Sport Team PV",
+    "name": "Pure Vibes Sports Team",
+    "icons": [
+      {
+        "src": "./images/pure-vibes-logo.ico",
+        "sizes": "64x64",
+        "type": "image/ico"
+      },
+      {
+        "src": "./images/pure-vibes-logo.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/pure-vibes-logo.jpg",
+        "type": "image/jpg",
+        "sizes": "256x256"
+      }
+    ],
+    "start_url": "/",
+    "scope": "/",
+    "description": "PWA for the pure vibes' basketball team",
+    "display": "minimal-ui",
+    "theme_color": "#6929C4",
+    "background_color": "#F5F1FF"
+  }

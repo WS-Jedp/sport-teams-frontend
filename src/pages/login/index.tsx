@@ -9,8 +9,6 @@ import { UserContext } from '../../contexts/user'
 import { auth } from '../../services/auth'
 import { getUser } from '../../services/user/get'
 
-import './styles.scss'
-
 export const Login:React.FC = () => {
 
     const { setIsAuth, handleId, setName, setRole, setToken, handleUserInformation, handleTeamId } = useContext(UserContext)
@@ -19,11 +17,21 @@ export const Login:React.FC = () => {
 
     const onLogin = async (data:LoginFormData) => {
         setIsLoading(true)
+        try {
+
+        } catch(err) {
+            console.error(err)
+            push('/login')
+            setIsLoading(false)
+        }
         const user = await auth({
             email: data.username,
             password: data.password
         })
-        if(!user) push('/login')
+        if(!user) {
+            push('/login')
+            setIsLoading(false)
+        }
         setIsAuth(true)
         handleId(user.id)
         handleTeamId(user.userInformation.teamId || '')

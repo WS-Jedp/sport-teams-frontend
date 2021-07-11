@@ -14,8 +14,6 @@ import { FORMAT } from '../../tools/dateFormats'
 
 import { getTraining } from '../../services/trainings/get'
 
-import './styles.scss'
-
 export const Training:React.FC = () => {
 
     const { id } = useParams<{id?:string}>()

@@ -9,8 +9,6 @@ import { Loading } from '../../components/loading/basic'
 
 import { getTrainings } from '../../services/trainings/get'
 
-import './styles.scss'
-
 export const Trainings:React.FC = () => {
 
     const { push } = useHistory()

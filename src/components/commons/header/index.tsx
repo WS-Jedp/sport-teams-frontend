@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu } from '../menu'
-import './styles.scss'
 
 export const Header:React.FC = () => {
 

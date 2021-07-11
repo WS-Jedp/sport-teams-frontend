@@ -2,8 +2,6 @@ import React from 'react'
 import { format } from 'date-fns'
 import { FORMAT } from '../../../tools/dateFormats'
 
-import './styles.scss'
-
 interface TrainingSmallCard {
     date: Date | null,
     action: () => void

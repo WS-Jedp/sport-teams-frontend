@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import firebase from 'firebase'
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import { UserContext } from '../contexts/user'
-import { isLogged } from '../services/auth'
 import { getUser } from '../services/user/get'
 
 import { Loading } from '../components/loading/basic'

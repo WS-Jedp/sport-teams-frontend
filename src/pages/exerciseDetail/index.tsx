@@ -19,9 +19,6 @@ import { GraphLoading } from '../../components/loading/graph'
 import { registerExercise } from '../../services/exercises/post'
 import { getExerciseHistory } from '../../services/exercises/get'
 
-
-import './styles.scss'
-
 export const ExerciseDetail:React.FC = () => {
 
     const { id: exerciseId } = useParams<{id?:string}>()

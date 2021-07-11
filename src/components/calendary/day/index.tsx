@@ -1,5 +1,4 @@
 import React, { MouseEventHandler } from 'react'
-import './styles.scss'
 
 interface Day {
     isSelected?: boolean,

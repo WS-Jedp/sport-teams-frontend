@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const Dotenv = require('dotenv-webpack')
+const WorkboxPlugin = require('workbox-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 module.exports = {
@@ -68,11 +70,22 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: true,
             template: path.resolve(__dirname, 'public', 'index.html'),
-            filename: 'index.html'
+            filename: 'index.html',
+            favicon: path.resolve(__dirname, 'public', 'images', 'pure-vibes-logo.ico')
         }),
         new MiniCSSExtractPlugin({
             filename: '[name].css',
         }),
-        new Dotenv()
+        new Dotenv(),
+        new WorkboxPlugin.GenerateSW({
+          clientsClaim: true,
+          skipWaiting: true,
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'public/images', to: 'images' },
+                { from: 'public/manifest.json', to: 'manifest.json' }
+            ],
+        }),
     ]
 }

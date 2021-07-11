@@ -2,7 +2,6 @@ import React from 'react'
 import { format } from 'date-fns'
 import { FORMAT } from '../../../tools/dateFormats'
 import { Content } from '../../content'
-import './styles.scss'
 
 interface ExerciseResultCard {
     videoId?: string

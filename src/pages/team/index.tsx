@@ -24,9 +24,7 @@ import { EditUserForm } from '../../containers/user/editUser'
 import { ROLES } from '../../dto/roles'
 
 import { getTeam } from '../../services/teams/get'
-import { editUser, registerDirective as registerDirectiveService, registerPlayer as registerPlayerService } from '../../services/user/post'
-
-import './styles.scss'
+import { registerDirective as registerDirectiveService, registerPlayer as registerPlayerService } from '../../services/user/post'
 
 const PLAYERS_DEFAULT_PASSWROD = process.env.PLAYERS_DEFAULT_PASSWORD
 const DIRECTIVES_DEFAULT_PASSWORD = process.env.DIRECTIVES_DEFAULT_PASSWORD
