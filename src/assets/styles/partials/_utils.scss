@@ -107,3 +107,9 @@
     margin: $space-base-md 0;
     font-size: $text-size-base-md;
 }
+
+.w-{
+    &100 {
+        width: 100%;
+    }
+}

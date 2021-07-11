@@ -21,6 +21,8 @@ import { createExercise } from '../../services/exercises/post'
 
 import { ROLES } from '../../dto/roles'
 
+import { defineIdYoutubeVideo } from '../../tools/defineYoutubeVideoId'
+
 import './styles.scss'
 
 export const Exercises:React.FC = () => {
@@ -54,10 +56,11 @@ export const Exercises:React.FC = () => {
     const [showCreateExercise, setShowCreateExercise] = useState<boolean>(false)
     const registerNewExercise = async (data:CreateExerciseForm) => {
         setIsCreating(true)
-        const id = await createExercise(data)
+        const id = await createExercise({...data, videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined})
         addExercise({
             ...data,
             purposes: [],
+            videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined,
             id
         })
         setIsCreating(false)

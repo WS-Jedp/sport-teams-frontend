@@ -10,12 +10,13 @@ export interface RegisterExerciseForm {
     exercise_id: string,
     result: number,
     date: Date,
+    video?: File[]
 }
 
 interface RegisterExerciseContainer {
     onSubmit: (data:RegisterExerciseForm) => void,
     selectedExercise?: string,
-    teamId?: string
+    teamId?: string,
 }
 
 export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ onSubmit, selectedExercise, teamId = undefined }) => {
@@ -27,7 +28,7 @@ export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ 
 
 
     return (
-        <form className="flex flex-col align-start justify-start register-exercise" onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col align-start justify-start register-exercise" encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="content__title">Register Exercise</h2>
             <p className="content__paragraph">Register a new exercise!</p>
 
@@ -64,7 +65,7 @@ export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ 
                     Result
                 </label>
                 <input 
-                    type="number" 
+                    type="number"
                     id="number" 
                     placeholder="Write the result of the exercise" 
                     {...register('result', { required: true })}
@@ -73,6 +74,24 @@ export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ 
                     errors.result && <small className="form-input__error">{errors.result.message}</small>
                 }
             </div>
+
+            <div className="form-input">
+                <label className="form-input__label" htmlFor="result">
+                    Video
+                </label>
+                <input 
+                    type="file" 
+                    accept=".mp4"
+                    id="video" 
+                    placeholder="Write the result of the exercise" 
+                    {...register('video', { required: false })}
+                />
+                {
+                    errors.video && <small className="form-input__error">There is an error with the file</small>
+                }
+            </div>
+
+
 
             <ButtonForm 
                 text="Register!"

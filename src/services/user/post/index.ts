@@ -76,8 +76,19 @@ export const registerPlayer = async (body:UserInformation) => {
     return user
 }
 
-export const editPhoto = async ({file, userId}:{file:File, userId:string}) => {
-    const db = await firebase.storage().ref().put(file).snapshot.ref
+export const editPhoto = async ({file, userId}:{file:File[], userId:string}) => {
+    let userRef:firebase.firestore.DocumentData | undefined
+    await firebase.storage().ref().child(`/profile/${userId}/${file[0].name}`).put(file[0]).then(async snapshot => {
+        const user = await firebase.firestore().collection(USERS).doc(userId)
+        user.update({
+            photoUrl: await snapshot.ref.getDownloadURL()
+        })
+        userRef = (await user.get()).data()
 
+    })
 
+    if(userRef) return userRef.photoUrl
+
+    return null
+    
 }

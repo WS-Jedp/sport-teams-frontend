@@ -60,7 +60,7 @@ export const ExerciseDetail:React.FC = () => {
         const resp = await registerExercise(data)
         setIsRegistering(false)
 
-        if(resp) setExerciseHistory(old => ([...old, {...exercise, result: resp.result, date: resp.date} as Exercise]))
+        if(resp) setExerciseHistory(old => ([...old, {...exercise, result: resp.result, date: resp.date, videoUrl: resp.videoUrl} as Exercise]))
     }
 
     // Loading

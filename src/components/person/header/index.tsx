@@ -5,14 +5,15 @@ import './styles.scss'
 interface PersonHeader {
     name: string,
     lastName:string,
-    img?: string
+    img?: string,
+    action?: () => void
 }
 
-export const PersonHeader:React.FC<PersonHeader> = ({ name, lastName, img }) => {
+export const PersonHeader:React.FC<PersonHeader> = ({ name, lastName, img, action = () => {} }) => {
 
     return (
         <section className="flex flex-row align-center justify-start person-header" data-testid="person-header-container">
-            <figure className="person-header__figure">
+            <figure className="person-header__figure" onClick={action}>
                 <img title={name} alt={`Picture of ${name}`} src={img} />
             </figure>
 

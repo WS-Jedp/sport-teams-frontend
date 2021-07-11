@@ -11,6 +11,7 @@ export interface AddExerciseRegisterForm {
     playerId: string,
     exerciseId: string,
     result: number
+    video?: File[]
 }
 
 interface AddExerciseRegisterContainer {
@@ -54,6 +55,19 @@ export const AddExerciseRegisterContainer:React.FC<AddExerciseRegisterContainer>
                     {...register('result', { required: true })}
                     type="number" 
                     placeholder="Write the result of the exercise" 
+                />
+            </div>
+
+            <div className="form-input">
+                <label className="form-input__label" htmlFor="result">
+                    Video
+                </label>
+                <input 
+                    type="file" 
+                    accept=".mp4"
+                    id="video" 
+                    placeholder="Write the result of the exercise" 
+                    {...register('video', { required: false })}
                 />
             </div>
 

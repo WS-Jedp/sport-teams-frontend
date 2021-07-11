@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { format } from 'date-fns'
 import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
 import { DashboardLayout } from '../../layouts/dashboard'
-import { UserContext } from '../../contexts/user'
+import { UserContext, UserInformation } from '../../contexts/user'
 
 import { DEFAULT_PHOTO_URL } from '../../tools/default'
 
@@ -10,12 +10,13 @@ import { PersonHeader } from '../../components/person/header'
 import { Button } from '../../components/buttons/simple'
 
 import { EditUserContainer, EditUserForm } from '../../containers/user/editUser'
+import { EditUserPhotoContainer, EditUserPhotoForm } from '../../containers/user/editPhoto'
 
 import { GraphLoading } from '../../components/loading/graph'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
 
-import { editUser } from '../../services/user/post'
+import { editUser, editPhoto } from '../../services/user/post'
 import { getUser } from '../../services/user/get'
 import { logout } from '../../services/auth'
 
@@ -23,7 +24,7 @@ import './styles.scss'
 
 export const User:React.FC = () => {
 
-    const { id, name, role, userInformation, handleUserInformation, setIsAuth } = useContext(UserContext)
+    const { id, name, role, userInformation, handleUserInformation, setIsAuth, handlePhoto } = useContext(UserContext)
 
     const [showEditUser, setShowEditUser] = useState<boolean>(false)
     const [isUpdating, setIsUpdating] = useState<boolean>(false)
@@ -35,6 +36,18 @@ export const User:React.FC = () => {
         setIsUpdating(false)
     }
 
+    const [showEditPhoto, setShowEditPhoto] = useState<boolean>(false)
+    const [isChangingPhoto, setIsChangingPhoto] = useState<boolean>(false)
+    const handleProfilePicture = async (data:EditUserPhotoForm) => {
+        setIsChangingPhoto(true)
+        const newPhoto:string = await editPhoto(data) 
+        if(newPhoto) {
+            handlePhoto(newPhoto)
+        }
+        setIsChangingPhoto(false)
+    }
+
+    // Fetching user data
     useEffect(() => {
         const fetchingData = async () => {
             const userData = await getUser(id)
@@ -67,6 +80,7 @@ export const User:React.FC = () => {
                     name={name}
                     lastName={userInformation.lastName}
                     img={userInformation.photoUrl || DEFAULT_PHOTO_URL}
+                    action={() => setShowEditPhoto(true)}
                 />
             </article>
 
@@ -108,6 +122,23 @@ export const User:React.FC = () => {
                                 ) : (
                                     <EditUserContainer 
                                         onSubmit={handleEditUser}
+                                    />
+                                )
+                            }
+                        </ModalContent>
+                    </Modal>
+                )
+            }
+            {
+                showEditPhoto && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowEditPhoto(false)}>
+                            {
+                                isChangingPhoto ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <EditUserPhotoContainer 
+                                        onSubmit={handleProfilePicture}
                                     />
                                 )
                             }

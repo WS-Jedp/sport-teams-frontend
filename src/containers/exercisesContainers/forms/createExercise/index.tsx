@@ -11,6 +11,7 @@ export interface CreateExerciseForm {
     description: string,
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
+    videoId?:string,
     purposes?: string
 }
 
@@ -97,6 +98,21 @@ export const CreateExerciseContainer:React.FC<CreateExerciseContainer> = ({ onSu
                 </select>
                 {
                     errors.category && <small className="form-input__error">{errors.category.message}</small>
+                }
+            </div>
+
+            <div className="form-input">
+                <label className="form-input__label" htmlFor="title">
+                    Video Url
+                </label>
+                <input 
+                    type="text" 
+                    id="videoId" 
+                    placeholder="Paste the Youtube video URL" 
+                    {...register('videoId', { required: false, minLength: 12 })}
+                />
+                {
+                    errors.videoId && <small className="form-input__error">{errors.videoId.message}</small>
                 }
             </div>
 

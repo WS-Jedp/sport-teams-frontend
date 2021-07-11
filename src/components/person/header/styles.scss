@@ -10,6 +10,7 @@
         border-radius: 100%;
         overflow: hidden;
         margin-right: $space-base-xl;
+        cursor: pointer;
         @include shadow($color-purple, 0, 0, .1rem, .6rem, .3);
 
         & img {

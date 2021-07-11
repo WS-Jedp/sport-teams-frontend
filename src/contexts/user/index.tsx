@@ -27,7 +27,8 @@ type InitialState = {
     userInformation?: UserInformation,
     handleUserInformation: (userData:UserInformation) => void,
     teamId: string,
-    handleTeamId: (id:string) => void
+    handleTeamId: (id:string) => void,
+    handlePhoto: (url:string) => void
 }
 const initialState:InitialState = {
     id: '',
@@ -43,7 +44,8 @@ const initialState:InitialState = {
     userInformation: undefined,
     handleUserInformation: () => {},
     teamId: '',
-    handleTeamId: () => {}
+    handleTeamId: () => {},
+    handlePhoto: () => {}
 }
 
 
@@ -73,6 +75,8 @@ export const UserContextProvider:React.FC = ({ children }) => {
 
     const handleUserInformation = (userInformation: UserInformation) => setUserInformation(userInformation)
 
+    const handlePhoto = (url:string) => setUserInformation((old) => ({...old, photoUrl: url } as UserInformation) )
+
     const initialState:InitialState = {
         id,
         handleId,
@@ -87,7 +91,8 @@ export const UserContextProvider:React.FC = ({ children }) => {
         userInformation,
         handleUserInformation,
         teamId,
-        handleTeamId
+        handleTeamId,
+        handlePhoto
     }
 
     return (

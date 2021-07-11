@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { MdAdd, MdEdit } from 'react-icons/md'
+import { MdEdit } from 'react-icons/md'
 import { useParams, useHistory } from 'react-router-dom'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
@@ -9,13 +9,19 @@ import { ExerciseCategoryCard } from '../../components/exercises/category'
 import { ButtonCircle } from '../../components/buttons/circle'
 import { Button } from '../../components/buttons/simple'
 import { Loading } from '../../components/loading/basic'
-import { renderPurposes } from '../../containers/exerciseContainers/purposes'
+import { GraphLoading } from '../../components/loading/graph'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
-import { RegisterExerciseContainer } from '../../containers/exercisesContainers/forms/registerExercise'
-import { UpdateExerciseContainer } from '../../containers/exercisesContainers/forms/updateExercise'
+import { UpdateExerciseContainer, UpdateExerciseForm } from '../../containers/exercisesContainers/forms/updateExercise'
 
 import { getExercise } from '../../services/exercises/get'
+import { updateExercise } from '../../services/exercises/post'
+
+import { ROLES } from '../../dto/roles'
+import { Exercise as ExerciseDto } from '../../dto/exercise'
+
+import { defineIdYoutubeVideo } from '../../tools/defineYoutubeVideoId'
+
 
 import './styles.scss'
 
@@ -28,8 +34,6 @@ export const Exercise:React.FC = () => {
     const { exercise, selectExercise } = useContext(ExercisesContext)
     const { role, teamId } = useContext(UserContext)
 
-    const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
-    const [showUpdateExercise, setShowUpdateExercise] = useState<boolean>(false)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -38,6 +42,16 @@ export const Exercise:React.FC = () => {
     }
 
     const toTeamHistory = (teamId:string) => push(`/exercise/${id}/team/${teamId}/history`)
+
+    // Update exercise
+    const [showUpdateExercise, setShowUpdateExercise] = useState<boolean>(false)
+    const [isUpdating, setIsUpdating] = useState<boolean>(false)
+    const handleUpdateExercise = async (data:UpdateExerciseForm) => {
+        setIsUpdating(true)
+        const exerciseId = await updateExercise(id || '', data)
+        await selectExercise({...data as ExerciseDto, videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined})
+        setIsUpdating(false)
+    }
 
     // Fetch Data
     useEffect(() => {
@@ -69,8 +83,8 @@ export const Exercise:React.FC = () => {
                 <h1 className="exercise__header-title">Exercise 🔥</h1>
                 <h2 className="content__title">{exercise.title}</h2>
                 {
-                    exercise.videoUrl && (
-                        <iframe className="exercise__video" src={`https://www.youtube.com/embed/${exercise.videoUrl}`} title={exercise.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen  />
+                    exercise.videoId && (
+                        <iframe className="exercise__video" src={`https://www.youtube.com/embed/${exercise.videoId}`} title={exercise.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen  />
                     )
                 }
             </article>
@@ -88,12 +102,12 @@ export const Exercise:React.FC = () => {
                     text="History"
                     action={toHistory}
                 />
-                <ButtonCircle 
+                {/* <ButtonCircle 
                     Icon={MdAdd}
                     action={() => setShowRegisterExercise(true)}
-                />
+                /> */}
                 {
-                    role === 'coach' && (
+                    role === ROLES['COACH'] && (
                         <ButtonCircle 
                             Icon={MdEdit}
                             action={() => setShowUpdateExercise(true)}
@@ -119,7 +133,7 @@ export const Exercise:React.FC = () => {
 
             </article> */}
 
-            {
+            {/* {
                 showRegisterExercise && (
                     <Modal>
                         <ModalContent onClose={() => setShowRegisterExercise(false)}>
@@ -130,15 +144,21 @@ export const Exercise:React.FC = () => {
                         </ModalContent>
                     </Modal>
                 )
-            }
+            } */}
 
             {
                 showUpdateExercise && (
                     <Modal>
                         <ModalContent onClose={() => setShowUpdateExercise(false)}>
-                            <UpdateExerciseContainer 
-                                onSubmit={(data) => console.log(data)}
-                            />
+                            {
+                                isUpdating ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <UpdateExerciseContainer 
+                                        onSubmit={handleUpdateExercise}
+                                    />
+                                )
+                            }
                         </ModalContent>
                     </Modal>
                 )

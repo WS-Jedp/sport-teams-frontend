@@ -8,6 +8,7 @@ export type Exercise = {
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
     videoUrl?: string,
+    videoId?: string,
     result?: number,
     date?: Date
 }

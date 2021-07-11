@@ -24,6 +24,9 @@ $space-xl-lg: 18rem;
 $space-xl-xl: 21rem;
 
 .m- {
+    &auto {
+        margin: auto;
+    }
     &sm { margin: $space-base-sm; }
     &md { margin: $space-base-md; }
     &lg { margin: $space-base-lg; }
