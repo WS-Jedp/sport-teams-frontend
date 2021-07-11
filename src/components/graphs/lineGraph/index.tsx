@@ -19,12 +19,15 @@ export const LineGraph:React.FC<LineGraphProps> = ({ exercises }) => {
     const transformDataToGraph = (exercises:Exercise[]) => {
         const formatedData:LineGraphType[] = [] 
         for(let i = 0; i < exercises.length; i++) {
+
+            if (i === 5 ) break
+
             if(!exercises[i].date || !exercises[i].result) {
                 continue
             } 
-            formatedData.push({date: format(exercises[i].date || new Date(), FORMAT), result: exercises[i].result || 0})
+            formatedData.push({date: format(new Date(exercises[i].date || ''), FORMAT), result: exercises[i].result || 0})
         }
-        return formatedData
+        return formatedData.sort((a,b) => (new Date(a.date).getTime() - new Date(b.date).getTime()))
     }
 
     return (

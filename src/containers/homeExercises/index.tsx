@@ -1,11 +1,11 @@
 import React from 'react'
-import { ExerciseSmall, LastExercises } from '../../dto/exercise'
+import { ExerciseSmall, Exercise } from '../../dto/exercise'
 import { ExerciseDetailCard } from '../../components/exercises/detailCard'
 import { ButtonCircle } from '../../components/buttons/circle'
 import { MdClose } from 'react-icons/md'
 import { ExerciseSmallCard } from '../../components/exercises/smallCard'
 
-export function renderLastExercises(exercises:LastExercises[], action: (id:number) => void) {
+export function renderLastExercises(exercises:Exercise[], action: (id:string) => void) {
 
     if(exercises.length === 0) {
         return (
@@ -22,14 +22,15 @@ export function renderLastExercises(exercises:LastExercises[], action: (id:numbe
             </p>
             <section className="relative flex flex-row align-start justify-start home__exercises-cards">
                 {
-                    exercises.map(exercise => (
+                    exercises.map((exercise, i) => (
+                        
                         <ExerciseDetailCard
-                            key={exercise.id}
+                            key={i}
                             exerciseName={exercise.title}
                             category={exercise.category}
-                            date={exercise.date}
+                            date={new Date(exercise.date || '')}
                             exerciseType={exercise.type}
-                            result={exercise.result}
+                            result={exercise.result || 0}
                             action={() => action(exercise.id)}
                         />
                     ))
@@ -39,7 +40,7 @@ export function renderLastExercises(exercises:LastExercises[], action: (id:numbe
     )
 }
 
-export function renderNextTraining(exercises:ExerciseSmall[]) {
+export function renderNextTraining(exercises:ExerciseSmall[], action: (id:string) => void, onDelete: (id:string) => void) {
 
     if(exercises.length === 0) {
         return (
@@ -58,12 +59,13 @@ export function renderNextTraining(exercises:ExerciseSmall[]) {
                 {
                     exercises.map(exercise => (
                         <li key={exercise.id} className="home__next-training-exercises-item">
-                            <ButtonCircle Icon={MdClose} action={() => {}} color="main"  />
+                            <ButtonCircle Icon={MdClose} action={() => onDelete(exercise.id)} color="main"  />
                             <ExerciseSmallCard
                                 key={exercise.id}
                                 exerciseName={exercise.title}
                                 category={exercise.category}
                                 exerciseType={exercise.type}
+                                action={() => action(exercise.id)}
                             />
                         </li>
                     ))

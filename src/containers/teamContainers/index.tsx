@@ -42,7 +42,7 @@ export const renderTeamVideos = (videos:TeamVideoDTO[]) => {
 }
 
 
-export const renderPlayers = (players:Player[], action: (id:number) => void ) => {
+export const renderPlayers = (players:Player[], action: (id:string) => void ) => {
 
     if(players.length === 0) {
         return (
@@ -75,7 +75,7 @@ export const renderPlayers = (players:Player[], action: (id:number) => void ) =>
 }
 
 
-export const renderDirectives = (directives:Directive[], action: (id:number) => void) => {
+export const renderDirectives = (directives:Directive[], action: (id:string) => void) => {
 
     if(directives.length === 0) {
         return (

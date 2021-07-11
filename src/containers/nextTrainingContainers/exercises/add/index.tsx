@@ -5,7 +5,7 @@ import { ButtonForm } from '../../../../components/buttons/form'
 import { useForm } from 'react-hook-form'
 import { SelectExercises } from '../../../../components/forms/selectExercises'
 
-interface AddNextTrainingExerciseForm {
+export interface AddNextTrainingExerciseForm {
     exercisesId: string
 }
 
@@ -16,7 +16,6 @@ interface AddNextTrainingExercise {
 export const AddNextTrainingExercise:React.FC<AddNextTrainingExercise> = ({ onSubmit }) => {
     
     const { exercises } = useContext(ExercisesContext)
-    const { addNextTrainingExercise } = useContext(TrainingContext)
     const [selectedExercises, setSelectedExercises] = useState<number[]>([])
 
     const { register, formState: {errors}, handleSubmit } = useForm<AddNextTrainingExerciseForm>()

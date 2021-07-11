@@ -22,7 +22,7 @@
     }
 }
 
-input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, option,input[type="date"],textarea {
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, option,input[type="date"], input[type="time"],input[type="file"], textarea {
     background-color: $color-light;
     min-width: 90%;
     height: 39px;

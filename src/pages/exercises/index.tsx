@@ -1,33 +1,75 @@
-import React, { useContext, useState } from 'react'
-import { Exercise } from '../../dto/exercise'
+import React, { useContext, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { MdAdd } from 'react-icons/md'
+
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { UserContext } from '../../contexts/user'
 import { ButtonCircle } from '../../components/buttons/circle'
 import { Button } from '../../components/buttons/simple'
-import { MdAdd } from 'react-icons/md'
 
 import { renderExercises } from '../../containers/exercisesContainers'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
-import { CreateExerciseContainer } from '../../containers/exercisesContainers/forms/createExercise'
+import { Loading } from '../../components/loading/basic'
+import { GraphLoading } from '../../components/loading/graph'
 
-import { getMoreExercises } from '../../services/exercises/get'
+import { CreateExerciseContainer, CreateExerciseForm } from '../../containers/exercisesContainers/forms/createExercise'
+
+import { getExercises } from '../../services/exercises/get'
+import { createExercise } from '../../services/exercises/post'
+
+import { ROLES } from '../../dto/roles'
+
+import { defineIdYoutubeVideo } from '../../tools/defineYoutubeVideoId'
 
 import './styles.scss'
 
 export const Exercises:React.FC = () => {
 
-    const { exercises, addExercise } = useContext(ExercisesContext)
+    const { push } = useHistory()
+    const { exercises, addExercise, setExercises } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
 
+    useEffect(() => {
+        const fetchingData = async () => {
+            const exercisesData = await getExercises()
+            setExercises(...exercisesData)
+        }
+        if(exercises.length === 0) {
+            fetchingData()
+        }
+    }, [])
+
+
+    // Reload and get more exercises
+    const [isReloading, setIsReloading] = useState<boolean>(false)
     const getData = async () => {
-        const data = await getMoreExercises({from: 0, to: 10})
-        addExercise(...data)
+        setIsReloading(true)
+        const exercisesData = await getExercises()
+        setExercises(...exercisesData)
+        setIsReloading(false)
     }
 
+    // Create a new exercise
+    const [isCreating, setIsCreating] = useState<boolean>(false)
     const [showCreateExercise, setShowCreateExercise] = useState<boolean>(false)
+    const registerNewExercise = async (data:CreateExerciseForm) => {
+        setIsCreating(true)
+        const id = await createExercise({...data, videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined})
+        addExercise({
+            ...data,
+            purposes: [],
+            videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined,
+            id
+        })
+        setIsCreating(false)
+        setShowCreateExercise(false)
+    }
 
+    if(isReloading) (
+        <Loading />
+    )
 
     return (
         <DashboardLayout>
@@ -37,17 +79,17 @@ export const Exercises:React.FC = () => {
 
             <article className="exercises exercises__list">
                 {
-                    renderExercises(exercises)
+                    renderExercises(exercises, (id) => push(`/exercise/${id}`))
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                 <Button 
-                    action={getData}
-                    text="Load More"
+                    action={() => getData()}
+                    text="Reload"
                     color="purple"
                 />
 
                 {
-                    role === 'coach' && (
+                    role !== ROLES['PLAYER'] && (
                         <ButtonCircle 
                             action={() => setShowCreateExercise(true)}
                             Icon={MdAdd}
@@ -62,9 +104,15 @@ export const Exercises:React.FC = () => {
                 showCreateExercise && (
                     <Modal>
                         <ModalContent onClose={() => setShowCreateExercise(false)}>
-                            <CreateExerciseContainer 
-                                onSubmit={(data) => console.log(data)}
-                            />
+                            {
+                                isCreating ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <CreateExerciseContainer 
+                                        onSubmit={registerNewExercise}
+                                    />
+                                )
+                            }
                         </ModalContent>
                     </Modal>
                 )

@@ -3,7 +3,7 @@ import { Player } from '../../../dto/player'
 import { Button } from '../../../components/buttons/simple'
 import { PersonCard } from '../../../components/person/card'
 
-export const renderPlayers = (players:Player[]) => {
+export const renderPlayers = (players:Player[], action: (id:string) => void) => {
 
     if(players.length === 0) {
         return (
@@ -24,7 +24,7 @@ export const renderPlayers = (players:Player[]) => {
                         <li key={player.id} className="flex align-center justify-center">
                             <PersonCard 
                                 id={player.id}
-                                action={() => {}}
+                                action={() => action(player.id)}
                                 name={player.name}
                                 role={player.position}
                                 img={player.photoUrl}

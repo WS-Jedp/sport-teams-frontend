@@ -1,17 +1,21 @@
 import React, { createContext, useState } from 'react'
+import { ROLES } from '../../dto/roles'
 
-type UserInformation = {
+export type UserInformation = {
+    name?: string,
     lastName: string,
-    biography: string,
+    biography?: string,
     photoUrl?: string,
-    phoneNumber: string,
+    phoneNumber?: string,
     email: string,
-    birthdate: Date
+    birthdate: string | Date,
+    teamId?: string,
+    role?: ROLES
 }
 
 type InitialState = {
-    id: number,
-    handleId: (id:number) => void,
+    id: string,
+    handleId: (id:string) => void,
     name: string,
     setName: (name:string) => void,
     role: string,
@@ -21,10 +25,13 @@ type InitialState = {
     token: string,
     setToken: (token:string) => void,
     userInformation?: UserInformation,
-    handleUserInformation: (userData:UserInformation) => void
+    handleUserInformation: (userData:UserInformation) => void,
+    teamId: string,
+    handleTeamId: (id:string) => void,
+    handlePhoto: (url:string) => void
 }
 const initialState:InitialState = {
-    id: 0,
+    id: '',
     handleId: () => {},
     name: '',
     setName: () => {},
@@ -35,7 +42,10 @@ const initialState:InitialState = {
     token: '',
     setToken: () => {},
     userInformation: undefined,
-    handleUserInformation: () => {}
+    handleUserInformation: () => {},
+    teamId: '',
+    handleTeamId: () => {},
+    handlePhoto: () => {}
 }
 
 
@@ -44,14 +54,16 @@ export const UserContext = createContext(initialState)
 
 export const UserContextProvider:React.FC = ({ children }) => {
 
-    const [id, setId] = useState<number>(1)
-    const [name, setName] = useState<string>('Mariana')
-    const [role, setRole] = useState<string>('coach')
-    const [isAuth, setIsAuth] = useState<boolean>(true)
+    const [id, setId] = useState<string>('')
+    const [teamId, setTeamId] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [role, setRole] = useState<string>('')
+    const [isAuth, setIsAuth] = useState<boolean>(false)
     const [token, setToken] = useState<string>('')
-    const [userInformation, setUserInformation] = useState<UserInformation | undefined>({ biography: 'Bio of the user', birthdate: new Date(), email: 'juanes@gmail.com', lastName: 'Deossa Pertuz', phoneNumber: '+57 310 645 2609' })
+    const [userInformation, setUserInformation] = useState<UserInformation | undefined>(undefined)
 
-    const handleId = (id:number) =>  setId(id)
+    const handleId = (id:string) =>  setId(id)
+    const handleTeamId = (id:string) => setTeamId(id)
 
     const handleName = (name:string) =>  setName(name)
 
@@ -62,6 +74,8 @@ export const UserContextProvider:React.FC = ({ children }) => {
     const handleToken = (token:string) => setToken(token)
 
     const handleUserInformation = (userInformation: UserInformation) => setUserInformation(userInformation)
+
+    const handlePhoto = (url:string) => setUserInformation((old) => ({...old, photoUrl: url } as UserInformation) )
 
     const initialState:InitialState = {
         id,
@@ -75,7 +89,10 @@ export const UserContextProvider:React.FC = ({ children }) => {
         token,
         setToken: handleToken,
         userInformation,
-        handleUserInformation
+        handleUserInformation,
+        teamId,
+        handleTeamId,
+        handlePhoto
     }
 
     return (

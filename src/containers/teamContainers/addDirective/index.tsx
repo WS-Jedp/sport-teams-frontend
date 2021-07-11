@@ -1,21 +1,24 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { ButtonForm } from '../../../components/buttons/form'
+import { ROLES } from '../../../dto/roles'
 
-interface AddDirectiveForm {
+export interface AddDirectiveForm {
     name: string,
     lastName: string,
     email: string,
     phoneNumber?: number,
     birthdate: Date,
-    role: 'directive' | 'coach'
+    teamId: string,
+    role: 'Directive' | 'Coach'
 }
 
 interface AddDirectiveContainer {
-    onSubmit: (data:AddDirectiveForm) => void
+    onSubmit: (data:AddDirectiveForm) => void,
+    teamId: string
 }
 
-export const AddDirectiveContainer:React.FC<AddDirectiveContainer> = ({ onSubmit }) => {
+export const AddDirectiveContainer:React.FC<AddDirectiveContainer> = ({ onSubmit, teamId }) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<AddDirectiveForm>()
 
@@ -23,6 +26,14 @@ export const AddDirectiveContainer:React.FC<AddDirectiveContainer> = ({ onSubmit
         <form className="flex flex-col align-start justify-start register-exercise" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="content__title">Add A New Directive</h2>
             <p className="content__paragraph">Add a new directive to the team!</p>
+
+            <input 
+                type="text" 
+                id="teamId" 
+                value={teamId}
+                hidden
+                {...register('teamId', { required: true })}
+            />
         
             <div className="form-input">
                 <label className="form-input__label" htmlFor="name">
@@ -73,8 +84,8 @@ export const AddDirectiveContainer:React.FC<AddDirectiveContainer> = ({ onSubmit
                 </label>
                 <p className="content__paragraph">Select the role of the new directive</p>
                 <select id="role" {...register('role', { required: true })}>
-                    <option value="coach">Coach</option>
-                    <option value="directive">Directive</option>
+                    <option value={ROLES['COACH']}>Coach</option>
+                    <option value={ROLES['DIRECTIVE']}>Directive</option>
                 </select>
                 {
                     errors.role && <small className="form-input__error">{errors.role.message}</small>

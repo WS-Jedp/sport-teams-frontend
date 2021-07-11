@@ -1,19 +1,66 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { format } from 'date-fns'
-import { FORMAT } from '../../tools/dateFormats'
+import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
 import { DashboardLayout } from '../../layouts/dashboard'
-import { UserContext } from '../../contexts/user'
+import { UserContext, UserInformation } from '../../contexts/user'
 
-import Img from '../../assets/images/player-2.jpg'
+import { DEFAULT_PHOTO_URL } from '../../tools/default'
 
 import { PersonHeader } from '../../components/person/header'
 import { Button } from '../../components/buttons/simple'
+
+import { EditUserContainer, EditUserForm } from '../../containers/user/editUser'
+import { EditUserPhotoContainer, EditUserPhotoForm } from '../../containers/user/editPhoto'
+
+import { GraphLoading } from '../../components/loading/graph'
+import { Modal } from '../../components/modals/basic'
+import { ModalContent } from '../../components/modals/content'
+
+import { editUser, editPhoto } from '../../services/user/post'
+import { getUser } from '../../services/user/get'
+import { logout } from '../../services/auth'
 
 import './styles.scss'
 
 export const User:React.FC = () => {
 
-    const { id, name, role, userInformation } = useContext(UserContext)
+    const { id, name, role, userInformation, handleUserInformation, setIsAuth, handlePhoto } = useContext(UserContext)
+
+    const [showEditUser, setShowEditUser] = useState<boolean>(false)
+    const [isUpdating, setIsUpdating] = useState<boolean>(false)
+
+    const handleEditUser = async (data:EditUserForm) => {
+        setIsUpdating(true)
+        const userData = await editUser(data)
+        handleUserInformation({...userData, birthdate: format(new Date(userData.birthdate), HTML_DATE_FORMAT)})
+        setIsUpdating(false)
+    }
+
+    const [showEditPhoto, setShowEditPhoto] = useState<boolean>(false)
+    const [isChangingPhoto, setIsChangingPhoto] = useState<boolean>(false)
+    const handleProfilePicture = async (data:EditUserPhotoForm) => {
+        setIsChangingPhoto(true)
+        const newPhoto:string = await editPhoto(data) 
+        if(newPhoto) {
+            handlePhoto(newPhoto)
+        }
+        setIsChangingPhoto(false)
+    }
+
+    // Fetching user data
+    useEffect(() => {
+        const fetchingData = async () => {
+            const userData = await getUser(id)
+            if(!userData.id) {
+                setIsAuth(false)
+                await logout()
+            }
+            handleUserInformation({...userData})
+        }
+        if(!userInformation) {
+            fetchingData()
+        }
+    }, [])
 
     if(!userInformation) {
         return (
@@ -24,6 +71,7 @@ export const User:React.FC = () => {
             </DashboardLayout>
         )
     }
+    
 
     return (
         <DashboardLayout>
@@ -31,13 +79,14 @@ export const User:React.FC = () => {
                 <PersonHeader 
                     name={name}
                     lastName={userInformation.lastName}
-                    img={userInformation.photoUrl || Img}
+                    img={userInformation.photoUrl || DEFAULT_PHOTO_URL}
+                    action={() => setShowEditPhoto(true)}
                 />
             </article>
 
             <article className="user user__biography">
                 <h2 className="content__title">Biography</h2>
-                <p className="content__paragraph">{userInformation.biography}</p>
+                <p className="content__paragraph">{userInformation.biography ? userInformation.biography : 'There is no biography'}</p>
             </article>
 
             <article className="user user__about">
@@ -53,15 +102,50 @@ export const User:React.FC = () => {
                 <h3 className="content__sub-title">Email</h3>
                 <p className="content__paragraph">{userInformation.email}</p>
                 <h3 className="content__sub-title">Birthdate</h3>
-                <p className="content__paragraph">{format(userInformation.birthdate, FORMAT)}</p>
+                <p className="content__paragraph">{format(new Date(userInformation.birthdate), FORMAT)}</p>
             </article>
 
             <div className="user m-t-xl">
                 <Button 
                     text="Edit"
-                    action={() => {}}
+                    action={() => setShowEditUser(true)}
                 />
             </div>
+
+            {
+                showEditUser && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowEditUser(false)}>
+                            {
+                                isUpdating ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <EditUserContainer 
+                                        onSubmit={handleEditUser}
+                                    />
+                                )
+                            }
+                        </ModalContent>
+                    </Modal>
+                )
+            }
+            {
+                showEditPhoto && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowEditPhoto(false)}>
+                            {
+                                isChangingPhoto ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <EditUserPhotoContainer 
+                                        onSubmit={handleProfilePicture}
+                                    />
+                                )
+                            }
+                        </ModalContent>
+                    </Modal>
+                )
+            }
         </DashboardLayout>
     )
 }

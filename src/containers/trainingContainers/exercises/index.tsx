@@ -2,7 +2,8 @@ import React from 'react'
 import { Exercise } from '../../../dto/exercise'
 import { ExerciseDetailCard } from '../../../components/exercises/detailCard'
 
-export const renderExercises = (exercises:Exercise[]) => {
+
+export const renderExercises = (exercises:Exercise[], action: (id:number) => void) => {
 
     if(exercises.length === 0) {
         return (
@@ -26,7 +27,7 @@ export const renderExercises = (exercises:Exercise[]) => {
                                 exerciseName={exercise.title}
                                 exerciseType={exercise.type}
                                 category={exercise.category}
-                                action={() => {}}
+                                action={() => action(exercise.id)}
                                 result={exercise.result ? exercise.result : 'none'}
                                 date={exercise.date && exercise.date}
                             />

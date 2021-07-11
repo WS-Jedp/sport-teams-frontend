@@ -2,20 +2,24 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { ButtonForm } from '../../../components/buttons/form'
 
-interface AddPlayerForm {
+import { ROLES } from '../../../dto/roles'
+
+export interface AddPlayerForm {
     name: string,
     lastName: string,
     email: string,
     phoneNumber?: number,
     birthdate: Date,
-    role: 'player'
+    role: 'Player',
+    teamId: string
 }
 
 interface AddPlayerContainer {
-    onSubmit: (data:AddPlayerForm) => void
+    onSubmit: (data:AddPlayerForm) => void,
+    teamId: string
 }
 
-export const AddPlayerContainer:React.FC<AddPlayerContainer> = ({ onSubmit }) => {
+export const AddPlayerContainer:React.FC<AddPlayerContainer> = ({ onSubmit, teamId }) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<AddPlayerForm>()
 
@@ -23,8 +27,15 @@ export const AddPlayerContainer:React.FC<AddPlayerContainer> = ({ onSubmit }) =>
         <form className="flex flex-col align-start justify-start register-exercise" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="content__title">Add A New Player</h2>
             <p className="content__paragraph">Add a new player to the team!</p>
+            <input 
+                type="text" 
+                id="teamId" 
+                value={teamId}
+                hidden
+                {...register('teamId', { required: true })}
+            />
         
-            <input type="text" hidden value="player" {...register('role', { required: true })} />
+            <input type="text" hidden value={ROLES['PLAYER']} {...register('role', { required: true })} />
             <div className="form-input">
                 <label className="form-input__label" htmlFor="name">
                     Name

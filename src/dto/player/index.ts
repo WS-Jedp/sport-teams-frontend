@@ -1,6 +1,7 @@
 export type Player = {
-    id: number,
+    id: string,
     name: string,
-    position: string,
-    photoUrl?: string
+    position?: string,
+    photoUrl?: string,
+    teamId?: string
 }

@@ -4,34 +4,35 @@ import { UserContext } from '../../../../contexts/user'
 import { ExercisesContext } from '../../../../contexts/exercises'
 
 import { ButtonForm } from '../../../../components/buttons/form'
-import { format } from 'date-fns'
-import { MYSQL_FORMAT } from '../../../../tools/dateFormats'
 
 export interface RegisterExerciseForm {
-    user_id: number,
-    exercise_id: number,
+    user_id: string,
+    exercise_id: string,
     result: number,
-    date: Date
+    date: Date,
+    video?: File[]
 }
 
 interface RegisterExerciseContainer {
     onSubmit: (data:RegisterExerciseForm) => void,
-    selectedExercise?: number
+    selectedExercise?: string,
+    teamId?: string,
 }
 
-export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ onSubmit, selectedExercise }) => {
+export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ onSubmit, selectedExercise, teamId = undefined }) => {
 
     const { id } = useContext(UserContext)
     const { exercises } = useContext(ExercisesContext)
 
     const { register, handleSubmit ,formState: { errors } } = useForm<RegisterExerciseForm>() 
 
+
     return (
-        <form className="flex flex-col align-start justify-start register-exercise" onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col align-start justify-start register-exercise" encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="content__title">Register Exercise</h2>
             <p className="content__paragraph">Register a new exercise!</p>
 
-            <input type="number" value={id} hidden {...register('user_id', { required: true })} />
+            <input type="string" value={teamId ? teamId : id} hidden {...register('user_id', { required: true })}/>
 
             <div className="form-input">
                 <label className="form-input__label" htmlFor="id">
@@ -64,7 +65,7 @@ export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ 
                     Result
                 </label>
                 <input 
-                    type="number" 
+                    type="number"
                     id="number" 
                     placeholder="Write the result of the exercise" 
                     {...register('result', { required: true })}
@@ -73,6 +74,24 @@ export const RegisterExerciseContainer:React.FC<RegisterExerciseContainer> = ({ 
                     errors.result && <small className="form-input__error">{errors.result.message}</small>
                 }
             </div>
+
+            <div className="form-input">
+                <label className="form-input__label" htmlFor="result">
+                    Video
+                </label>
+                <input 
+                    type="file" 
+                    accept=".mp4"
+                    id="video" 
+                    placeholder="Write the result of the exercise" 
+                    {...register('video', { required: false })}
+                />
+                {
+                    errors.video && <small className="form-input__error">There is an error with the file</small>
+                }
+            </div>
+
+
 
             <ButtonForm 
                 text="Register!"

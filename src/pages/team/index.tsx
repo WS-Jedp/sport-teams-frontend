@@ -1,54 +1,94 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { format } from 'date-fns'
-import { FORMAT } from '../../tools/dateFormats'
-import { DashboardLayout } from '../../layouts/dashboard'
 import TeamLogo from '../../assets/images/pure-vibes-logo.jpg'
 
+import { FORMAT, MYSQL_FORMAT } from '../../tools/dateFormats'
+import { DashboardLayout } from '../../layouts/dashboard'
 import { TeamContext } from '../../contexts/team'
-import { UserContext } from '../../contexts/user'
+import { UserContext, UserInformation } from '../../contexts/user'
 
 import { TeamHeader } from '../../components/teams/header'
 import { renderTeamVideos, renderPlayers, renderDirectives } from '../../containers/teamContainers'
 import { ButtonCircle } from '../../components/buttons/circle'
 import { Button } from '../../components/buttons/simple'
 import { Loading } from '../../components/loading/basic'
+import { GraphLoading } from '../../components/loading/graph'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
-import { AddPlayerContainer } from '../../containers/teamContainers/addPlayer'
-import { AddDirectiveContainer } from '../../containers/teamContainers/addDirective'
+import { AddPlayerContainer, AddPlayerForm } from '../../containers/teamContainers/addPlayer'
+import { AddDirectiveContainer, AddDirectiveForm } from '../../containers/teamContainers/addDirective'
+import { EditUserForm } from '../../containers/user/editUser'
+
+
+import { ROLES } from '../../dto/roles'
 
 import { getTeam } from '../../services/teams/get'
+import { editUser, registerDirective as registerDirectiveService, registerPlayer as registerPlayerService } from '../../services/user/post'
 
 import './styles.scss'
-import { MdAdd } from 'react-icons/md'
+
+const PLAYERS_DEFAULT_PASSWROD = process.env.PLAYERS_DEFAULT_PASSWORD
+const DIRECTIVES_DEFAULT_PASSWORD = process.env.DIRECTIVES_DEFAULT_PASSWORD
 
 export const Team:React.FC = () => {
 
     const { push } = useHistory()
-    const { team, selectTeam } = useContext(TeamContext)
+    const { team, selectTeam, addDirectiveUserTeam, addPlayerUserTeam } = useContext(TeamContext)
     const { role } = useContext(UserContext)
     const { id } = useParams<{id?:string}>()
 
     const [showAddPlayer, setShowAddPlayer] = useState<boolean>(false)
     const [showAddDirective, setShowAddDirective] = useState<boolean>(false)
 
-    const onPerson = (id:number) => push(`/user/${id}`)
+    const onPerson = (id:string) => push(`/user/${id}`)
 
     // Fetching team data
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     useEffect(() => {
         const getData = async () => {
-            const team = await getTeam(Number(id))
+            setIsLoading(true)
+            const team = await getTeam(id || '')
             selectTeam(team)
             setIsLoading(false)
         }
-        getData()
+        if(!team) {
+            getData()
+        }
     }, [])
 
+
+    const [isRegistering, setIsRegistering] = useState<boolean>(false)
+    const registerPlayer = async (body:AddPlayerForm) => {
+        setIsRegistering(true)
+        const { email, ...rest } = body
+        const user = await registerPlayerService({...rest, phoneNumber: rest.phoneNumber?.toString(), email, birthdate: format(new Date(rest.birthdate), MYSQL_FORMAT)})
+        await addPlayerUserTeam(user)
+        setIsRegistering(false)
+    }
+
+    const registerDirective = async (body:AddDirectiveForm) => {
+        setIsRegistering(true)
+        const { email, ...rest } = body
+        const user = await registerDirectiveService({...rest, phoneNumber: rest.phoneNumber?.toString(), email, birthdate: format(new Date(rest.birthdate), MYSQL_FORMAT)})
+        await addDirectiveUserTeam(user)
+        setIsRegistering(false)
+    }
+
+
+    if(!id) {
+        push('/teams')
+        return null
+    }
     
 
-    if(isLoading) (<Loading />)
+    if(isLoading) {
+        return (
+            <DashboardLayout>
+                <Loading />
+            </DashboardLayout>
+        )
+    }
 
     if(!team) {
         return (
@@ -73,10 +113,10 @@ export const Team:React.FC = () => {
                 <p className="content__paragraph">
                     {team.description}
                 </p>
-                <h2 className="content__sub-title">Next Training</h2>
+                {/* <h2 className="content__sub-title">Next Training</h2>
                 <p className="content__paragraph">
                     {team.nextTraining ? format(team.nextTraining, FORMAT) : 'There is no next training schedule'}
-                </p>
+                </p> */}
             </article>
 
             {/* <article className="flex flex-col align-start justify-start team team__videos">
@@ -89,11 +129,11 @@ export const Team:React.FC = () => {
             <article className="flex flex-col align-start justify-start team team__players">
                 <h2 className="content__title">Players</h2>
                 {
-                    renderPlayers(team.players, onPerson)
+                    renderPlayers(team.players || [], onPerson)
                 }
                  <div className="flex flex-row align-start justify-start team__buttons">
                 {
-                    role === 'coach' && (
+                    role === ROLES['COACH'] && (
                         <Button 
                             text="Add Player"
                             action={() => setShowAddPlayer(true)}
@@ -106,10 +146,10 @@ export const Team:React.FC = () => {
             <article className="flex flex-col align-start justify-start team team__players">
                 <h2 className="content__title">Directives</h2>
                 {
-                    renderDirectives(team.directives, onPerson)
+                    renderDirectives(team.directives || [], onPerson)
                 }
                 {
-                    role === 'coach' && (
+                    role === ROLES['COACH'] && (
                         <Button 
                             text="Add Directive"
                             action={() => setShowAddDirective(true)}
@@ -122,9 +162,16 @@ export const Team:React.FC = () => {
                 showAddPlayer && (
                     <Modal>
                         <ModalContent onClose={() => setShowAddPlayer(false)}>
-                            <AddPlayerContainer 
-                                onSubmit={(data) => console.log(data)}
-                            />
+                            {
+                                isRegistering ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <AddPlayerContainer 
+                                        onSubmit={registerPlayer}
+                                        teamId={id}
+                                    />
+                                )
+                            }
                         </ModalContent>
                     </Modal>
                 )
@@ -133,9 +180,16 @@ export const Team:React.FC = () => {
                 showAddDirective && (
                     <Modal>
                         <ModalContent onClose={() => setShowAddDirective(false)}>
-                            <AddDirectiveContainer 
-                                onSubmit={(data) => console.log(data)}
-                            />
+                            {
+                                isRegistering ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <AddDirectiveContainer 
+                                        onSubmit={registerDirective}
+                                        teamId={id}
+                                    />
+                                )
+                            }
                         </ModalContent>
                     </Modal>
                 )

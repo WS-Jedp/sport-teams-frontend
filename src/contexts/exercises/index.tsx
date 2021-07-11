@@ -6,20 +6,22 @@ import { PurposesMock } from '../../mocks/purposes'
 import { Purpose } from '../../dto/purposes'
 
 type ExercisesInitialState = {
-    userLastExercises: LastExercises[],
-    teamLastExercises: LastExercises[],
+    userLastExercises: Exercise[],
+    handleUserLastExercises: (...data:Exercise[]) => void,
+    teamLastExercises: Exercise[],
     exercise?: Exercise,
     selectExercise: (exercise:Exercise) => void,
     updateExercise: (exercise:Exercise) => void,
     exercises: Exercise[],
-    addExercise: (...exercises:Exercise[]) => void,
-    removeExercise: (id:number) => void,
+    addExercise: (...data:Exercise[]) => void,
+    setExercises: (...data:Exercise[]) => void,
+    removeExercise: (id:string) => void,
     userExercises: Exercise[],
     addUserExercise: (exercise:Exercise) => void,
-    removeUserExercise: (id:number) => void,
+    removeUserExercise: (id:string) => void,
     teamExercises: Exercise[],
     addTeamExercise: (exercise:Exercise) => void,
-    removeTeamExercise: (id:number) => void,
+    removeTeamExercise: (id:string) => void,
     purposes: Purpose[]
 }
 
@@ -31,8 +33,10 @@ const exercisesInitialState:ExercisesInitialState = {
     addUserExercise: () => {},
     removeUserExercise: () => {},
     userLastExercises: [],
+    handleUserLastExercises: () => {},
     exercises: [],
     addExercise: () => {},
+    setExercises: () => {},
     removeExercise: () => {},
     teamLastExercises: [],
     teamExercises: [],
@@ -45,36 +49,41 @@ export const ExercisesContext = createContext<ExercisesInitialState>(exercisesIn
 
 export const ExercisesContextProvider:React.FC = ({ children }) => {
 
-    const [userExercises, setUserExercises] = useState<Exercise[]>(UserExercisesMock)
-    const [userLastExercises, setUserLastExercises] = useState<LastExercises[]>(LastExercisesMock)
+    const [userExercises, setUserExercises] = useState<Exercise[]>([])
+    const [userLastExercises, setUserLastExercises] = useState<Exercise[]>([])
     const [exercise, setExercise] = useState<Exercise | undefined>(undefined)
-    const [exercises, setExercises] = useState<Exercise[]>(ExercisesMock)
-    const [teamLastExercises, setTeamLastExercises] = useState<LastExercises[]>(LastExercisesMock)
-    const [teamExercises, setTeamExercises] = useState<Exercise[]>(ExercisesMock)
-    const [purposes, setPurposes] = useState<Purpose[]>(PurposesMock)
+    const [exercises, setExercises] = useState<Exercise[]>([])
+    const [teamLastExercises, setTeamLastExercises] = useState<Exercise[]>([])
+    const [teamExercises, setTeamExercises] = useState<Exercise[]>([])
+    const [purposes, setPurposes] = useState<Purpose[]>([])
 
     const addUserExercise = (exercise:Exercise) => setUserExercises([...userExercises, exercise])
-    const removeUserExercise = (id:number) => setUserExercises(userExercises.filter(exercise => exercise.id !== id))
+    const removeUserExercise = (id:string) => setUserExercises(userExercises.filter(exercise => exercise.id !== id))
 
-    const addExercise = (...exercises:Exercise[]) => setExercises([...exercises, ...exercises])
-    const removeExercise = (id:number) => setExercises(exercises.filter(exercise => exercise.id !== id))
+    const addExercise = (...data:Exercise[]) => setExercises([...exercises, ...data])
+    const setAllExercises = (...data:Exercise[]) => setExercises([...data])
+    const removeExercise = (id:string) => setExercises(exercises.filter(exercise => exercise.id !== id))
 
     const selectExercise = (exercise:Exercise) => setExercise(exercise)
     const updateExercise = (exercise:Exercise) => setExercise(exercise)
 
     const addTeamExercise = (exercise:Exercise) => setTeamExercises([...teamExercises, exercise])
-    const removeTeamExercise = (id:number) => setTeamExercises(teamExercises.filter(exercise => exercise.id !== id))
+    const removeTeamExercise = (id:string) => setTeamExercises(teamExercises.filter(exercise => exercise.id !== id))
+
+    const handleUserLastExercises = (...data:Exercise[]) => setUserLastExercises([...data])
 
     const initialState:ExercisesInitialState = {
         userExercises,
         addUserExercise,
         removeUserExercise,
         userLastExercises,
+        handleUserLastExercises,
         exercise,
         selectExercise,
         updateExercise,
         exercises,
         addExercise,
+        setExercises: setAllExercises,
         removeExercise,
         teamLastExercises,
         teamExercises,
