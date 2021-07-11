@@ -1,0 +1,33 @@
+.team-header {
+    width: 100%;
+    height: auto;
+    margin: $space-base-lg 0;
+
+    &__figure {
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+        overflow: hidden;
+        margin-right: $space-base-lg;
+        @include shadow($color-purple, 0, 0, .3rem, .6rem, .2);
+
+        & img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__about {
+        & h1 {
+            font-size: $text-size-md;
+            font-weight: 700;
+        }
+
+        & h2 {
+            font-size: $text-size-base-md;
+            font-weight: 300;
+        }
+    }
+
+    
+}

@@ -1,0 +1,43 @@
+.button-circle {
+    width: 51px;
+    height: 51px;
+    border-radius: 100%;
+    margin: $space-base-sm;
+    border: none;
+    cursor: pointer;
+    @include transition(.3s);
+    & svg {
+        fill: $color-light;
+        width: 30px;
+        height: 30px;
+
+        @include desktop-sm {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    @include desktop-sm {
+        width: 51px;
+        height: 51px;
+    }
+
+    &:hover {
+        transform: scale(1.02);
+    }
+    
+    &.bg-purple {
+        @include shadow($color-purple, 0, 0, .3rem, .9rem, .3);
+        
+        &:hover {
+            @include shadow($color-purple, 0, 0, .3rem, 1.2rem, .6);
+        }
+    }
+
+    &.bg-main {
+        @include shadow($color-main, 0, 0, .3rem, .9rem, .3);
+        &:hover {
+            @include shadow($color-main, 0, 0, .3rem, 1.2rem, .6);
+        }
+    }
+}

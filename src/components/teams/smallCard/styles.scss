@@ -1,0 +1,41 @@
+.team-small-card {
+    width: 100%;
+    max-width: 300px;
+    height: 120px;
+    border-radius: 21px;
+    cursor: pointer;
+    text-align: center;
+    padding: $space-base-md;
+    margin: $space-base-lg;
+    @include transition(.3s);
+    @include shadow($color-purple, 0, 0, .3rem, .6rem, .1);
+
+    &:hover {
+        @include shadow($color-purple, 0, 0, .3rem, 1.2rem, .3);
+    }
+
+    &__logo {
+        width: 81px;
+        height: 81px;
+        border-radius: 100%;
+        top: -42px;
+        overflow: hidden;
+        margin-right: $space-base-lg;
+        @include shadow($color-purple, 0, 0, .1rem, .3rem, .1);
+
+        & img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__name {
+        font-size: $text-size-sm;
+        margin: $space-base-md;
+    }
+
+    &__location {
+        font-size: $text-size-base;
+        font-weight: 300;
+    }
+}

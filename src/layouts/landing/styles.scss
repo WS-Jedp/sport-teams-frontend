@@ -1,0 +1,22 @@
+.landing-layout {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+
+    &__content {
+        padding: $space-sm-xl;
+
+        @include desktop-sm {
+            margin: auto;
+            width: 60%;
+        }
+    }
+
+    &__header {
+        position: sticky;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99;
+    }
+}

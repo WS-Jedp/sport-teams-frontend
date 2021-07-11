@@ -1,0 +1,46 @@
+.person-card {
+    min-width: 180px;
+    width: 72%;
+    max-width: 180px;
+    height: 240px;
+    border-radius: 21px;
+    background-color: $color-light;
+    text-align: center;
+    padding: $space-base-lg;
+    cursor: pointer;
+    margin: $space-base-lg;
+    @include transition(.6s);
+    @include shadow($color-purple, 0, 0, .3rem, .9rem, .12);
+
+    &__figure {
+        width: 81px;
+        height: 81px;
+        overflow: hidden;
+        border-radius: 100%;
+        margin: $space-base-lg;
+        @include shadow($color-purple, 0, 0, .1rem, .3rem, .3);
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            @include transition(.6s);
+        }
+    }
+
+    &__name {
+        font-size: $text-size-md;
+    }
+
+    &__role {
+        font-size: $text-size-base;
+    }
+
+    &:hover {
+        @include shadow($color-purple, 0, 0, .3rem, 1.2rem, .3);
+
+        .person-card__figure img {
+            transform: scale(1.2);
+        }
+    }
+}

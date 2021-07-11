@@ -1,0 +1,14 @@
+.form-add-option {
+    width: 90%;
+
+    & button {
+        width: 36px;
+        height: 36px;
+        margin: $space-base-sm;
+
+        @include desktop-sm {
+            width: 42px;
+            height: 42px;
+        }
+    }
+}

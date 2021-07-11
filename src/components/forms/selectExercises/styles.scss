@@ -1,0 +1,14 @@
+.select-exercises {
+    width: 100%;
+
+    &__list {
+        overflow-x: scroll;
+    }
+
+    &__selected {
+
+        & article {
+            @include shadow($color-green-30, 0, 0, .3rem, .6rem, .9);
+        }
+    }
+}

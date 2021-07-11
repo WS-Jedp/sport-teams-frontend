@@ -1,0 +1,100 @@
+// Main color of Juno
+$color-main: #F56962;
+$color-main-70: #F5938E;
+$color-main-30: #F5D2D0;
+
+// Color of Science
+$color-purple: #6929C4;
+$color-purple-70: #8A3FFC;
+$color-purple-30: #E8DAFF;
+
+$color-green: #198038;
+$color-green-70: #42BE65;
+$color-green-30: #A7F0BA;
+
+$color-yellow: #FCDA19;
+$color-yellow-70: #FCE24E;
+$color-yellow-30: #FCF0A9;
+
+$color-gray: #20252E;
+$color-gray-70: #ACA7B8;
+$color-gray-30: #E6DFF5;
+
+$color-dark: #101217;
+$color-light: #F5F1FF;
+$color-light-70: #F9F9F9;
+
+$color-light-rgb: 230, 223, 245;
+$color-dark-rgb: 16, 18, 23;
+
+:root {
+    --color-primary: #{$color-dark};
+    --color-secondary: #{$color-light}; 
+
+    --color-primary-rgb: #{$color-dark-rgb};
+    --color-secondary-rgb: #{$color-light-rgb};
+}
+
+.color-{
+    &black {
+        color: $color-dark;
+    }
+    &light {
+        color: $color-light;
+    }
+    &main {
+        color: $color-main;
+        &-70 {
+            color: $color-main-70;
+        }
+        &-30 {
+            color: $color-main-30;
+        }
+    }
+    &purple {
+        color: $color-purple;
+        &-70 {
+            color: $color-purple-70;
+        }
+        &-30 {
+            color: $color-purple-30;
+        }
+    }
+    &green {
+        color: $color-green;
+        &-70 {
+            color: $color-green-70;
+        }
+    }
+    &gray {
+        color: $color-gray;
+        &-70 {
+            color: $color-gray-70;
+        }
+    }
+
+    &primary {
+        color: var(--color-primary);
+    }
+    &secondary {
+        color: var(--color-secondary);
+    }
+}
+
+.bg- {
+    &dark {
+        background-color: $color-dark;
+    }
+    &light {
+        background-color: $color-light;
+    }
+    &main {
+        background-color: $color-main;
+    }
+    &purple {
+        background-color: $color-purple;
+    }
+    &green {
+        background-color: $color-green;
+    }
+}

@@ -1,0 +1,18 @@
+.login {
+    padding: 0 $space-sm-xl;    
+
+    &__header {
+        width: 100%;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__form {
+        position: relative;
+        width: 100%;
+        padding: 0;
+        margin: $space-sm-sm 0;
+    }
+}

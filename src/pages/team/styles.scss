@@ -1,0 +1,43 @@
+.team {
+    padding: 0 $space-sm-xl;    
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-lg;
+        width: 100%;
+
+        & h1 {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__videos {
+        position: relative;
+        height: auto;
+        margin-bottom: $space-base-xl;
+
+        &-video {
+            width: 100%;
+            height: auto;
+            overflow-x: scroll;
+        }
+    }
+
+    &__players {
+        position: relative;
+        height: auto;
+        margin-bottom: $space-base-xl;
+
+        &-list {
+            width: 100%;
+            height: auto;
+            overflow-x: scroll;
+        }
+    }
+
+    &__buttons {
+        & button {
+            margin-right: $space-base-md;
+        }
+    }
+}

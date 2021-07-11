@@ -1,0 +1,24 @@
+.calendary {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: $space-base-md;
+    overflow-x: scroll;
+
+    &__month, &__week {
+        position: sticky;
+        display: inline-flex;
+        left: 0;
+        top: 0;
+        font-size: $text-size-sm;
+    }
+
+    &__week {
+        font-size: $text-size-base;
+    }
+
+    &__days {
+        width: 100%;
+        height: auto;
+    }
+}

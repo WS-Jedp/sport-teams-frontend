@@ -1,0 +1,13 @@
+.exercises {
+    padding: 0 $space-sm-xl;    
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-lg;
+        width: 100%;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+}

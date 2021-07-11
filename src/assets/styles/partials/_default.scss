@@ -1,0 +1,49 @@
+@use './fonts' as *;
+@use './colors' as *;
+
+:root {
+    font-size: 62.5%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--color-primary);
+}
+
+body {
+    background-color: $color-light;
+}
+
+h1 {
+    font-size: $title-size-sm;
+    font-weight: 700;
+}
+
+h2 {
+   font-size: $title-size-sm;
+   font-weight: 700;
+}
+
+h3 {
+    font-size: $text-size-lg;
+       font-weight: 500;
+}
+
+p, b, i {
+    font-size: $text-size-base;
+    font-weight: 200;
+}
+
+a {
+    color: var(--color-secondary);
+    font-size: $text-size-base-md;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

@@ -1,0 +1,27 @@
+@use './colors' as *;
+
+@mixin shadow($color: $color-dark, $x: 0, $y: 0, $size: .9rem, $blur: .9rem, $opacity: .3) {
+    box-shadow: $x $y $blur $size rgba($color, $opacity);
+}
+
+.shadow-{
+    &sm { box-shadow: 0 0 1.5rem .3rem rgba($color-dark, .15); }
+    &md { box-shadow: 0 0 2.1rem .6rem rgba($color-dark, .21); }
+    &lg { box-shadow: 0 0 3rem .9rem rgba($color-dark, .30); }
+
+    &main-{
+        &sm{ box-shadow: 0 0 1.5rem .3rem rgba($color-main, .15); }
+        &md{ box-shadow: 0 0 2.1rem .6rem rgba($color-main, .21); }
+        &lg { box-shadow: 0 0 3rem .9rem rgba($color-main, .30); }
+    }
+    &purple-{
+        &sm{ box-shadow: 0 0 1.5rem .3rem rgba($color-purple, .15); }
+        &md{ box-shadow: 0 0 2.1rem .6rem rgba($color-purple, .21); }
+        &lg { box-shadow: 0 0 3rem .9rem rgba($color-purple, .30); }
+    }
+    &green-{
+        &sm{ box-shadow: 0 0 1.5rem .3rem rgba($color-green, .15); }
+        &md{ box-shadow: 0 0 2.1rem .6rem rgba($color-green, .21); }
+        &lg { box-shadow: 0 0 3rem .9rem rgba($color-green, .30); }
+    }
+}

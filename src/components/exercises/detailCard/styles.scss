@@ -1,0 +1,36 @@
+.exercise-detail-card {
+    min-width: 210px;
+    width: 81%;
+    max-width: 240px;
+    height: 330px;
+    border-radius: 21px;
+    background-color: $color-light;
+    text-align: center;
+    padding: $space-base-lg;
+    margin: $space-base-xl;
+    cursor: pointer;
+    @include shadow($color-purple, 0, 0, .3rem, .6rem, .1);
+    @include transition(.3s);
+
+    &:hover {
+        @include shadow($color-purple, 0, 0, .3rem, .9rem, .3);
+    }
+
+    & section {
+        margin: $space-base-md 0;
+    }
+
+    &__icon {
+        width: 81px;
+    }
+
+    &__titles {
+        font-size: $text-size-base;
+        font-weight: 500;
+    }
+
+    &__contents {
+        font-size: $text-size-base;
+        font-weight: 300;
+    }
+}

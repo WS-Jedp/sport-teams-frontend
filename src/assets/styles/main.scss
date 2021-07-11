@@ -1,0 +1,58 @@
+@use './partials' as *;
+
+@import '../../components/auth/login/styles.scss';
+
+@import '../../components/buttons/circle/styles.scss';
+@import '../../components/buttons/form/styles.scss';
+@import '../../components/buttons/simple/styles.scss';
+
+@import '../../components/calendary/styles.scss';
+@import '../../components/calendary/day/styles.scss';
+@import '../../components/calendary/dayDetail/styles.scss';
+
+@import '../../components/commons/header/styles.scss';
+@import '../../components/commons/menu/styles.scss';
+@import '../../components/commons/nav/styles.scss';
+
+@import '../../components/content/styles.scss';
+
+@import '../../components/exercises/category/styles.scss';
+@import '../../components/exercises/detailCard/styles.scss';
+@import '../../components/exercises/mediumCard/styles.scss';
+@import '../../components/exercises/resultCard/styles.scss';
+@import '../../components/exercises/smallCard/styles.scss';
+
+@import '../../components/forms/addOption/styles.scss';
+@import '../../components/forms/selectExercises/styles.scss';
+
+@import '../../components/graphs/lineGraph/styles.scss';
+
+@import '../../components/loading/basic/styles.scss';
+
+@import '../../components/modals/basic/styles.scss';
+@import '../../components/modals/content/styles.scss';
+
+@import '../../components/person/card/styles.scss';
+@import '../../components/person/header/styles.scss';
+
+@import '../../components/teams/header/styles.scss';
+@import '../../components/teams/smallCard/styles.scss';
+@import '../../components/teams/video/styles.scss';
+
+@import '../../components/training/smallCard/styles.scss';
+
+@import '../../pages/exercise/styles.scss';
+@import '../../pages/exerciseDetail/styles.scss';
+@import '../../pages/exercises/styles.scss';
+@import '../../pages/home/styles.scss';
+@import '../../pages/login/styles.scss';
+@import '../../pages/nextTraining/styles.scss';
+@import '../../pages/person/styles.scss';
+@import '../../pages/team/styles.scss';
+@import '../../pages/teams/styles.scss';
+@import '../../pages/training/styles.scss';
+@import '../../pages/trainings/styles.scss';
+@import '../../pages/user/styles.scss';
+
+@import '../../layouts/dashboard/styles.scss';
+@import '../../layouts/landing/styles.scss';

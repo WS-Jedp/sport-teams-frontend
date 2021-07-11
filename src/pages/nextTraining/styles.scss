@@ -1,0 +1,41 @@
+.next-training {
+    position: relative;
+    padding: 0 $space-sm-xl;
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-md;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__exercises {
+
+        &-list {
+            overflow-x: scroll;
+
+            &-button {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 66;
+            }
+        }
+    }
+
+    &__players {
+        margin-top: $space-sm-sm;
+        &-list {
+            overflow-x: scroll;
+        }
+    }
+
+    &__last-training {
+        margin-top: $space-sm-xl;
+        & li {
+            width: 100%;
+        }
+    }
+}

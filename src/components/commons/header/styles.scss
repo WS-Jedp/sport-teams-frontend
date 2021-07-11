@@ -1,0 +1,45 @@
+.header {
+    width: 100%;
+    height: 72px;
+    background-color: $color-light-70;
+    padding: $space-sm-sm;
+    @include shadow($color-purple, 0, 1px, .3rem, .6rem, .1);
+
+    @include desktop-sm {
+        padding: $space-sm-lg;
+    } 
+
+    &-container {
+        width: 100%;
+        margin: auto;
+
+        @include desktop-sm {
+            width: 96%;
+        }
+    }
+
+    &__logo {
+        & p {
+            margin-right: $space-base-lg;
+        }
+        & h1, & p {
+            font-size: $text-size-base;
+        }
+    }
+
+    &__menu {
+        cursor: pointer;
+        &-line {
+            width: 24px;
+            height: 3px;
+            margin: 3px;
+            background-color: $color-dark;
+        }
+
+        &-menu {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}

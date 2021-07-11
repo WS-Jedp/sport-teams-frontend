@@ -1,0 +1,30 @@
+.exercise-detail {
+    padding: 0 $space-sm-xl;    
+
+    &__header {
+        padding: $space-sm-xl;
+        padding-bottom: $space-base-lg;
+        width: 100%;
+
+        &-title {
+            font-size: $text-size-lg;
+        }
+    }
+
+    &__video {
+        width: 100%;
+        height: 240px;
+        margin: $space-base-lg 0;
+
+        @include desktop-sm {
+            height: 300px;
+        }
+    }
+
+    &__history {
+
+        &-list {
+            overflow-x: scroll;
+        }
+    }
+}
