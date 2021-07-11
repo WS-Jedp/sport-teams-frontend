@@ -11,8 +11,8 @@ export const getExercise = async (id:string) => {
     // const resp = await useGet({ url: `${URL}/exercise/${id}`, token}) 
     const exercise = await (await firebase.firestore().collection(EXERCISES).doc(id).get()).data()
     return {
-        id,
-        ...exercise
+        ...exercise,
+        id
     } as Exercise
 }
 

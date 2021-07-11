@@ -4,7 +4,7 @@ import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { UserContext } from '../../contexts/user'
 
-import Img from '../../assets/images/player-2.jpg'
+import { DEFAULT_PHOTO_URL } from '../../tools/default'
 
 import { PersonHeader } from '../../components/person/header'
 import { Button } from '../../components/buttons/simple'
@@ -66,7 +66,7 @@ export const User:React.FC = () => {
                 <PersonHeader 
                     name={name}
                     lastName={userInformation.lastName}
-                    img={userInformation.photoUrl || Img}
+                    img={userInformation.photoUrl || DEFAULT_PHOTO_URL}
                 />
             </article>
 

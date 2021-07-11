@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { Exercise, ExerciseSmall } from '../../dto/exercise'
 
@@ -13,6 +13,7 @@ import { TrainingContext } from '../../contexts/training'
 import { UserContext } from '../../contexts/user'
 
 import { GraphLoading } from '../../components/loading/graph'
+import { Loading } from '../../components/loading/basic'
 import { Button } from '../../components/buttons/simple'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
@@ -21,6 +22,7 @@ import { AddExerciseRegisterContainer, AddExerciseRegisterForm } from '../../con
 
 import { ROLES } from '../../dto/roles'
 
+import { getLastTrainings } from '../../services/trainings/get'
 import { addExerciseToTraining, addPlayerToTraining, removeExerciseToTraining } from '../../services/trainings/post'
 import { registerUserExercise } from '../../services/exercises/post'
 
@@ -29,7 +31,7 @@ import './styles.scss'
 export const NextTraining:React.FC = () => {
 
     const { push } = useHistory()
-    const { nextTraining, lastTrainings, removeNextTrainingExercise, addNextTrainingExercise, addNextTrainingPlayer } = useContext(TrainingContext)
+    const { nextTraining, lastTrainings, setLastTrainings, removeNextTrainingExercise, addNextTrainingExercise, addNextTrainingPlayer } = useContext(TrainingContext)
     const { role, id } = useContext(UserContext)
 
     const [showAddExercise, setShowAddExercise] = useState<boolean>(false)
@@ -40,6 +42,19 @@ export const NextTraining:React.FC = () => {
         setShowAddExerciseRegister(true)
         setExercise(exercise)
     }
+
+    // Fetching last trainings
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    useEffect(() => {
+        const fetchingData = async () => {
+            const trainings = await getLastTrainings()
+            await setLastTrainings(...trainings)
+            setIsLoading(false)
+        }
+        if(lastTrainings.length === 0) {
+            fetchingData()
+        }
+    }, [])
 
 
     // Adding a new exercise to the next training
@@ -83,6 +98,14 @@ export const NextTraining:React.FC = () => {
     }
 
 
+    // if(isLoading) {
+    //     return (
+    //         <DashboardLayout>
+    //             <Loading />
+    //         </DashboardLayout>
+    //     )
+    // }
+
     return (
         <DashboardLayout>
             <article className="flex flex-col next-training next-training__header">
@@ -110,7 +133,7 @@ export const NextTraining:React.FC = () => {
             <article className="next-training next-training__players">
                 <h2 className="content__title">Players</h2>
                 {
-                    renderPlayers(nextTraining ? nextTraining.players : [])
+                    renderPlayers(nextTraining ? nextTraining.players : [], id => push(`/user/${id}`) )
                 }
                 {
                     role === ROLES['PLAYER'] && nextTraining && !nextTraining.players.map(player => player.id).includes(id) && (

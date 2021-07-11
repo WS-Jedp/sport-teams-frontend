@@ -3,7 +3,7 @@ import { Player } from '../../../dto/player'
 import { Button } from '../../../components/buttons/simple'
 import { PersonCard } from '../../../components/person/card'
 
-export const renderPlayers = (players:Player[], action: (id:number) => void) => {
+export const renderPlayers = (players:Player[], action: (id:string) => void) => {
 
     if(players.length === 0) {
         return (

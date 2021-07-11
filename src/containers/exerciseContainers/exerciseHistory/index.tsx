@@ -6,7 +6,7 @@ export const renderExerciseHistory = (exercises:Exercise[], currentExercise: Exe
 
     if(exercises.length === 0) {
         return (
-            <p className="content__paragraph">You don't have any register of this exercise</p>
+            <p className="content__paragraph">There is no any register of this exercise</p>
         )
     }
 
@@ -21,7 +21,7 @@ export const renderExerciseHistory = (exercises:Exercise[], currentExercise: Exe
                         date={new Date(exercise.date || '')}
                         exerciseType={currentExercise.type}
                         result={exercise.result ? exercise.result : 'There is no result registered'}
-                        action={() => action(currentExercise)}
+                        action={() => action(exercise)}
                     />
                 ))
             }

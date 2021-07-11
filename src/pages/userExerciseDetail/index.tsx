@@ -3,32 +3,22 @@ import { useParams } from 'react-router-dom'
 import { DashboardLayout } from '../../layouts/dashboard'
 import { ExercisesContext } from '../../contexts/exercises'
 import { Exercise } from '../../dto/exercise'
-import { UserContext } from '../../contexts/user'
 
-import { Button } from '../../components/buttons/simple'
 import { renderExerciseHistory } from '../../containers/exerciseContainers/exerciseHistory'
 import { LineGraph } from '../../components/graphs/lineGraph'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
-import { RegisterExerciseContainer, RegisterExerciseForm } from '../../containers/exercisesContainers/forms/registerExercise'
 import { ExerciseResultCard } from '../../components/exercises/resultCard'
 
 import { Loading } from '../../components/loading/basic'
-import { GraphLoading } from '../../components/loading/graph'
 
-import { registerExercise } from '../../services/exercises/post'
-import { getExerciseHistory } from '../../services/exercises/get'
+import { getExerciseHistory, getExercise } from '../../services/exercises/get'
 
 
-import './styles.scss'
+export const UserExerciseDetail:React.FC = () => {
 
-export const ExerciseDetail:React.FC = () => {
-
-    const { id: exerciseId } = useParams<{id?:string}>()
-    const { id } = useContext(UserContext)
-    const { exercise } = useContext(ExercisesContext)
-
-    const [showRegisterExercise, setShowRegisterExercise] = useState<boolean>(false)
+    const { id: userId, exerciseId } = useParams<{id?:string, exerciseId?:string}>()
+    const { exercise, selectExercise: setExercise } = useContext(ExercisesContext)
     
     const [exerciseResult, setExerciseResult] = useState<Exercise | undefined>(undefined)
     const [exerciseHistory, setExerciseHistory] = useState<Exercise[]>([])
@@ -45,23 +35,14 @@ export const ExerciseDetail:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     useEffect(() => {
         const getData = async () => {
-            const history = await getExerciseHistory({ userId: id, exerciseId: exerciseId || '' })
+            const exercise = await getExercise(exerciseId || '')
+            setExercise(exercise)
+            const history = await getExerciseHistory({ userId: userId || '', exerciseId: exerciseId || '' })
             setExerciseHistory(history)
             setIsLoading(false)
         } 
         getData()
     }, [])
-
-    // handle register of the exercise
-    const [isRegistering, setIsRegistering] = useState<boolean>(false)
-
-    const handleRegisterExercise = async (data:RegisterExerciseForm) => {
-        setIsRegistering(true)
-        const resp = await registerExercise(data)
-        setIsRegistering(false)
-
-        if(resp) setExerciseHistory(old => ([...old, {...exercise, result: resp.result, date: resp.date} as Exercise]))
-    }
 
     // Loading
     if(!exercise || isLoading) (<Loading />)
@@ -101,10 +82,6 @@ export const ExerciseDetail:React.FC = () => {
                 {
                     renderExerciseHistory(exerciseHistory, exercise, selectExercise)
                 }
-                <Button 
-                    text="Add New"
-                    action={() => setShowRegisterExercise(true)}
-                />
             </article>
 
             {
@@ -131,26 +108,6 @@ export const ExerciseDetail:React.FC = () => {
 
                 )
             }
-
-            {
-                showRegisterExercise && (
-                    <Modal>
-                        <ModalContent onClose={() => setShowRegisterExercise(false)}>
-                            {
-                                isRegistering ? ( 
-                                    <GraphLoading />
-                                ) : (
-                                    <RegisterExerciseContainer 
-                                        onSubmit={handleRegisterExercise}
-                                        selectedExercise={exerciseResult?.id}
-                                    />
-                                )
-                            }
-                        </ModalContent>
-                    </Modal>
-                )
-            }
-
         </DashboardLayout>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { MdAdd } from 'react-icons/md'
 
 import { DashboardLayout } from '../../layouts/dashboard'
@@ -23,7 +24,8 @@ import { ROLES } from '../../dto/roles'
 import './styles.scss'
 
 export const Exercises:React.FC = () => {
-    
+
+    const { push } = useHistory()
     const { exercises, addExercise, setExercises } = useContext(ExercisesContext)
     const { role } = useContext(UserContext)
 
@@ -74,7 +76,7 @@ export const Exercises:React.FC = () => {
 
             <article className="exercises exercises__list">
                 {
-                    renderExercises(exercises)
+                    renderExercises(exercises, (id) => push(`/exercise/${id}`))
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                 <Button 

@@ -5,11 +5,12 @@ import { format } from 'date-fns'
 import { FORMAT } from '../../tools/dateFormats'
 import { DashboardLayout } from '../../layouts/dashboard'
 
-import Img from '../../assets/images/player-2.jpg'
-
 import { Person as PersonDTO } from '../../dto/person'
 import { PersonHeader } from '../../components/person/header'
 import { Loading } from '../../components/loading/basic'
+import { Button } from '../../components/buttons/simple'
+
+import { getRandomPhotoUrl } from '../../tools/default'
 
 import { getUser } from '../../services/user/get'
 
@@ -60,7 +61,7 @@ export const Person:React.FC = () => {
                 <PersonHeader 
                     name={person.name}
                     lastName={person.lastName}
-                    img={person.photoUrl || Img}
+                    img={person.photoUrl || getRandomPhotoUrl()}
                 />
             </article>
 
@@ -84,6 +85,13 @@ export const Person:React.FC = () => {
                 <h3 className="content__sub-title">Birthdate</h3>
                 <p className="content__paragraph">{format(new Date(person.birthdate), FORMAT)}</p>
             </article>
+
+            <div className="user m-t-xl">
+                <Button 
+                    text="Results"
+                    action={() => push(`/user/${idPage}/exercises`)}
+                />
+            </div>
         </DashboardLayout>
     )
 }

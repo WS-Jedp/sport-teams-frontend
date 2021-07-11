@@ -25,7 +25,7 @@ export const renderLastTrainings = (trainings:Training[]) => {
                         <li key={training.id} className="flex align-center justify-center">
                             <TrainingSmallCard 
                                 action={() => push(`/trainings/${training.id}`)}
-                                date={training.datetime}
+                                date={training.datetime ? new Date(training.datetime) : null}
                             />
                         </li>
                     ))

@@ -16,11 +16,10 @@ const USERS = 'users'
 export const getTraining = async (trainingId:string) => {
     // const resp = await useGet({url: `${URL}/${id}`, token})
     const db = firebase.firestore()
-    const trainingRef = await db.collection(TRAININGS).doc(trainingId).get()
-    const training = trainingRef.data()
+    const trainingRef = await db.collection(TRAININGS).doc(trainingId)
+    const training = (await trainingRef.get()).data()
 
     if (!training) return null
-
     const attendance = await (await db.collection(ATTENDANCES).doc(training.attendance.id).get()).data()
     const exercises:Exercise[] = []
     const players:Player[] = []
@@ -37,20 +36,19 @@ export const getTraining = async (trainingId:string) => {
         )
     }
 
-    if(training.exercises.length > 0) {
+    if(training && training.exercises.length > 0) {
         await Promise.all(
             training.exercises.map((async (exercise:firebase.firestore.DocumentReference) => {
                 const exerciseData = await getExercise(exercise.id)
-                if(exerciseData) exercises.push(exerciseData)
+                if(exerciseData) exercises.push({...exerciseData, id: exercise.id})
             }))
         )
     }
-    
-
     return {
         ...training,
-        id: trainingRef.id,
-        exercises
+        id: trainingId,
+        exercises,
+        players,
     } as Training
 }
 
@@ -95,8 +93,29 @@ export const getNextTraining = async () => {
     
 }
 
+export const getLastTrainings = async () => {
+    const db = firebase.firestore()
+    const trainings:Training[] = []
+    const data = (await db.collection(TRAININGS).limit(3).get()).docs
+    await data.forEach(doc => {
+        let trainingData = doc.data() as Training
+        trainings.push({
+            ...trainingData,
+            id: doc.id
+        })
+    })
+
+    return trainings
+}
+
 export const getTrainings = async (token?: string) => {
     // const resp = await useGet({url: URL, token})
-    return TrainingsMock
+    const db = firebase.firestore()
+    const allTrainings:Training[] = []
+    const trainings = await (await db.collection(TRAININGS).get()).docs
+    trainings.map((training) => {
+        allTrainings.push({...training.data() as Training, id: training.id})
+    })
+    return allTrainings
 }
 

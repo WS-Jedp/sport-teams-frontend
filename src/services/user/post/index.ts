@@ -74,4 +74,10 @@ export const registerPlayer = async (body:UserInformation) => {
     const user = await getUser(uid.id)
 
     return user
-} 
+}
+
+export const editPhoto = async ({file, userId}:{file:File, userId:string}) => {
+    const db = await firebase.storage().ref().put(file).snapshot.ref
+
+
+}

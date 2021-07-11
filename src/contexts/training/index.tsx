@@ -7,6 +7,7 @@ type TrainingInitialState = {
     nextTraining: Training | undefined,
     createNextTraining: (training:Training) => void,
     lastTrainings: Training[],
+    setLastTrainings: (...trainings:Training[]) => void,
     nextTrainingExercises: ExerciseSmall[],
     addNextTrainingExercise: (...exercises:Exercise[]) => void,
     removeNextTrainingExercise: (id:string) => void,
@@ -27,6 +28,7 @@ const trainingInitialState:TrainingInitialState = {
     addNextTrainingPlayer: () => {},
     removeNextTrainingPlayer: () => {},
     lastTrainings: [],
+    setLastTrainings: () => {},
     training: undefined,
     selectTraining: () => {},
     trainings: [],
@@ -51,7 +53,7 @@ export const TrainingContextProvider:React.FC = ({children}) => {
     const addNextTrainingPlayer = (...player:Player[]) => nextTraining && setNextTraining({...nextTraining, players: [...nextTraining.players, ...player]})
     const removeNextTrainingPlayer = (id:string) => nextTraining && setNextTraining({...nextTraining, players: nextTraining.players.filter(exercise => (exercise.id !== id))})
 
-
+    const handleSetLastTrainings = (...trainings:Training[]) => setLastTrainings(trainings)
 
     const selectTraining = (training:Training) => setTraining(training)
 
@@ -60,6 +62,7 @@ export const TrainingContextProvider:React.FC = ({children}) => {
     const initialState:TrainingInitialState = {
         nextTraining,
         lastTrainings,
+        setLastTrainings: handleSetLastTrainings,
         createNextTraining,
         nextTrainingExercises,
         addNextTrainingExercise,

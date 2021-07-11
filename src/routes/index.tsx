@@ -19,9 +19,11 @@ import { NextTraining } from '../pages/nextTraining'
 import { Trainings } from '../pages/trainings'
 
 import { Exercises } from '../pages/exercises'
+import { UserExercises } from '../pages/userExercises'
 import { Exercise } from '../pages/exercise'
 import { ExerciseDetail } from '../pages/exerciseDetail'
 import { ExerciseDetailTeam } from '../pages/exerciseDetailTeam'
+import { UserExerciseDetail } from '../pages/userExerciseDetail'
 
 import { User } from '../pages/user'
 import { Person } from '../pages/person'
@@ -79,6 +81,8 @@ export const App = () => {
                             <Route exact path="/exercise/:id"  component={Exercise}  />
                             <Route exact path="/exercise/:id/history" component={ExerciseDetail}  />
                             <Route exact path="/exercise/:id/team/:teamId/history" component={ExerciseDetailTeam}  />
+                            <Route exact path="/user/:id/exercises" component={UserExercises}  />
+                            <Route exact path="/user/:id/exercise/:exerciseId"  component={UserExerciseDetail}  />
 
                             <Route exact path="/trainings"  component={NextTraining} />
                             <Route exact path="/trainings/:id"  component={Training} />

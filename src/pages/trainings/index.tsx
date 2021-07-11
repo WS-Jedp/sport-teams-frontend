@@ -26,7 +26,7 @@ export const Trainings:React.FC = () => {
         getData()
     }, [])
 
-    if(isLoading) (<Loading />)
+    if(isLoading) return (<Loading />)
 
     if(trainings.length === 0) {
         <DashboardLayout>
@@ -49,7 +49,7 @@ export const Trainings:React.FC = () => {
                     trainings.map(training => (
                         <TrainingSmallCard 
                             key={training.id}
-                            date={training.datetime}
+                            date={training.datetime && new Date(training.datetime)}
                             action={() => push(`/trainings/${training.id}`)}
                         />
                     ))

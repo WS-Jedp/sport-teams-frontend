@@ -10,13 +10,14 @@ interface ExerciseMediumCard {
     exerciseName: string,
     category?: EXERCISE_CATEGORY,
     id: string,
+    action: (id:string) => void
 }
 
-export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, exerciseType, category = "technical", id }) => {
+export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, exerciseType, category = "technical", id, action = () => {} }) => {
 
     return (
-        <Link to={`/exercise/${id}`} className="exercise-medium-card__container">
-            <article className="flex flex-row  align-center justify-start exercise-medium-card">
+        // <Link to={`/exercise/${id}`} className="exercise-medium-card__container">
+            <article onClick={() => action(id)} className="flex flex-row  align-center justify-start exercise-medium-card__container exercise-medium-card">
                 <figure className="flex align-center justify-center exercise-medium-card__icon">
                     <img src={defineCategoryIcon({ category })}/>
                 </figure>
@@ -27,7 +28,7 @@ export const ExerciseMediumCard:React.FC<ExerciseMediumCard> = ({ exerciseName, 
                 </Content>
 
             </article>
-        </Link>
+        // </Link>
 
     )
 }

@@ -5,7 +5,7 @@ import { ExerciseMediumCard } from '../../components/exercises/mediumCard'
 
 
 
-export const renderExercises = (exercises:Exercise[]) => {
+export const renderExercises = (exercises:Exercise[], action: (id:string) => void = () => {}) => {
 
     if(exercises.length === 0) {
         return (
@@ -16,7 +16,7 @@ export const renderExercises = (exercises:Exercise[]) => {
     return (
         <>
             <p className="content__name">Take a look at all the exercises available!</p>
-            <ul className="relative flex flex-col align-center justify-center exercises__list-cards">
+            <ul className="relative flex flex-col align-start justify-center exercises__list-cards">
                 {
                     exercises.map((exercise, i) => (
                         <ExerciseMediumCard
@@ -25,6 +25,7 @@ export const renderExercises = (exercises:Exercise[]) => {
                             exerciseName={exercise.title}
                             category={exercise.category}
                             exerciseType={exercise.type}
+                            action={(id) => action(id)}
                         />
                     ))
                 }

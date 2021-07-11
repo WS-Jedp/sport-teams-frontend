@@ -28,13 +28,14 @@
     }
 
     &__players {
-
+        margin-top: $space-sm-sm;
         &-list {
             overflow-x: scroll;
         }
     }
 
     &__last-training {
+        margin-top: $space-sm-xl;
         & li {
             width: 100%;
         }

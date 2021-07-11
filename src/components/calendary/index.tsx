@@ -58,7 +58,6 @@ export const Calendary:React.FC<Calendary> = ({ nextTrainingDay }) => {
 
     const onScheduleTraining = async (data:NextTrainingForm) => {
         const training = await createNextTrainingService(data)
-        console.log(training)
         createNextTraining(training)
         setDayDetail(false)
     }
