@@ -58,7 +58,7 @@ export const Exercises:React.FC = () => {
         addExercise({
             ...data,
             purposes: [],
-            videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined,
+            videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : null,
             id
         })
         setIsCreating(false)
