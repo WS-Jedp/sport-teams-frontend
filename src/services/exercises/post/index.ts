@@ -13,7 +13,7 @@ const EXERCISES_REFERENCE = '/exercises'
 // Posts services
 export const registerExercise = async (body:RegisterExerciseForm) => {
     let url:string | undefined
-    if(body.video) {
+    if(body.video && body.video.length > 0) {
         const videoRef = await firebase.storage().ref().child(`/exercises/${body.user_id}/${body.video[0].name}`).put(body.video[0]).then(async snapshot => {
             url = await snapshot.ref.getDownloadURL()
         })
@@ -51,6 +51,7 @@ export const createExercise = async (body:CreateExerciseForm) => {
     const exerciseRef = await firebase.firestore().collection(EXERCISES).doc()
     exerciseRef.set({
         ...body,
+        videoId: body.videoId ? body.videoId : null
     })
     return exerciseRef.id
 }
@@ -63,7 +64,7 @@ export const updateExercise = async (exerciseId: string, body:CreateExerciseForm
     const exerciseRef = await firebase.firestore().collection(EXERCISES).doc(exerciseId)
     await exerciseRef.update({
         ...body,
-        videoId
+        videoId: videoId || null
     })
     return exerciseRef.id
 }

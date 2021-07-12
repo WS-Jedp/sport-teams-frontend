@@ -10,7 +10,7 @@ export interface AddDirectiveForm {
     phoneNumber?: number,
     birthdate: Date,
     teamId: string,
-    role: 'Directive' | 'Coach'
+    role: ROLES
 }
 
 interface AddDirectiveContainer {
@@ -86,6 +86,7 @@ export const AddDirectiveContainer:React.FC<AddDirectiveContainer> = ({ onSubmit
                 <select id="role" {...register('role', { required: true })}>
                     <option value={ROLES['COACH']}>Coach</option>
                     <option value={ROLES['DIRECTIVE']}>Directive</option>
+                    <option value={ROLES['PSYCHOLOGIST']}>Psychologist</option>
                 </select>
                 {
                     errors.role && <small className="form-input__error">{errors.role.message}</small>

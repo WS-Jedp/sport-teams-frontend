@@ -55,7 +55,7 @@ export const Login:React.FC<Login> = ({ onSubmit }) => {
             <ButtonForm 
                 text="Login"
             />
-            <Link className="text-center login-form__small" to="/register">Don't have an account register here!</Link>
+            <a className="text-center login-form__small" href="https://github.com/WS-Jedp">Made with ❤❤ by @WS-Jedp</a>
         </form>
     )
 }
