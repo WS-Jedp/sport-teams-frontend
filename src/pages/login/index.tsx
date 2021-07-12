@@ -18,28 +18,29 @@ export const Login:React.FC = () => {
     const onLogin = async (data:LoginFormData) => {
         setIsLoading(true)
         try {
-
+            const user = await auth({
+                email: data.username,
+                password: data.password
+            })
+            if(!user) {
+                push('/login')
+                setIsLoading(false)
+            }
+            setIsAuth(true)
+            handleId(user.id)
+            handleTeamId(user.userInformation.teamId || '')
+            setName(user.userInformation.name)
+            setRole(user.userInformation.role)
+            setToken(user.token ? user.token : '')
+            setIsLoading(false)
+            push('/')
         } catch(err) {
             console.error(err)
             push('/login')
             setIsLoading(false)
         }
-        const user = await auth({
-            email: data.username,
-            password: data.password
-        })
-        if(!user) {
-            push('/login')
-            setIsLoading(false)
-        }
-        setIsAuth(true)
-        handleId(user.id)
-        handleTeamId(user.userInformation.teamId || '')
-        setName(user.userInformation.name)
-        setRole(user.userInformation.role)
-        setToken(user.token ? user.token : '')
-        setIsLoading(false)
-        push('/')
+       
+      
     }
 
     return (

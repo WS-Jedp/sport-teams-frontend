@@ -1,6 +1,7 @@
-export type ROLES = 'Player' | 'Directive' | 'Coach'
+export type ROLES = 'Player' | 'Directive' | 'Coach' | 'Psychologist'
 export const ROLES = {
     'COACH': 'Coach',
     'PLAYER': 'Player',
-    'DIRECTIVE': 'Directive'
+    'DIRECTIVE': 'Directive',
+    'PSYCHOLOGIST': 'Psychologist',
 } 

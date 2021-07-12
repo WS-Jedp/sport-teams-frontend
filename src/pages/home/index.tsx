@@ -101,11 +101,11 @@ export const Home:React.FC = () => {
             <article className="home__exercises">
                 <h2 className="content__title">
                     {
-                        role === ROLES['COACH'] ? ('Next Training 🔥') : ('My Exercises 🏆')
+                        role !== ROLES['PLAYER'] ? ('Next Training 🔥') : ('My Exercises 🏆')
                     }
                 </h2>
                 {
-                    role === ROLES['COACH'] ? renderNextTraining(nextTrainingRef?.exercises || [], (id) => push(`/exercise/${id}`), removeTrainingExercise) : renderLastExercises(userLastExercises, onLastExercise)
+                    role !== ROLES['PLAYER'] ? renderNextTraining(nextTrainingRef?.exercises || [], (id) => push(`/exercise/${id}`), removeTrainingExercise) : renderLastExercises(userLastExercises, onLastExercise)
                 }
                 <div className="flex flex-row align-start justify-start home__exercises-buttons">
                     <Button 
@@ -114,7 +114,7 @@ export const Home:React.FC = () => {
                         color="purple"
                     />
                     {
-                        role === ROLES['COACH'] && nextTrainingRef && (
+                        role !== ROLES['PLAYER'] && nextTrainingRef && (
                             <ButtonCircle 
                                 action={() => setShowRegisterExercise(true)}
                                 Icon={MdAdd}

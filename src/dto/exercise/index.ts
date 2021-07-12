@@ -8,7 +8,7 @@ export type Exercise = {
     type: EXERCISES_TYPE,
     category: EXERCISE_CATEGORY,
     videoUrl?: string,
-    videoId?: string,
+    videoId?: string | null,
     result?: number,
     date?: Date
 }
