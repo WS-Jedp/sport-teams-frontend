@@ -16,9 +16,9 @@ export const TeamSmallCard:React.FC<TeamSmallCard> = ({ teamLocation, teamLogo, 
                 <figure className="team-small-card__logo">
                     <img title={teamName} alt={`Logo of the ${teamName} team`} src={teamLogo} />
                 </figure>
-                <div className="flex flex-col align-start justify-start">
-                    <h1 className="team-small-card__name">{teamName}</h1>
-                    <p className="team-small-card__location">{teamLocation}</p>
+                <div className="flex text-start flex-col align-start justify-start">
+                    <h1 className="text-start team-small-card__name">{teamName}</h1>
+                    <p className="text-start team-small-card__location">{teamLocation}</p>
                 </div>
             </article>
         </Link>

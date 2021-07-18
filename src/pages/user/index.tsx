@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { useHistory } from 'react-router'
-import { format } from 'date-fns'
+import { format, addDays } from 'date-fns'
 
 import { UserContext } from '../../contexts/user'
 
@@ -37,7 +37,7 @@ export const User:React.FC = () => {
     const handleEditUser = async (data:EditUserForm) => {
         setIsUpdating(true)
         const userData = await editUser(data)
-        handleUserInformation({...userData, birthdate: format(new Date(userData.birthdate), HTML_DATE_FORMAT)})
+        handleUserInformation({...userData, birthdate: format(addDays(new Date(userData.birthdate), 1), HTML_DATE_FORMAT)})
         setIsUpdating(false)
     }
 
