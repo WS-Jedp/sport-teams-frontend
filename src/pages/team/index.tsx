@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { format } from 'date-fns'
+import { addDays, format } from 'date-fns'
 import TeamLogo from '../../assets/images/pure-vibes-logo.jpg'
 
 import { FORMAT, MYSQL_FORMAT } from '../../tools/dateFormats'
@@ -60,7 +60,7 @@ export const Team:React.FC = () => {
     const registerPlayer = async (body:AddPlayerForm) => {
         setIsRegistering(true)
         const { email, ...rest } = body
-        const user = await registerPlayerService({...rest, phoneNumber: rest.phoneNumber?.toString(), email, birthdate: format(new Date(rest.birthdate), MYSQL_FORMAT)})
+        const user = await registerPlayerService({...rest, phoneNumber: rest.phoneNumber?.toString(), email, birthdate: format(new Date(addDays(rest.birthdate, 1)), MYSQL_FORMAT)})
         await addPlayerUserTeam(user)
         setIsRegistering(false)
     }
@@ -68,7 +68,7 @@ export const Team:React.FC = () => {
     const registerDirective = async (body:AddDirectiveForm) => {
         setIsRegistering(true)
         const { email, ...rest } = body
-        const user = await registerDirectiveService({...rest, phoneNumber: rest.phoneNumber?.toString(), email, birthdate: format(new Date(rest.birthdate), MYSQL_FORMAT)})
+        const user = await registerDirectiveService({...rest, phoneNumber: rest.phoneNumber?.toString(), email, birthdate: format(new Date(addDays(rest.birthdate, 1)), MYSQL_FORMAT)})
         await addDirectiveUserTeam(user)
         setIsRegistering(false)
     }

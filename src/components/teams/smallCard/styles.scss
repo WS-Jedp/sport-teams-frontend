@@ -30,11 +30,13 @@
     }
 
     &__name {
+        text-align: start;
         font-size: $text-size-sm;
         margin: $space-base-md;
     }
 
     &__location {
+        text-align: start;
         font-size: $text-size-base;
         font-weight: 300;
     }
