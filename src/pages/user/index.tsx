@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { AiOutlineLogout } from 'react-icons/ai'
+import { useHistory } from 'react-router'
 import { format } from 'date-fns'
-import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
-import { DashboardLayout } from '../../layouts/dashboard'
-import { UserContext, UserInformation } from '../../contexts/user'
+
+import { UserContext } from '../../contexts/user'
 
 import { DEFAULT_PHOTO_URL } from '../../tools/default'
 
 import { PersonHeader } from '../../components/person/header'
 import { Button } from '../../components/buttons/simple'
+import { ButtonCircle } from '../../components/buttons/circle'
 
 import { EditUserContainer, EditUserForm } from '../../containers/user/editUser'
 import { EditUserPhotoContainer, EditUserPhotoForm } from '../../containers/user/editPhoto'
@@ -20,7 +22,12 @@ import { editUser, editPhoto } from '../../services/user/post'
 import { getUser } from '../../services/user/get'
 import { logout } from '../../services/auth'
 
+import { FORMAT, HTML_DATE_FORMAT } from '../../tools/dateFormats'
+import { DashboardLayout } from '../../layouts/dashboard'
+
 export const User:React.FC = () => {
+
+    const { push } = useHistory()
 
     const { id, name, role, userInformation, handleUserInformation, setIsAuth, handlePhoto } = useContext(UserContext)
 
@@ -43,6 +50,13 @@ export const User:React.FC = () => {
             handlePhoto(newPhoto)
         }
         setIsChangingPhoto(false)
+    }
+
+    // Handle logout
+    const handleLogout = async () => {
+        await setIsAuth(false)
+        const data = await logout()
+        push('/login')
     }
 
     // Fetching user data
@@ -103,10 +117,15 @@ export const User:React.FC = () => {
                 <p className="content__paragraph">{format(new Date(userInformation.birthdate), FORMAT)}</p>
             </article>
 
-            <div className="user m-t-xl">
+            <div className="flex flex-row user user__buttons m-t-xl">
                 <Button 
                     text="Edit"
                     action={() => setShowEditUser(true)}
+                />
+                <ButtonCircle 
+                    Icon={AiOutlineLogout}
+                    color="main"
+                    action={handleLogout}
                 />
             </div>
 

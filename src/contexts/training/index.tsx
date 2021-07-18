@@ -8,15 +8,24 @@ type TrainingInitialState = {
     createNextTraining: (training:Training) => void,
     lastTrainings: Training[],
     setLastTrainings: (...trainings:Training[]) => void,
+    removeLastTraining: (id:string) => void,
     nextTrainingExercises: ExerciseSmall[],
     addNextTrainingExercise: (...exercises:Exercise[]) => void,
     removeNextTrainingExercise: (id:string) => void,
     addNextTrainingPlayer: (...players:Player[]) => void,
     removeNextTrainingPlayer: (id:string) => void,
     training?: Training,
+    addExercisesToTraining: (...exercises:Exercise[]) => void,
+    removeExerciseToTraining: (id:string) => void,
     selectTraining: (training:Training) => void,
     trainings: Training[],
     addTrainings: (...training:Training[]) => void
+    lastScheduledTrainings: Training[],
+    setLastScheduledTrainings: (trainings:Training[]) => void,
+    scheduledTrainings: Training[],
+    setScheduledTrainings: (trainings:Training[]) => void,
+    addTrainingToLastScheduledTrainings: (training:Training) => void
+    removeLastScheduledTraining: (id:string) => void
 }
 
 const trainingInitialState:TrainingInitialState = {
@@ -29,10 +38,19 @@ const trainingInitialState:TrainingInitialState = {
     removeNextTrainingPlayer: () => {},
     lastTrainings: [],
     setLastTrainings: () => {},
+    removeLastTraining: () => {},
     training: undefined,
+    addExercisesToTraining: () => {},
+    removeExerciseToTraining: () => {},
     selectTraining: () => {},
     trainings: [],
-    addTrainings: () => {}
+    addTrainings: () => {},
+    scheduledTrainings: [],
+    setScheduledTrainings: () =>  {},
+    lastScheduledTrainings: [],
+    setLastScheduledTrainings: () => {},
+    addTrainingToLastScheduledTrainings: () => {},
+    removeLastScheduledTraining: () => {}
 }
 
 export const TrainingContext = createContext(trainingInitialState)
@@ -44,6 +62,8 @@ export const TrainingContextProvider:React.FC = ({children}) => {
     const [nextTrainingExercises, setNextTrainingExercises] = useState<ExerciseSmall[]>([])
     const [training, setTraining] = useState<Training | undefined>()
     const [trainings, setTrainings] = useState<Training[]>([])
+    const [scheduledTrainings, setScheduledTrainings] = useState<Training[]>([])
+    const [lastScheduledTrainings, setLastScheduledTrainings] = useState<Training[]>([])
 
 
     const createNextTraining = (training:Training) => setNextTraining(training)
@@ -56,13 +76,21 @@ export const TrainingContextProvider:React.FC = ({children}) => {
     const handleSetLastTrainings = (...trainings:Training[]) => setLastTrainings(trainings)
 
     const selectTraining = (training:Training) => setTraining(training)
+    const addExercisesToTraining = (...exercises:Exercise[]) => setTraining((old) => ({...old as Training, exercises: [...old?.exercises ? old.exercises : [], ...exercises]} ))
+    const removeExerciseToTraining= (id:string) => setTraining((old) => ({...old as Training, exercises: [...old?.exercises ? old.exercises.filter((exercise) => exercise.id !== id) : []]} ))
 
     const addTrainings = (...data:Training[]) => setTrainings([...trainings, ...data])
+
+    const addTrainingToLastScheduledTrainings = (training:Training) => setLastScheduledTrainings((old) => [...old, training])
+    const removeLastScheduledTraining = (id:string) => setLastScheduledTrainings((old) => old.filter(training => training.id !== id))
+
+    const removeLastTraining = (id:string) => setLastTrainings(old => old.filter(training => training.id !== id))
 
     const initialState:TrainingInitialState = {
         nextTraining,
         lastTrainings,
         setLastTrainings: handleSetLastTrainings,
+        removeLastTraining,
         createNextTraining,
         nextTrainingExercises,
         addNextTrainingExercise,
@@ -70,9 +98,17 @@ export const TrainingContextProvider:React.FC = ({children}) => {
         addNextTrainingPlayer,
         removeNextTrainingPlayer,
         training,
+        addExercisesToTraining,
+        removeExerciseToTraining,
         selectTraining,
         trainings,
-        addTrainings
+        addTrainings,
+        scheduledTrainings,
+        setScheduledTrainings,
+        lastScheduledTrainings,
+        setLastScheduledTrainings,
+        addTrainingToLastScheduledTrainings,
+        removeLastScheduledTraining
     }
     
     return (

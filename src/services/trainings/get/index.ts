@@ -96,7 +96,7 @@ export const getNextTraining = async () => {
 export const getLastTrainings = async () => {
     const db = firebase.firestore()
     const trainings:Training[] = []
-    const data = (await db.collection(TRAININGS).limit(3).get()).docs
+    const data = (await (await db.collection(TRAININGS).limit(3).where('state', '==', true).get()).docs)
     await data.forEach(doc => {
         let trainingData = doc.data() as Training
         trainings.push({
@@ -108,11 +108,36 @@ export const getLastTrainings = async () => {
     return trainings
 }
 
-export const getTrainings = async (token?: string) => {
+export const getLastScheduledTrainings = async () => {
+    const db = firebase.firestore()
+    const trainings:Training[] = []
+    const data = (await (await db.collection(TRAININGS).limit(3).where('state', '==', false).get()).docs)
+    await data.forEach(doc => {
+        let trainingData = doc.data() as Training
+        trainings.push({
+            ...trainingData,
+            id: doc.id
+        })
+    })
+
+    return trainings
+}
+
+export const getTrainings = async () => {
     // const resp = await useGet({url: URL, token})
     const db = firebase.firestore()
     const allTrainings:Training[] = []
-    const trainings = await (await db.collection(TRAININGS).get()).docs
+    const trainings = await (await db.collection(TRAININGS).where('state', '==', true).get()).docs
+    trainings.map((training) => {
+        allTrainings.push({...training.data() as Training, id: training.id})
+    })
+    return allTrainings
+}
+
+export const getScheduledTraining = async () => {
+    const db = firebase.firestore()
+    const allTrainings:Training[] = []
+    const trainings = await (await db.collection(TRAININGS).where('state', '==', false).get()).docs
     trainings.map((training) => {
         allTrainings.push({...training.data() as Training, id: training.id})
     })

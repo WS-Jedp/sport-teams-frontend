@@ -15,7 +15,7 @@ import { ModalContent } from '../../components/modals/content'
 import { UpdateExerciseContainer, UpdateExerciseForm } from '../../containers/exercisesContainers/forms/updateExercise'
 
 import { getExercise } from '../../services/exercises/get'
-import { updateExercise } from '../../services/exercises/post'
+import { updateExercise, removeExercise as deleteExercise } from '../../services/exercises/post'
 
 import { ROLES } from '../../dto/roles'
 import { Exercise as ExerciseDto } from '../../dto/exercise'
@@ -26,7 +26,7 @@ export const Exercise:React.FC = () => {
 
     const { id } = useParams<{id?:string}>()
     const { push } = useHistory()
-    const { exercise, selectExercise } = useContext(ExercisesContext)
+    const { exercise, selectExercise, removeExercise } = useContext(ExercisesContext)
     const { role, teamId } = useContext(UserContext)
 
 
@@ -46,6 +46,13 @@ export const Exercise:React.FC = () => {
         const exerciseId = await updateExercise(id || '', data)
         await selectExercise({...data as ExerciseDto, videoId: data.videoId ? defineIdYoutubeVideo(data.videoId) : undefined})
         setIsUpdating(false)
+    }
+
+    // Handle delete of data
+    const handleDeleteExercise = async () => {
+        const resp = await deleteExercise(id || '')
+        await removeExercise(id || '')
+        push('/exercises')
     }
 
     // Fetch Data
@@ -119,6 +126,22 @@ export const Exercise:React.FC = () => {
                     action={() => toTeamHistory(teamId)}
                 />
             </article>
+
+            {
+                role === ROLES['COACH'] && (
+                    <article className="training training__buttons">
+                        <h2 className="content__title">Delete Exercise</h2>
+                        <p className="content__paragraph">Deleting the exercise means that you won't be able to recover his data or information and will delete all result done and saved by the players relate to it</p>
+                        <div className="flex flex-row">
+                            <Button 
+                                text="Delete!"
+                                color="main"
+                                action={handleDeleteExercise}
+                            />
+                        </div>
+                    </article>
+                )
+            }
 
             {/* <article className="exercise exercise__purposes">
                 <h2 className="content__title">Purposes</h2>

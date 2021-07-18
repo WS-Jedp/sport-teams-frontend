@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { MdAdd } from 'react-icons/md'
 import { useHistory } from 'react-router'
 import { Exercise, ExerciseSmall } from '../../dto/exercise'
 
@@ -7,6 +8,7 @@ import { TrainingSchedule } from '../../containers/trainingSchedule'
 
 import { renderPlayers } from '../../containers/nextTrainingContainers/players'
 import { renderLastTrainings } from '../../containers/nextTrainingContainers/lastTrainings'
+import { renderScheduledTrainings } from '../../containers/nextTrainingContainers/scheduledTrainings'
 import { renderExercisesToCoach, renderExercisesToPlayers } from '../../containers/nextTrainingContainers/exercises'
 
 import { TrainingContext } from '../../contexts/training'
@@ -15,21 +17,31 @@ import { UserContext } from '../../contexts/user'
 import { GraphLoading } from '../../components/loading/graph'
 import { Loading } from '../../components/loading/basic'
 import { Button } from '../../components/buttons/simple'
+import { ButtonCircle } from '../../components/buttons/circle'
 import { Modal } from '../../components/modals/basic'
 import { ModalContent } from '../../components/modals/content'
+
 import { AddNextTrainingExercise, AddNextTrainingExerciseForm } from '../../containers/nextTrainingContainers/exercises/add'
 import { AddExerciseRegisterContainer, AddExerciseRegisterForm } from '../../containers/nextTrainingContainers/addExerciseRegister'
+import { CreateTraining, TrainingForm } from '../../containers/trainingContainers/create'
 
 import { ROLES } from '../../dto/roles'
+import { Training } from '../../dto/training'
 
-import { getLastTrainings } from '../../services/trainings/get'
-import { addExerciseToTraining, addPlayerToTraining, removeExerciseToTraining } from '../../services/trainings/post'
+import { getLastTrainings, getLastScheduledTrainings } from '../../services/trainings/get'
+import { addExerciseToTraining, addPlayerToTraining, removeExerciseToTraining, createTraining } from '../../services/trainings/post'
 import { registerUserExercise } from '../../services/exercises/post'
+import { NextTrainingForm } from 'containers/nextTrainingContainers/defineNextTraining'
 
 export const NextTraining:React.FC = () => {
 
     const { push } = useHistory()
-    const { nextTraining, lastTrainings, setLastTrainings, removeNextTrainingExercise, addNextTrainingExercise, addNextTrainingPlayer } = useContext(TrainingContext)
+    const 
+    { 
+        nextTraining, removeNextTrainingExercise, addNextTrainingExercise,
+        lastTrainings, setLastTrainings,  addNextTrainingPlayer, 
+        lastScheduledTrainings, setLastScheduledTrainings, addTrainingToLastScheduledTrainings
+    } = useContext(TrainingContext)
     const { role, id } = useContext(UserContext)
 
     const [showAddExercise, setShowAddExercise] = useState<boolean>(false)
@@ -46,6 +58,8 @@ export const NextTraining:React.FC = () => {
     useEffect(() => {
         const fetchingData = async () => {
             const trainings = await getLastTrainings()
+            const scheduledTrainings = await getLastScheduledTrainings()
+            setLastScheduledTrainings(scheduledTrainings)
             await setLastTrainings(...trainings)
             setIsLoading(false)
         }
@@ -96,6 +110,18 @@ export const NextTraining:React.FC = () => {
     }
 
 
+    // Create new training
+    const [isCreatingTraining, setIsCreatingTraining] = useState<boolean>(false)
+    const [showCreateTraining, setShowCreateTraining] = useState<boolean>(false)
+    const createNewTraining = async (body:TrainingForm) => {
+        setIsCreatingTraining(true)
+        const training = await createTraining(body as NextTrainingForm)   
+        await addTrainingToLastScheduledTrainings(training)
+        setIsCreatingTraining(false)
+        setShowCreateTraining(false)
+    }
+
+
     // if(isLoading) {
     //     return (
     //         <DashboardLayout>
@@ -135,20 +161,40 @@ export const NextTraining:React.FC = () => {
                 }
                 {
                     role === ROLES['PLAYER'] && nextTraining && !nextTraining.players.map(player => player.id).includes(id) && (
-                        <Button 
-                            text="I'll Go!"
-                            action={addPlayerToNextTraining}
-                        />
+                            <Button 
+                                text="I'll Go!"
+                                action={addPlayerToNextTraining}
+                            />
                     )
                 }
             </article>
+
+            {
+                role === ROLES['COACH'] && (
+                    <article className="next-training next-training__last-training">
+                        <h2 className="content__title">Scheduled Trainings</h2>
+                        {
+                            renderScheduledTrainings(lastScheduledTrainings)
+                        }
+                        <div className="flex flex-flow">
+                            <Button 
+                                text="See All"
+                                action={() => push('all/trainings/scheduled')}
+                            />
+                            <ButtonCircle 
+                                Icon={MdAdd}
+                                action={() => setShowCreateTraining(true)}
+                            />
+                        </div>
+                    </article>
+                )
+            }
 
             <article className="next-training next-training__last-training">
                 <h2 className="content__title">Last Trainings</h2>
                 {
                     renderLastTrainings(lastTrainings)
                 }
-
             </article>
 
             {
@@ -180,6 +226,23 @@ export const NextTraining:React.FC = () => {
                                         exercise={exercise}
                                         players={nextTraining ? nextTraining.players : []}
                                         onSubmit={registerExerciseForUser}
+                                    />
+                                )
+                            }
+                        </ModalContent>
+                    </Modal>
+                )
+            }
+            {
+                showCreateTraining && (
+                    <Modal>
+                        <ModalContent onClose={() => setShowCreateTraining(false)}>
+                            {
+                                isCreatingTraining ? (
+                                    <GraphLoading />
+                                ) : (
+                                    <CreateTraining
+                                        onSubmit={createNewTraining}
                                     />
                                 )
                             }
