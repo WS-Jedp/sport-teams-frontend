@@ -32,7 +32,7 @@ export const registerExercise = async (body:RegisterExerciseForm) => {
 
 export const registerUserExercise = async (body:AddExerciseRegisterForm) => {
     let url:string | undefined
-    if(body.video) {
+    if(body.video && body.video.length > 0) {
         const videoRef = await firebase.storage().ref().child(`/exercises/${body.playerId}/${body.video[0].name}`).put(body.video[0]).then(async snapshot => {
             url = await snapshot.ref.getDownloadURL()
         })
@@ -40,7 +40,8 @@ export const registerUserExercise = async (body:AddExerciseRegisterForm) => {
     const data = await firebase.firestore().collection(USER).doc(body.playerId).collection(EXERCISES).add({
         result: body.result,
         exercise: (await firebase.firestore().collection(EXERCISES).doc(body.exerciseId).get()).ref,
-        date: format(addDays(new Date(), 1), MYSQL_FORMAT)
+        date: format(new Date(), MYSQL_FORMAT),
+        videoUrl: url || null
     })
     const lastExercise = await (await firebase.firestore().collection(USER).doc(body.playerId).collection(EXERCISES).doc(data.id).get()).data()
     return lastExercise

@@ -1,12 +1,12 @@
 import firebase from 'firebase'
-import { format } from 'date-fns'
 import { Training } from '../../../dto/training'
 import { NextTrainingForm } from '../../../containers/nextTrainingContainers/defineNextTraining'
 import { createAttendance } from '../../attendances/post'
 
-import { MYSQL_FORMAT } from '../../../tools/dateFormats'
 import { Player } from '../../../dto/player'
-import { Exercise, ExerciseSmall } from '../../../dto/exercise'
+import { Exercise } from '../../../dto/exercise'
+
+import { getTraining } from '../get'
 
 const TRAININGS = 'trainings'
 const USERS = 'users'
@@ -26,17 +26,27 @@ export const createTraining = async (body:NextTrainingForm) => {
         players: [],
         attendance: attendanceRef,
         datetime: formattedDay,
-        state: body.state
+        state: false
     })
 
-    const data = (await trainingRef.get()).data()
+    const data = await (await trainingRef.get()).data()
     const resp = {
         id: trainingRef.id,
         ...data
     }
 
-    return resp as Training
+    return resp as Training   
+}
+
+export const deleteTraining = async (id:string) => {
+    const db = firebase.firestore()
+    try {
+        await db.collection(TRAININGS).doc(id).delete()
+    } catch(err) {
+        throw new Error(err)
+    }
     
+    return true
 }
 
 export const createNextTraining = async (body:NextTrainingForm) => {
@@ -49,9 +59,43 @@ export const createNextTraining = async (body:NextTrainingForm) => {
     return {
         ...training,
     } as Training
-
 }
 
+export const setNextTrainingEmpty = async () => {
+    await firebase.database().ref().set({
+        nextTraining: ''
+    })
+    return true
+}
+
+export const setTrainingToNextTraining = async (id:string) => {
+    const db = firebase.firestore()
+    const training = await getTraining(id)
+    if(!training) {
+        throw new Error(`The training ${id} doesn't exist`)
+    }
+    
+    await firebase.database().ref().set({
+        nextTraining: training.id
+    })
+    
+    return {
+        ...training,
+    } as Training
+}
+
+export const setTrainingDone = async (id:string) => {
+    const db = firebase.firestore()
+    const trainingRef = db.collection(TRAININGS).doc(id)
+    await trainingRef.update({
+        state: true
+    })
+
+    return true
+}
+
+
+// Trainings relation with players
 export const addPlayerToTraining = async (playerId:string, trainingId: string) => {
     const db = firebase.firestore()
     const playerRef = await (await db.collection(USERS).doc(playerId).get()).ref

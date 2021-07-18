@@ -20,12 +20,14 @@ export const Calendary:React.FC<Calendary> = ({ nextTrainingDay }) => {
     
     const { createNextTraining } = useContext(TrainingContext)
 
+    const DAYS_OF_WEEK:number = 8 
+
     const today = new Date()
     const startWeek = Number(format(startOfWeek(today, { weekStartsOn: 1 }), 'd'))
     const numberOfWeek = Number(getWeekOfMonth(today))
 
     const [currentMonth, setCurrentMonth] = useState<string>(format(today, MONTH_NAME))
-    const [daysOfWeek, setDaysOfWeek] = useState<number[]>(Array.from(Array(7)))
+    const [daysOfWeek, setDaysOfWeek] = useState<number[]>(Array.from(Array(DAYS_OF_WEEK)))
     const [nameTrainingDay, setNameTrainingDay] = useState<string>('')
 
     const [dayDetail, setDayDetail] = useState<boolean>(false)

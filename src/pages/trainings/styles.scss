@@ -10,4 +10,13 @@
             font-size: $text-size-lg;
         }
     }
+    
+    &__list {
+        display: flex;
+        flex-flow: column nowrap;
+
+        @include desktop-sm {
+            flex-flow: row wrap;
+        }
+    }
 }
